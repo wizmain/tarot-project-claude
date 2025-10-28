@@ -1,0 +1,302 @@
+"""
+리딩 응답 검증 - AI 응답의 품질과 완성도 검증
+
+이 모듈의 목적:
+- AI가 생성한 리딩 응답의 품질 검증
+- 필수 필드 존재 여부 확인
+- 한국어 응답 여부 확인
+- 최소 길이 요구사항 충족 확인
+- 카드 수와 포지션 일치 확인
+
+주요 기능:
+- validate_reading_quality(): 전체 품질 검증 (한국어, 길이, 필수 필드)
+- validate_korean_content(): 한국어 응답 검증
+- validate_minimum_lengths(): 최소 길이 검증
+- validate_card_count(): 카드 수 검증
+- 검증 실패 시 상세한 에러 메시지 제공
+
+구현 사항:
+- 한국어 감지: 유니코드 범위 검사 (AC00-D7A3)
+- 최소 길이 설정 가능 (기본 100자)
+- 필수 필드 체크 (cards, overall_reading, advice, summary)
+- ValidationError 예외 처리
+
+TASK 참조:
+- TASK-030: 리딩 결과 검증 로직
+
+사용 예시:
+    from src.ai.prompt_engine.reading_validator import ReadingValidator
+    from src.ai.prompt_engine.schemas import ReadingResponse
+
+    # ResponseParser로 파싱된 응답
+    reading = ResponseParser.parse(ai_response)
+
+    # 품질 검증
+    try:
+        ReadingValidator.validate_reading_quality(reading, expected_card_count=1)
+        print("검증 통과!")
+    except ValidationError as e:
+        logger.error(f"검증 실패: {e}")
+"""
+import re
+import logging
+from typing import Optional
+
+from src.ai.prompt_engine.schemas import ReadingResponse, ValidationError
+
+logger = logging.getLogger(__name__)
+
+
+class ReadingValidator:
+    """
+    타로 리딩 응답 검증기
+
+    AI가 생성한 리딩 응답의 품질과 완성도를 검증합니다.
+    검증 항목:
+    - 필수 필드 존재 여부
+    - 한국어 응답 여부
+    - 최소 길이 요구사항
+    - 카드 수 일치 여부
+    """
+
+    # 한국어 유니코드 범위 (가-힣)
+    KOREAN_PATTERN = re.compile(r'[가-힣]')
+
+    # 최소 길이 기준 (자)
+    MIN_INTERPRETATION_LENGTH = 100  # 각 카드 해석 최소 길이
+    MIN_OVERALL_READING_LENGTH = 150  # 전체 리딩 최소 길이
+    MIN_KEY_MESSAGE_LENGTH = 5  # 핵심 메시지 최소 길이 (Pydantic schema와 일치)
+    MIN_ADVICE_FIELD_LENGTH = 30  # 조언 각 필드 최소 길이 (Pydantic schema와 일치)
+    MIN_SUMMARY_LENGTH = 10  # 요약 최소 길이 (Pydantic schema와 일치)
+
+    @staticmethod
+    def validate_reading_quality(
+        reading: ReadingResponse,
+        expected_card_count: int,
+        min_interpretation_length: Optional[int] = None,
+        min_overall_length: Optional[int] = None
+    ) -> None:
+        """
+        리딩 응답의 전체 품질 검증
+
+        검증 항목:
+        1. 필수 필드 존재 확인
+        2. 카드 수 일치 확인
+        3. 한국어 응답 확인
+        4. 최소 길이 요구사항 확인
+
+        Args:
+            reading: 검증할 ReadingResponse 객체
+            expected_card_count: 예상 카드 수 (1 or 3)
+            min_interpretation_length: 해석 최소 길이 (기본값 사용 시 None)
+            min_overall_length: 전체 리딩 최소 길이 (기본값 사용 시 None)
+
+        Raises:
+            ValidationError: 검증 실패 시
+        """
+        logger.info("[ReadingValidator] 리딩 품질 검증 시작")
+
+        # 1. 필수 필드 존재 확인 (Pydantic에서 이미 검증되지만 재확인)
+        ReadingValidator._validate_required_fields(reading)
+
+        # 2. 카드 수 확인
+        ReadingValidator.validate_card_count(reading, expected_card_count)
+
+        # 3. 한국어 응답 확인
+        ReadingValidator.validate_korean_content(reading)
+
+        # 4. 최소 길이 검증
+        min_interp = min_interpretation_length or ReadingValidator.MIN_INTERPRETATION_LENGTH
+        min_overall = min_overall_length or ReadingValidator.MIN_OVERALL_READING_LENGTH
+        ReadingValidator.validate_minimum_lengths(reading, min_interp, min_overall)
+
+        logger.info("[ReadingValidator] 리딩 품질 검증 완료 ✅")
+
+    @staticmethod
+    def _validate_required_fields(reading: ReadingResponse) -> None:
+        """
+        필수 필드 존재 여부 확인
+
+        Args:
+            reading: 검증할 ReadingResponse 객체
+
+        Raises:
+            ValidationError: 필수 필드가 없거나 비어있는 경우
+        """
+        required_fields = {
+            "cards": reading.cards,
+            "overall_reading": reading.overall_reading,
+            "advice": reading.advice,
+            "summary": reading.summary
+        }
+
+        for field_name, field_value in required_fields.items():
+            if not field_value:
+                raise ValidationError(
+                    f"필수 필드가 비어있습니다: {field_name}"
+                )
+
+        # cards 리스트가 비어있지 않은지 확인
+        if not reading.cards or len(reading.cards) == 0:
+            raise ValidationError(
+                "카드 리스트가 비어있습니다"
+            )
+
+        # advice 객체의 필드 확인
+        if not reading.advice.immediate_action:
+            raise ValidationError(
+                "조언(immediate_action)이 비어있습니다"
+            )
+        if not reading.advice.short_term:
+            raise ValidationError(
+                "조언(short_term)이 비어있습니다"
+            )
+
+    @staticmethod
+    def validate_card_count(reading: ReadingResponse, expected_count: int) -> None:
+        """
+        카드 수가 예상과 일치하는지 확인
+
+        Args:
+            reading: 검증할 ReadingResponse 객체
+            expected_count: 예상 카드 수 (1 or 3)
+
+        Raises:
+            ValidationError: 카드 수가 일치하지 않는 경우
+        """
+        actual_count = len(reading.cards)
+        if actual_count != expected_count:
+            raise ValidationError(
+                f"카드 수가 일치하지 않습니다. 예상: {expected_count}, 실제: {actual_count}"
+            )
+
+        logger.debug(f"[ReadingValidator] 카드 수 검증 통과: {actual_count}장")
+
+    @staticmethod
+    def validate_korean_content(reading: ReadingResponse) -> None:
+        """
+        응답이 한국어로 작성되었는지 확인
+
+        한글 문자(가-힣)의 비율이 20% 이상인지 확인합니다.
+        숫자, 영문, 기호 등이 포함될 수 있으므로 너무 높은 비율을 요구하지 않습니다.
+
+        Args:
+            reading: 검증할 ReadingResponse 객체
+
+        Raises:
+            ValidationError: 한국어 비율이 낮은 경우
+        """
+        # 검증할 텍스트 수집
+        text_to_check = []
+
+        # 카드 해석
+        for card in reading.cards:
+            text_to_check.append(card.interpretation)
+            text_to_check.append(card.key_message)
+
+        # 전체 리딩
+        text_to_check.append(reading.overall_reading)
+
+        # 조언
+        text_to_check.append(reading.advice.immediate_action)
+        text_to_check.append(reading.advice.short_term)
+        if reading.advice.mindset:
+            text_to_check.append(reading.advice.mindset)
+
+        # 요약
+        text_to_check.append(reading.summary)
+
+        # 전체 텍스트 합치기
+        full_text = " ".join(text_to_check)
+        total_chars = len(full_text)
+
+        if total_chars == 0:
+            raise ValidationError(
+                "응답 텍스트가 비어있습니다"
+            )
+
+        # 한글 문자 카운트
+        korean_chars = len(ReadingValidator.KOREAN_PATTERN.findall(full_text))
+        korean_ratio = korean_chars / total_chars
+
+        logger.debug(
+            f"[ReadingValidator] 한국어 비율: {korean_ratio:.2%} "
+            f"(한글: {korean_chars}, 전체: {total_chars})"
+        )
+
+        # 한글 비율이 20% 미만이면 실패
+        if korean_ratio < 0.2:
+            raise ValidationError(
+                f"한국어 응답이 아닙니다. 한글 비율: {korean_ratio:.2%} (최소 20% 필요)"
+            )
+
+        logger.debug("[ReadingValidator] 한국어 검증 통과 ✅")
+
+    @staticmethod
+    def validate_minimum_lengths(
+        reading: ReadingResponse,
+        min_interpretation: int,
+        min_overall: int
+    ) -> None:
+        """
+        각 필드의 최소 길이 요구사항 확인
+
+        Args:
+            reading: 검증할 ReadingResponse 객체
+            min_interpretation: 카드 해석 최소 길이
+            min_overall: 전체 리딩 최소 길이
+
+        Raises:
+            ValidationError: 최소 길이 미달인 경우
+        """
+        # 1. 각 카드의 해석 길이 확인
+        for i, card in enumerate(reading.cards, 1):
+            interp_length = len(card.interpretation)
+            if interp_length < min_interpretation:
+                raise ValidationError(
+                    f"카드 {i}의 해석이 너무 짧습니다. "
+                    f"최소 {min_interpretation}자 필요, 현재 {interp_length}자"
+                )
+
+            # 핵심 메시지 길이 확인
+            key_msg_length = len(card.key_message)
+            if key_msg_length < ReadingValidator.MIN_KEY_MESSAGE_LENGTH:
+                raise ValidationError(
+                    f"카드 {i}의 핵심 메시지가 너무 짧습니다. "
+                    f"최소 {ReadingValidator.MIN_KEY_MESSAGE_LENGTH}자 필요, "
+                    f"현재 {key_msg_length}자"
+                )
+
+        # 2. 전체 리딩 길이 확인
+        overall_length = len(reading.overall_reading)
+        if overall_length < min_overall:
+            raise ValidationError(
+                f"전체 리딩이 너무 짧습니다. "
+                f"최소 {min_overall}자 필요, 현재 {overall_length}자"
+            )
+
+        # 3. 조언 필드 길이 확인
+        advice_fields = {
+            "immediate_action": reading.advice.immediate_action,
+            "short_term": reading.advice.short_term,
+        }
+
+        for field_name, field_value in advice_fields.items():
+            field_length = len(field_value)
+            if field_length < ReadingValidator.MIN_ADVICE_FIELD_LENGTH:
+                raise ValidationError(
+                    f"조언({field_name})이 너무 짧습니다. "
+                    f"최소 {ReadingValidator.MIN_ADVICE_FIELD_LENGTH}자 필요, "
+                    f"현재 {field_length}자"
+                )
+
+        # 4. 요약 길이 확인
+        summary_length = len(reading.summary)
+        if summary_length < ReadingValidator.MIN_SUMMARY_LENGTH:
+            raise ValidationError(
+                f"요약이 너무 짧습니다. "
+                f"최소 {ReadingValidator.MIN_SUMMARY_LENGTH}자 필요, "
+                f"현재 {summary_length}자"
+            )
+
+        logger.debug("[ReadingValidator] 최소 길이 검증 통과 ✅")
