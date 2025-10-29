@@ -315,11 +315,15 @@ async def create_reading(
         full_prompt = f"{reading_prompt}\n\n{output_format}"
 
         orchestrator = get_orchestrator()
+        # 다중 카드 스프레드에서는 응답이 길어져 타임아웃이 발생하기 쉬우므로
+        # 카드 수에 맞춰 토큰 한도를 조정해 응답 시간을 단축한다.
+        max_tokens = 900 if card_count == 1 else 1300
+
         ai_response = await orchestrator.generate(
             prompt=full_prompt,
             system_prompt=system_prompt,
             config=GenerationConfig(
-                max_tokens=2000,
+                max_tokens=max_tokens,
                 temperature=0.7,
             ),
         )
