@@ -38,6 +38,8 @@ class ClaudeProvider(AIProvider):
         "claude-3-haiku-20240307": {"input": 0.25, "output": 1.25},
         "claude-3-5-sonnet-20241022": {"input": 3.0, "output": 15.0},
         "claude-3-5-sonnet-20240620": {"input": 3.0, "output": 15.0},
+        "claude-sonnet-4-5-20250929": {"input": 4.0, "output": 20.0},
+        "claude-haiku-4-5-20251001": {"input": 1.0, "output": 3.0},
         # Generic versions (map to latest)
         "claude-3-opus": {"input": 15.0, "output": 75.0},
         "claude-3-sonnet": {"input": 3.0, "output": 15.0},
@@ -48,7 +50,7 @@ class ClaudeProvider(AIProvider):
     def __init__(
         self,
         api_key: str,
-        default_model: str = "claude-3-5-sonnet-latest",
+        default_model: str = "claude-sonnet-4-5-20250929",
         timeout: int = 30,
         max_retries: int = 3
     ):
@@ -81,7 +83,8 @@ class ClaudeProvider(AIProvider):
             "claude-3-haiku-20240307",
             "claude-3-5-sonnet-20241022",
             "claude-3-5-sonnet-20240620",
-            "claude-3-5-sonnet-latest",
+            "claude-sonnet-4-5-20250929",
+            "claude-haiku-4-5-20251001",
             "claude-3-opus",
             "claude-3-sonnet",
             "claude-3-5-sonnet",
