@@ -6,6 +6,7 @@ Firebase Admin SDK를 초기화하고 관리하는 모듈입니다.
 import firebase_admin
 from firebase_admin import credentials
 from src.core.config import settings
+from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
@@ -32,10 +33,18 @@ def initialize_firebase_admin():
         credentials_path = settings.FIREBASE_CREDENTIALS_PATH
 
         if credentials_path:
-            # 로컬 환경: JSON 파일 사용
-            logger.info("Initializing Firebase with credentials file")
-            cred = credentials.Certificate(credentials_path)
-            firebase_admin.initialize_app(cred)
+            path_obj = Path(credentials_path)
+            if path_obj.is_file():
+                # 로컬 환경: JSON 파일 사용
+                logger.info("Initializing Firebase with credentials file: %s", credentials_path)
+                cred = credentials.Certificate(credentials_path)
+                firebase_admin.initialize_app(cred)
+            else:
+                logger.warning(
+                    "Firebase credentials file not found at %s. Falling back to Application Default Credentials.",
+                    credentials_path,
+                )
+                firebase_admin.initialize_app()
         else:
             # Cloud Run 환경: Application Default Credentials 사용
             logger.info("Initializing Firebase with Application Default Credentials")

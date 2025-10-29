@@ -72,7 +72,7 @@ class Settings(BaseSettings):
 
     # Firebase Configuration
     FIREBASE_API_KEY: Optional[str] = None  # Firebase Web API Key for REST API
-    FIREBASE_CREDENTIALS_PATH: Optional[str] = "/app/firebase-service-account.json"  # Path to Firebase Admin SDK JSON file
+    FIREBASE_CREDENTIALS_PATH: Optional[str] = None  # Path to Firebase Admin SDK JSON file (optional)
 
     # Frontend
     FRONTEND_URL: str = "http://localhost:3000"
