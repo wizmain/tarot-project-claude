@@ -25,7 +25,11 @@ def get_database_provider() -> DatabaseProvider:
         provider_type = getattr(settings, 'DATABASE_PROVIDER', 'postgresql').lower()
 
         if provider_type == 'firestore':
+            from src.core.firebase_admin import initialize_firebase_admin
             from .firestore_provider import FirestoreProvider
+
+            # Ensure Firebase Admin SDK is initialized before instantiating Firestore provider
+            initialize_firebase_admin()
             _provider_instance = FirestoreProvider()
         else:
             # 기본값: PostgreSQL
