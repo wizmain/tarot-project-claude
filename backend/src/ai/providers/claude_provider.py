@@ -48,7 +48,7 @@ class ClaudeProvider(AIProvider):
     def __init__(
         self,
         api_key: str,
-        default_model: str = "claude-3-5-sonnet-20241022",
+        default_model: str = "claude-3-5-sonnet-20240620",
         timeout: int = 30,
         max_retries: int = 3
     ):
@@ -81,6 +81,7 @@ class ClaudeProvider(AIProvider):
             "claude-3-haiku-20240307",
             "claude-3-5-sonnet-20241022",
             "claude-3-5-sonnet-20240620",
+            "claude-3-5-sonnet-latest",
             "claude-3-opus",
             "claude-3-sonnet",
             "claude-3-5-sonnet",

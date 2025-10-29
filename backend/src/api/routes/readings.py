@@ -76,6 +76,7 @@ def get_orchestrator() -> AIOrchestrator:
                 openai_provider = ProviderFactory.create(
                     provider_name="openai",
                     api_key=settings.OPENAI_API_KEY,
+                    default_model=settings.OPENAI_MODEL,
                 )
                 providers.append(openai_provider)
                 added.add("openai")
@@ -84,6 +85,7 @@ def get_orchestrator() -> AIOrchestrator:
                 anthropic_provider = ProviderFactory.create(
                     provider_name="anthropic",
                     api_key=settings.ANTHROPIC_API_KEY,
+                    default_model=settings.ANTHROPIC_MODEL,
                 )
                 providers.append(anthropic_provider)
                 added.add("anthropic")
@@ -96,6 +98,7 @@ def get_orchestrator() -> AIOrchestrator:
                     ProviderFactory.create(
                         provider_name="anthropic",
                         api_key=settings.ANTHROPIC_API_KEY,
+                        default_model=settings.ANTHROPIC_MODEL,
                     )
                 )
                 logger.info("Anthropic Provider initialized (default fallback)")
@@ -104,6 +107,7 @@ def get_orchestrator() -> AIOrchestrator:
                     ProviderFactory.create(
                         provider_name="openai",
                         api_key=settings.OPENAI_API_KEY,
+                        default_model=settings.OPENAI_MODEL,
                     )
                 )
                 logger.info("OpenAI Provider initialized (default fallback)")
