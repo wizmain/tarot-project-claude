@@ -56,7 +56,7 @@ class Settings(BaseSettings):
     # AI Settings
     DEFAULT_AI_PROVIDER: str = "openai"  # openai, claude
     OPENAI_MODEL: str = "gpt-4-turbo-preview"
-    ANTHROPIC_MODEL: str = "claude-3-5-sonnet-20240620"
+    ANTHROPIC_MODEL: str = "claude-3-5-sonnet-latest"
     AI_PROVIDER_PRIORITY: str = "openai,anthropic"
 
     # Email Configuration (for Custom JWT Provider)

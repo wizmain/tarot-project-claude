@@ -48,7 +48,7 @@ class ClaudeProvider(AIProvider):
     def __init__(
         self,
         api_key: str,
-        default_model: str = "claude-3-5-sonnet-20240620",
+        default_model: str = "claude-3-5-sonnet-latest",
         timeout: int = 30,
         max_retries: int = 3
     ):
