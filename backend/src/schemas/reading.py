@@ -45,7 +45,6 @@ TASK 참조:
 """
 from typing import Optional, List, Dict, Any
 from datetime import datetime
-from uuid import UUID
 from pydantic import BaseModel, Field
 
 from src.schemas.card import CardResponse
@@ -100,17 +99,14 @@ class ReadingCardResponse(BaseModel):
 
     리딩 결과에 포함되는 개별 카드의 정보와 해석을 담습니다.
     """
-    id: int = Field(..., description="ReadingCard ID")
-    reading_id: str = Field(..., description="Reading ID (UUID)")
+    id: str = Field(..., description="ReadingCard identifier")
+    reading_id: str = Field(..., description="Reading ID (UUID or document ID)")
     card_id: int = Field(..., description="Card ID")
     position: str = Field(..., description="카드 위치 (single, past, present, future, situation, action, outcome)")
     orientation: str = Field(..., description="카드 방향 (upright, reversed)")
     interpretation: str = Field(..., description="AI가 생성한 카드 해석")
     key_message: str = Field(..., description="핵심 메시지 한 줄")
     card: CardResponse = Field(..., description="카드 상세 정보")
-
-    class Config:
-        from_attributes = True
 
 
 class ReadingResponse(BaseModel):
@@ -120,7 +116,7 @@ class ReadingResponse(BaseModel):
     완성된 리딩 결과를 클라이언트에게 반환합니다.
     """
     id: str = Field(..., description="Reading ID (UUID)")
-    user_id: Optional[str] = Field(None, description="사용자 ID (UUID, nullable)")
+    user_id: Optional[str] = Field(None, description="사용자 ID (Firebase UID)")
     spread_type: str = Field(..., description="스프레드 타입")
     question: str = Field(..., description="사용자의 질문")
     category: Optional[str] = Field(None, description="리딩 카테고리")
@@ -129,22 +125,21 @@ class ReadingResponse(BaseModel):
     overall_reading: str = Field(..., description="AI가 생성한 종합 리딩")
     advice: Dict[str, str] = Field(..., description="조언 객체")
     summary: str = Field(..., description="한 줄 요약")
-    created_at: datetime = Field(..., description="생성 시각")
-    updated_at: datetime = Field(..., description="수정 시각")
+    created_at: Optional[datetime] = Field(None, description="생성 시각")
+    updated_at: Optional[datetime] = Field(None, description="수정 시각")
 
     class Config:
-        from_attributes = True
         json_schema_extra = {
             "example": {
-                "id": "550e8400-e29b-41d4-a716-446655440000",
-                "user_id": None,
+                "id": "reading_123",
+                "user_id": "firebase_uid_abc",
                 "spread_type": "one_card",
                 "question": "새로운 프로젝트를 시작해야 할까요?",
                 "category": "career",
                 "cards": [
                     {
-                        "id": 1,
-                        "reading_id": "550e8400-e29b-41d4-a716-446655440000",
+                        "id": "reading_123_card_1",
+                        "reading_id": "reading_123",
                         "card_id": 1,
                         "position": "single",
                         "orientation": "upright",
@@ -155,18 +150,28 @@ class ReadingResponse(BaseModel):
                             "name": "The Fool",
                             "name_ko": "바보",
                             "arcana_type": "major",
-                            "number": 0
+                            "number": 0,
+                            "suit": None,
+                            "keywords_upright": ["새로운 시작", "순수함"],
+                            "keywords_reversed": ["무모함", "방향성 상실"],
+                            "meaning_upright": "새로운 시작과 가능성...",
+                            "meaning_reversed": "무모한 결정에 대한 경고...",
+                            "description": "젊은이가 절벽 끝에 서 있습니다...",
+                            "symbolism": "흰 장미는 순수함을 상징합니다...",
+                            "image_url": "/images/cards/00-the-fool.jpg",
+                            "created_at": "2025-10-19T10:30:00Z",
+                            "updated_at": "2025-10-19T10:30:00Z"
                         }
                     }
                 ],
                 "card_relationships": None,
                 "overall_reading": "바보 카드는 당신이 새로운 프로젝트를 시작하기에 완벽한 시기임을 알려줍니다...",
                 "advice": {
-                    "immediate_action": "우선 프로젝트의 기본 계획을 세워보세요...",
-                    "short_term": "다음 2-3주 동안은 리서치와 준비에 집중하세요...",
-                    "long_term": "장기적으로 이 프로젝트는 당신의 성장에 큰 도움이 될 것입니다...",
-                    "mindset": "실패를 두려워하지 말고 배움의 기회로 받아들이세요...",
-                    "cautions": "너무 성급하게 진행하지 말고 계획을 충분히 세우세요..."
+                    "immediate_action": "우선 프로젝트의 기본 계획을 세워보세요.",
+                    "short_term": "다음 2-3주 동안은 리서치와 준비에 집중하세요.",
+                    "long_term": "장기적으로 이 프로젝트는 당신의 성장에 큰 도움이 될 것입니다.",
+                    "mindset": "실패를 두려워하지 말고 배움의 기회로 받아들이세요.",
+                    "cautions": "너무 성급하게 진행하지 말고 계획을 충분히 세우세요."
                 },
                 "summary": "새로운 시작에 완벽한 시기, 두려움 없이 도전하세요",
                 "created_at": "2025-10-19T10:30:00Z",

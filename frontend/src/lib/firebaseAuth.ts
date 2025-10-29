@@ -12,6 +12,16 @@ import {
 } from 'firebase/auth';
 import { auth } from './firebase';
 
+/**
+ * Get auth instance with null check
+ */
+function getAuth() {
+  if (!auth) {
+    throw new Error('Firebase auth is not initialized');
+  }
+  return auth;
+}
+
 export interface AuthUser {
   uid: string;
   email: string | null;
@@ -38,7 +48,7 @@ export function toAuthUser(user: FirebaseUser | null): AuthUser | null {
  */
 export async function signUp(email: string, password: string, displayName?: string): Promise<AuthUser> {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
 
     // Update profile with display name if provided
     if (displayName && userCredential.user) {
@@ -57,7 +67,7 @@ export async function signUp(email: string, password: string, displayName?: stri
  */
 export async function signIn(email: string, password: string): Promise<AuthUser> {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(getAuth(), email, password);
     return toAuthUser(userCredential.user)!;
   } catch (error: any) {
     console.error('Sign in error:', error);
@@ -70,7 +80,7 @@ export async function signIn(email: string, password: string): Promise<AuthUser>
  */
 export async function signOut(): Promise<void> {
   try {
-    await firebaseSignOut(auth);
+    await firebaseSignOut(getAuth());
   } catch (error: any) {
     console.error('Sign out error:', error);
     throw new Error('로그아웃에 실패했습니다');
@@ -82,7 +92,7 @@ export async function signOut(): Promise<void> {
  */
 export async function resetPassword(email: string): Promise<void> {
   try {
-    await sendPasswordResetEmail(auth, email);
+    await sendPasswordResetEmail(getAuth(), email);
   } catch (error: any) {
     console.error('Password reset error:', error);
     throw new Error(getAuthErrorMessage(error.code));
@@ -93,7 +103,7 @@ export async function resetPassword(email: string): Promise<void> {
  * Get current user's ID token
  */
 export async function getIdToken(): Promise<string | null> {
-  const user = auth.currentUser;
+  const user = getAuth().currentUser;
   if (!user) return null;
 
   try {
@@ -108,7 +118,7 @@ export async function getIdToken(): Promise<string | null> {
  * Listen to auth state changes
  */
 export function onAuthStateChange(callback: (user: AuthUser | null) => void): () => void {
-  return onAuthStateChanged(auth, (user) => {
+  return onAuthStateChanged(getAuth(), (user) => {
     callback(toAuthUser(user));
   });
 }

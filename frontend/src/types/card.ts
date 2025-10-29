@@ -32,8 +32,8 @@ export interface CardListResponse {
 
 export interface DrawnCard {
   card: Card;
-  is_reversed: boolean;
-  position: number;
+  isReversed: boolean;
+  position: any; // Can be number or ReadingPosition
 }
 
 export interface CardDrawRequest {

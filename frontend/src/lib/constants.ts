@@ -1,5 +1,9 @@
 /**
  * Application Constants
+ *
+ * Note: For API configuration, use '@/config/env' instead
  */
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+import { config } from '@/config/env';
+
+export const API_BASE_URL = config.apiUrl;

@@ -1,0 +1,36 @@
+# Node modules
+node_modules/
+node_modules.backup/
+
+# Next.js build outputs
+.next/
+out/
+
+# Development files
+.git/
+.gitignore
+README.md
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+# Large image files - will be copied during Docker build
+public/images/cards-dalle/
+public/images/cards/

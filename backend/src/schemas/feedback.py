@@ -28,7 +28,6 @@ TASK 참조:
 """
 from datetime import datetime
 from typing import Optional
-from uuid import UUID
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -139,9 +138,9 @@ class FeedbackResponse(BaseModel):
     피드백 응답 스키마
 
     Attributes:
-        id (UUID): 피드백 고유 식별자
-        reading_id (UUID): 연관된 리딩 ID
-        user_id (UUID): 피드백 작성자 ID
+        id (str): 피드백 고유 식별자
+        reading_id (str): 연관된 리딩 ID
+        user_id (str): 피드백 작성자 ID
         rating (int): 별점 평가 (1-5)
         comment (str | None): 사용자 코멘트
         helpful (bool): 리딩이 유용했는지 여부
@@ -149,9 +148,9 @@ class FeedbackResponse(BaseModel):
         created_at (datetime): 피드백 생성 시각
         updated_at (datetime): 피드백 수정 시각
     """
-    id: UUID = Field(..., description="피드백 고유 식별자")
-    reading_id: UUID = Field(..., description="연관된 리딩 ID")
-    user_id: UUID = Field(..., description="피드백 작성자 ID")
+    id: str = Field(..., description="피드백 고유 식별자")
+    reading_id: str = Field(..., description="연관된 리딩 ID")
+    user_id: str = Field(..., description="피드백 작성자 ID")
     rating: int = Field(..., ge=1, le=5, description="별점 평가 (1-5)")
     comment: Optional[str] = Field(None, description="사용자 코멘트")
     helpful: bool = Field(..., description="리딩이 유용했는지 여부")

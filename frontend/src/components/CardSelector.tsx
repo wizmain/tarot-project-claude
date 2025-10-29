@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '@/types';
-import { API_BASE_URL } from '@/lib/constants';
+import { config } from '@/config/env';
 
 interface CardSelectorProps {
   cardCount: number;
@@ -29,11 +29,28 @@ export default function CardSelector({
   const fetchAllCards = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/v1/cards?page_size=78`);
+
+      const apiBaseUrl = config.apiUrl.replace(/\/$/, '');
+      console.log('[CardSelector V2] Fetching cards from configured API URL:', apiBaseUrl);
+
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 15000);
+
+      const response = await fetch(`${apiBaseUrl}/api/v1/cards?page_size=78`, {
+        signal: controller.signal,
+      });
+
+      window.clearTimeout(timeoutId);
+
       if (!response.ok) throw new Error('Failed to fetch cards');
       const data = await response.json();
       setAllCards(data.cards || []);
     } catch (err) {
+      if ((err as Error).name === 'AbortError') {
+        console.error('Card fetch timed out');
+        setError('카드 데이터를 불러오는데 시간이 너무 오래 걸립니다. 잠시 후 다시 시도해주세요.');
+        return;
+      }
       console.error('Failed to load cards:', err);
       setError(err instanceof Error ? err.message : '카드 로딩에 실패했습니다');
     } finally {

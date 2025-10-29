@@ -1,0 +1,35 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--no-cache'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_API_URL=https://tarot-backend-414870328191.asia-northeast3.run.app'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/tarot-frontend'
+      - '.'
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/tarot-frontend']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'tarot-frontend'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/tarot-frontend'
+      - '--region'
+      - 'asia-northeast3'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'NEXT_PUBLIC_API_URL=https://tarot-backend-414870328191.asia-northeast3.run.app'
+
+images:
+  - 'gcr.io/$PROJECT_ID/tarot-frontend'

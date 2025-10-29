@@ -23,16 +23,17 @@ Auth Dependencies - 인증 관련 FastAPI 의존성
     async def get_me(current_user: User = Depends(get_current_user)):
         return current_user.to_dict()
 """
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Optional, Dict, Any
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
-from src.core.database import get_db
+from src.core.database import get_db_optional
 from src.core.config import settings
 from src.core.logging import get_logger
-from src.auth import AuthOrchestrator, AuthProviderFactory
-from src.auth.models import AuthProviderError, AuthInvalidTokenError
+from src.auth import AuthOrchestrator
+from src.auth.models import AuthInvalidTokenError
 from src.api.repositories.user_repository import UserRepository
 from src.models import User
 
@@ -43,6 +44,66 @@ security = HTTPBearer()
 
 # Auth Orchestrator 싱글톤
 _auth_orchestrator = None
+
+SQL_BACKEND_ENABLED = getattr(settings, "DATABASE_PROVIDER", "postgresql").lower() != "firestore"
+
+
+@dataclass
+class FirebaseUser:
+    """Firebase 인증 사용자를 표현하는 경량 객체"""
+    id: str
+    email: Optional[str] = None
+    display_name: Optional[str] = None
+    photo_url: Optional[str] = None
+    email_verified: bool = False
+    is_active: bool = True
+    is_superuser: bool = False
+    provider_id: str = "firebase"
+    user_metadata: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self):
+        self.provider_user_id = self.id
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "email": self.email,
+            "display_name": self.display_name,
+            "photo_url": self.photo_url,
+            "email_verified": self.email_verified,
+            "is_active": self.is_active,
+            "is_superuser": self.is_superuser,
+            "provider_id": self.provider_id,
+            "provider_user_id": self.provider_user_id,
+            "user_metadata": self.user_metadata,
+        }
+
+
+def _build_firebase_user(verification_result) -> FirebaseUser:
+    """Firebase 토큰 검증 결과를 FirebaseUser 객체로 변환"""
+    claims = getattr(verification_result, "claims", {}) or {}
+    email = claims.get("email") or getattr(verification_result, "email", None)
+    display_name = claims.get("name") or claims.get("display_name")
+    photo_url = claims.get("picture")
+    email_verified = claims.get("email_verified", False)
+    is_superuser = bool(claims.get("admin") or claims.get("is_superuser"))
+
+    metadata = {
+        "provider": getattr(verification_result, "provider", "firebase"),
+        "auth_time": claims.get("auth_time"),
+    }
+
+    user = FirebaseUser(
+        id=verification_result.user_id,
+        email=email,
+        display_name=display_name,
+        photo_url=photo_url,
+        email_verified=email_verified,
+        is_superuser=is_superuser,
+        user_metadata={k: v for k, v in metadata.items() if v is not None},
+    )
+
+    return user
 
 
 def get_auth_orchestrator() -> AuthOrchestrator:
@@ -59,24 +120,28 @@ def get_auth_orchestrator() -> AuthOrchestrator:
 
     if _auth_orchestrator is None:
         # Primary Provider 설정 (환경 변수에서 읽기, 기본값: custom_jwt)
-        primary_provider = getattr(settings, 'AUTH_PRIMARY_PROVIDER', 'custom_jwt')
+        primary_provider = getattr(settings, 'AUTH_PRIMARY_PROVIDER', 'firebase')
 
         # Provider 설정
         configs = {}
 
-        # Custom JWT Provider 설정
-        configs['custom_jwt'] = {
-            'secret_key': settings.SECRET_KEY,
-            'algorithm': 'HS256',
-            'access_token_expire_minutes': 60,
-            'refresh_token_expire_days': 7,
-        }
+        # Custom JWT Provider 설정 (선택적)
+        if settings.AUTH_ENABLE_CUSTOM_JWT or primary_provider == 'custom_jwt':
+            configs['custom_jwt'] = {
+                'secret_key': settings.SECRET_KEY,
+                'algorithm': 'HS256',
+                'access_token_expire_minutes': 60,
+                'refresh_token_expire_days': 7,
+            }
 
         # Firebase Provider 설정 (선택적)
-        if hasattr(settings, 'FIREBASE_CREDENTIALS_PATH'):
-            configs['firebase'] = {
-                'credentials_path': settings.FIREBASE_CREDENTIALS_PATH
-            }
+        firebase_config = {}
+        if getattr(settings, 'FIREBASE_CREDENTIALS_PATH', None):
+            firebase_config['credentials_path'] = settings.FIREBASE_CREDENTIALS_PATH
+        if getattr(settings, 'FIREBASE_API_KEY', None):
+            firebase_config['api_key'] = settings.FIREBASE_API_KEY
+        if firebase_config:
+            configs['firebase'] = firebase_config
 
         # Auth0 Provider 설정 (선택적)
         if hasattr(settings, 'AUTH0_DOMAIN') and hasattr(settings, 'AUTH0_CLIENT_ID'):
@@ -87,16 +152,16 @@ def get_auth_orchestrator() -> AuthOrchestrator:
             }
 
         # Fallback providers
-        fallback_providers = []
-        if 'firebase' in configs and primary_provider != 'firebase':
-            fallback_providers.append('firebase')
-        if 'auth0' in configs and primary_provider != 'auth0':
-            fallback_providers.append('auth0')
+        fallback_providers = [
+            provider_name
+            for provider_name in configs.keys()
+            if provider_name != primary_provider
+        ]
 
         try:
             _auth_orchestrator = AuthOrchestrator(
                 primary_provider=primary_provider,
-                fallback_providers=fallback_providers if fallback_providers else None,
+                fallback_providers=fallback_providers or None,
                 configs=configs,
                 enable_fallback=True
             )
@@ -113,7 +178,7 @@ def get_auth_orchestrator() -> AuthOrchestrator:
 
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: Session = Depends(get_db)
+    db: Optional[Session] = Depends(get_db_optional),
 ) -> User:
     """
     현재 로그인한 사용자 조회 (JWT 토큰 검증)
@@ -152,15 +217,26 @@ async def get_current_user(
 
         # Provider User ID로 사용자 조회
         # verification_result.provider를 사용하여 실제 provider 확인
-        provider_id = verification_result.provider if hasattr(verification_result, 'provider') else orchestrator.primary_provider_name
+        provider_id = (
+            verification_result.provider
+            if hasattr(verification_result, "provider")
+            else orchestrator.primary_provider_name
+        )
 
         # Provider에 따라 provider_user_id 형식 결정
-        if provider_id == 'firebase':
-            # Firebase는 user_id를 그대로 사용
+        if provider_id == "firebase":
             provider_user_id = verification_result.user_id
         else:
-            # Custom JWT는 jwt_ 접두사 사용
             provider_user_id = f"jwt_{verification_result.user_id}"
+
+        if not SQL_BACKEND_ENABLED or db is None:
+            firebase_user = _build_firebase_user(verification_result)
+            logger.info(
+                "[Auth] Firebase 사용자 인증 성공: uid=%s email=%s",
+                firebase_user.id,
+                firebase_user.email,
+            )
+            return firebase_user
 
         user = UserRepository.get_by_provider(
             db=db,
@@ -303,7 +379,7 @@ async def get_optional_current_user(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(
         HTTPBearer(auto_error=False)
     ),
-    db: Session = Depends(get_db)
+    db: Optional[Session] = Depends(get_db_optional)
 ) -> Optional[User]:
     """
     선택적으로 현재 사용자 조회 (토큰이 없어도 됨)
@@ -331,7 +407,9 @@ async def get_optional_current_user(
         if not verification_result.is_valid:
             return None
 
-        # Provider User ID로 사용자 조회
+        if not SQL_BACKEND_ENABLED or db is None:
+            return _build_firebase_user(verification_result)
+
         provider_id = verification_result.provider
         provider_user_id = verification_result.user_id
 

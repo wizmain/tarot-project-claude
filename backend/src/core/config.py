@@ -45,6 +45,10 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
+    # Authentication Provider
+    AUTH_PRIMARY_PROVIDER: str = "firebase"  # firebase | custom_jwt | auth0
+    AUTH_ENABLE_CUSTOM_JWT: bool = False
+
     # AI Providers
     OPENAI_API_KEY: Optional[str] = None
     ANTHROPIC_API_KEY: Optional[str] = None
@@ -53,6 +57,7 @@ class Settings(BaseSettings):
     DEFAULT_AI_PROVIDER: str = "openai"  # openai, claude
     OPENAI_MODEL: str = "gpt-4-turbo-preview"
     ANTHROPIC_MODEL: str = "claude-3-5-sonnet-20241022"
+    AI_PROVIDER_PRIORITY: str = "openai,anthropic"
 
     # Email Configuration (for Custom JWT Provider)
     SMTP_HOST: str = "smtp.gmail.com"
@@ -63,11 +68,11 @@ class Settings(BaseSettings):
     SMTP_FROM_NAME: str = "Tarot AI"
 
     # Database Provider Selection
-    DATABASE_PROVIDER: str = "postgresql"  # postgresql | firestore
+    DATABASE_PROVIDER: str = "firestore"  # firestore | postgresql
 
     # Firebase Configuration
     FIREBASE_API_KEY: Optional[str] = None  # Firebase Web API Key for REST API
-    FIREBASE_CREDENTIALS_PATH: Optional[str] = None  # Path to Firebase Admin SDK JSON file
+    FIREBASE_CREDENTIALS_PATH: Optional[str] = "/app/firebase-service-account.json"  # Path to Firebase Admin SDK JSON file
 
     # Frontend
     FRONTEND_URL: str = "http://localhost:3000"
@@ -76,7 +81,12 @@ class Settings(BaseSettings):
     PASSWORD_RESET_TOKEN_EXPIRE_MINUTES: int = 30
 
     # CORS
-    ALLOWED_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:8000"]
+    ALLOWED_ORIGINS: list[str] = [
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "https://tarot-frontend-414870328191.asia-northeast3.run.app",
+        "https://tarot-aacbf.web.app",
+    ]
 
     @field_validator("ALLOWED_ORIGINS", mode="before")
     @classmethod

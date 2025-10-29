@@ -368,7 +368,7 @@ function ThreeCardReadingContent() {
             {/* Action Buttons */}
             <div className="flex flex-col gap-4">
               <button
-                onClick={() => router.push(`/history/${reading.id}`)}
+                onClick={() => router.push(`/history/detail?id=${reading.id}`)}
                 className="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-semibold transition-all shadow-lg"
               >
                 📖 히스토리에서 보기

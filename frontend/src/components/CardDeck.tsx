@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/types';
+import { API_BASE_URL } from '@/lib/constants';
 
 interface CardDeckProps {
   cardCount: number;
@@ -31,7 +32,7 @@ export default function CardDeck({
     // Fetch random cards from backend
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/cards/random/draw?count=${cardCount}`
+        `${API_BASE_URL}/api/v1/cards/random/draw?count=${cardCount}`
       );
       const cards = await response.json();
 

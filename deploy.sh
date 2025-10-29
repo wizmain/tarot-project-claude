@@ -29,6 +29,9 @@ if [ -z "$FIREBASE_PROJECT_ID" ]; then
     exit 1
 fi
 
+# Firebase Web API Key 기본값 설정 (필요시 환경변수로 override)
+FIREBASE_WEB_API_KEY=${FIREBASE_WEB_API_KEY:-AIzaSyD3jtsv2vNVym3pti_m8zdMJPF8py3RTGo}
+
 # 2. Backend를 Cloud Run에 배포
 echo -e "${YELLOW}📦 Backend를 Cloud Run에 배포 중...${NC}"
 cd backend
@@ -51,7 +54,8 @@ gcloud run deploy $BACKEND_SERVICE \
   --cpu 1 \
   --min-instances 0 \
   --max-instances 10 \
-  --timeout 300
+  --timeout 300 \
+  --set-env-vars AUTH_PRIMARY_PROVIDER=firebase,FIREBASE_CREDENTIALS_PATH=/app/firebase-service-account.json,FIREBASE_API_KEY=${FIREBASE_WEB_API_KEY:-}
 
 # Backend URL 가져오기
 BACKEND_URL=$(gcloud run services describe $BACKEND_SERVICE \
@@ -80,12 +84,22 @@ fi
 
 # 환경 변수 설정
 export NEXT_PUBLIC_API_URL=$BACKEND_URL
+export NEXT_PUBLIC_AUTH_PROVIDER=firebase
+export NEXT_PUBLIC_FIREBASE_API_KEY=$FIREBASE_WEB_API_KEY
+export NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="${FIREBASE_PROJECT_ID}.firebaseapp.com"
+export NEXT_PUBLIC_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+export NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="${FIREBASE_PROJECT_ID}.firebasestorage.app"
+export NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="414870328191"
+export NEXT_PUBLIC_FIREBASE_APP_ID="1:414870328191:web:b5f81830d3657c609b804a"
+export NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="G-XBZDCBG5SQ"
 
-# 의존성 설치 (필요한 경우)
-if [ ! -d "node_modules" ]; then
-    echo "  📥 의존성 설치 중..."
-    npm install
-fi
+# 기존 빌드 아티팩트 및 캐시 제거
+rm -rf .next out node_modules
+npm cache clean --force
+
+# 의존성 클린 설치
+echo "  📥 의존성 설치 중..."
+npm ci
 
 # 프로덕션 빌드
 npm run build
@@ -109,8 +123,8 @@ if ! command -v firebase &> /dev/null; then
     exit 1
 fi
 
-# Firebase에 배포
-firebase deploy --only hosting --project $PROJECT_ID
+# Firebase에 배포 (firebase-tools 14.x 버그 회피를 위해 npx 사용)
+npx firebase-tools@13.16.0 deploy --only hosting --project $PROJECT_ID
 
 FRONTEND_URL="https://$PROJECT_ID.web.app"
 

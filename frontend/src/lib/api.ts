@@ -1,5 +1,6 @@
 /**
  * API Client for Tarot Backend
+ * Last updated: 2025-10-28 - Fixed HTTPS enforcement
  */
 
 import { Card, CardListResponse, ArcanaType, Suit } from '@/types';
@@ -9,8 +10,9 @@ import {
   ReadingListResponse,
 } from '@/types/reading';
 import { getAuthProvider } from '@/lib/auth';
+import { config } from '@/config/env';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE_URL = config.apiUrl.replace(/\/$/, '');
 
 interface FetchOptions extends RequestInit {
   params?: Record<string, string | number | boolean | undefined>;
@@ -65,7 +67,7 @@ async function fetchAPI<T>(
   // Build headers
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...fetchOptions.headers,
+    ...(fetchOptions.headers as Record<string, string> || {}),
   };
 
   // Add Authorization header if required
@@ -120,7 +122,7 @@ export const cardAPI = {
     suit?: Suit;
     search?: string;
   }): Promise<CardListResponse> => {
-    return fetchAPI<CardListResponse>('/api/v1/cards/', { params });
+    return fetchAPI<CardListResponse>('/api/v1/cards', { params });
   },
 
   /**
@@ -194,7 +196,7 @@ export const readingAPI = {
    * Create a new tarot reading (requires authentication)
    */
   createReading: async (request: ReadingRequest): Promise<ReadingResponse> => {
-    return fetchAPI<ReadingResponse>('/api/v1/readings/', {
+    return fetchAPI<ReadingResponse>('/api/v1/readings', {
       method: 'POST',
       body: JSON.stringify(request),
       requiresAuth: true,

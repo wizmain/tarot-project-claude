@@ -78,7 +78,7 @@ export function Navigation() {
               <>
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-700 dark:text-gray-300">
-                    {user.display_name || user.email}
+                    {user.displayName || user.email}
                   </span>
                 </div>
                 <button

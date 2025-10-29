@@ -7,6 +7,7 @@ import {
   SignUpParams,
   SignInParams,
 } from './AuthProvider.interface';
+import { config } from '@/config/env';
 
 interface AuthResponse {
   access_token: string;
@@ -18,7 +19,7 @@ interface AuthResponse {
   };
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE_URL = config.apiUrl;
 const TOKEN_KEY = 'tarot_access_token';
 const REFRESH_TOKEN_KEY = 'tarot_refresh_token';
 

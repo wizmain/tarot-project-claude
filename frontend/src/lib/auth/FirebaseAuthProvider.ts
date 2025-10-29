@@ -22,6 +22,16 @@ import {
 
 export class FirebaseAuthProvider implements AuthProvider {
   /**
+   * Get auth instance with null check
+   */
+  private getAuth() {
+    if (!auth) {
+      throw new Error('Firebase auth is not initialized');
+    }
+    return auth;
+  }
+
+  /**
    * Convert Firebase User to AuthUser
    */
   private toAuthUser(user: FirebaseUser | null): AuthUser | null {
@@ -98,7 +108,7 @@ export class FirebaseAuthProvider implements AuthProvider {
   async signUp(params: SignUpParams): Promise<AuthUser> {
     try {
       const userCredential = await createUserWithEmailAndPassword(
-        auth,
+        this.getAuth(),
         params.email,
         params.password
       );
@@ -123,7 +133,7 @@ export class FirebaseAuthProvider implements AuthProvider {
   async signIn(params: SignInParams): Promise<AuthUser> {
     try {
       const userCredential = await signInWithEmailAndPassword(
-        auth,
+        this.getAuth(),
         params.email,
         params.password
       );
@@ -140,7 +150,7 @@ export class FirebaseAuthProvider implements AuthProvider {
 
   async signOut(): Promise<void> {
     try {
-      await firebaseSignOut(auth);
+      await firebaseSignOut(this.getAuth());
     } catch (error: any) {
       console.error('Sign out error:', error);
       throw new Error('로그아웃에 실패했습니다');
@@ -149,7 +159,7 @@ export class FirebaseAuthProvider implements AuthProvider {
 
   async sendPasswordResetEmail(email: string): Promise<void> {
     try {
-      await firebaseSendPasswordResetEmail(auth, email);
+      await firebaseSendPasswordResetEmail(this.getAuth(), email);
     } catch (error: any) {
       console.error('Password reset error:', error);
       throw new Error(this.getErrorMessage(error.code));
@@ -157,7 +167,7 @@ export class FirebaseAuthProvider implements AuthProvider {
   }
 
   async getAuthToken(): Promise<string | null> {
-    const user = auth.currentUser;
+    const user = this.getAuth().currentUser;
     if (!user) return null;
 
     try {
@@ -169,12 +179,12 @@ export class FirebaseAuthProvider implements AuthProvider {
   }
 
   async getCurrentUser(): Promise<AuthUser | null> {
-    const user = auth.currentUser;
+    const user = this.getAuth().currentUser;
     return this.toAuthUser(user);
   }
 
   onAuthStateChanged(callback: (user: AuthUser | null) => void): () => void {
-    return onAuthStateChanged(auth, (user) => {
+    return onAuthStateChanged(this.getAuth(), (user) => {
       callback(this.toAuthUser(user));
     });
   }
@@ -185,7 +195,7 @@ export class FirebaseAuthProvider implements AuthProvider {
   async signInWithGoogle(): Promise<AuthUser> {
     try {
       const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(this.getAuth(), provider);
 
       const authUser = this.toAuthUser(userCredential.user);
       if (!authUser) throw new Error('사용자 정보를 가져올 수 없습니다');

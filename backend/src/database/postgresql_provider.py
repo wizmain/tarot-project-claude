@@ -5,14 +5,21 @@ PostgreSQL Database Provider
 """
 from typing import List, Optional, Dict, Any
 from datetime import datetime
+import uuid
 from sqlalchemy.orm import Session
-from sqlalchemy import func, or_
+from sqlalchemy import func, or_, and_, cast, Integer
 import random
 
-from .provider import DatabaseProvider, Card as CardDTO, Reading as ReadingDTO
+from .provider import (
+    DatabaseProvider,
+    Card as CardDTO,
+    Reading as ReadingDTO,
+    Feedback as FeedbackDTO,
+)
 from src.core.database import SessionLocal
 from src.models.card import Card as CardModel, ArcanaType, Suit
 from src.models.reading import Reading as ReadingModel, ReadingCard
+from src.models.feedback import Feedback as FeedbackModel
 
 
 class PostgreSQLProvider(DatabaseProvider):
@@ -45,8 +52,13 @@ class PostgreSQLProvider(DatabaseProvider):
             suit=card_model.suit.value if card_model.suit else None,
             keywords_upright=card_model.keywords_upright,
             keywords_reversed=card_model.keywords_reversed,
-            description_ko=card_model.description or "",
-            image_url=card_model.image_url or "",
+            meaning_upright=card_model.meaning_upright,
+            meaning_reversed=card_model.meaning_reversed,
+            description=card_model.description,
+            symbolism=card_model.symbolism,
+            image_url=card_model.image_url,
+            created_at=card_model.created_at,
+            updated_at=card_model.updated_at,
         )
 
     def _model_to_reading_dto(self, reading_model: ReadingModel) -> ReadingDTO:
@@ -65,17 +77,18 @@ class PostgreSQLProvider(DatabaseProvider):
                     "name_ko": reading_card.card.name_ko,
                     "arcana_type": reading_card.card.arcana_type.value,
                     "suit": reading_card.card.suit.value if reading_card.card.suit else None,
+                    "keywords_upright": reading_card.card.keywords_upright,
+                    "keywords_reversed": reading_card.card.keywords_reversed,
+                    "meaning_upright": reading_card.card.meaning_upright,
+                    "meaning_reversed": reading_card.card.meaning_reversed,
+                    "description": reading_card.card.description,
+                    "symbolism": reading_card.card.symbolism,
                     "image_url": reading_card.card.image_url,
+                    "created_at": reading_card.card.created_at,
+                    "updated_at": reading_card.card.updated_at,
                 }
             }
             cards.append(card_data)
-
-        interpretation = {
-            "card_relationships": reading_model.card_relationships,
-            "overall_reading": reading_model.overall_reading,
-            "advice": reading_model.advice,
-            "summary": reading_model.summary,
-        }
 
         return ReadingDTO(
             id=str(reading_model.id),
@@ -84,8 +97,26 @@ class PostgreSQLProvider(DatabaseProvider):
             spread_type=reading_model.spread_type,
             category=reading_model.category,
             cards=cards,
-            interpretation=interpretation,
+            card_relationships=reading_model.card_relationships,
+            overall_reading=reading_model.overall_reading,
+            advice=reading_model.advice,
+            summary=reading_model.summary,
             created_at=reading_model.created_at,
+            updated_at=reading_model.updated_at,
+        )
+
+    def _model_to_feedback_dto(self, feedback_model: FeedbackModel) -> FeedbackDTO:
+        """Convert SQLAlchemy Feedback model to Feedback DTO"""
+        return FeedbackDTO(
+            id=str(feedback_model.id),
+            reading_id=str(feedback_model.reading_id),
+            user_id=str(feedback_model.user_id),
+            rating=feedback_model.rating,
+            comment=feedback_model.comment,
+            helpful=feedback_model.helpful,
+            accurate=feedback_model.accurate,
+            created_at=feedback_model.created_at,
+            updated_at=feedback_model.updated_at,
         )
 
     # ==================== Card Operations ====================
@@ -172,9 +203,9 @@ class PostgreSQLProvider(DatabaseProvider):
             keywords_reversed=card_data["keywords_reversed"],
             meaning_upright=card_data.get("meaning_upright", ""),
             meaning_reversed=card_data.get("meaning_reversed", ""),
-            description=card_data.get("description_ko", ""),
+            description=card_data.get("description"),
             symbolism=card_data.get("symbolism"),
-            image_url=card_data.get("image_url", ""),
+            image_url=card_data.get("image_url"),
         )
 
         db.add(card_model)
@@ -341,6 +372,206 @@ class PostgreSQLProvider(DatabaseProvider):
         db.delete(reading_model)
         db.commit()
         return True
+
+    # ==================== Feedback Operations ====================
+
+    async def create_feedback(self, feedback_data: Dict[str, Any]) -> FeedbackDTO:
+        """피드백 생성"""
+        db = self._get_session()
+
+        feedback_model = FeedbackModel(
+            id=uuid.UUID(feedback_data['id']) if feedback_data.get('id') else uuid.uuid4(),
+            reading_id=uuid.UUID(feedback_data['reading_id']),
+            user_id=uuid.UUID(feedback_data['user_id']),
+            rating=feedback_data['rating'],
+            comment=feedback_data.get('comment'),
+            helpful=feedback_data.get('helpful', True),
+            accurate=feedback_data.get('accurate', True),
+        )
+
+        db.add(feedback_model)
+        db.commit()
+        db.refresh(feedback_model)
+
+        return self._model_to_feedback_dto(feedback_model)
+
+    async def get_feedback_by_id(self, feedback_id: str) -> Optional[FeedbackDTO]:
+        """ID로 피드백 조회"""
+        db = self._get_session()
+        feedback = db.query(FeedbackModel).filter(
+            FeedbackModel.id == uuid.UUID(feedback_id)
+        ).first()
+        return self._model_to_feedback_dto(feedback) if feedback else None
+
+    async def get_feedback_by_reading(
+        self,
+        reading_id: str,
+        skip: int = 0,
+        limit: int = 50,
+    ) -> List[FeedbackDTO]:
+        """특정 리딩의 피드백 목록 조회"""
+        db = self._get_session()
+        feedback_models = (
+            db.query(FeedbackModel)
+            .filter(FeedbackModel.reading_id == uuid.UUID(reading_id))
+            .order_by(FeedbackModel.created_at.desc())
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+        return [self._model_to_feedback_dto(feedback) for feedback in feedback_models]
+
+    async def get_feedback_by_reading_and_user(
+        self,
+        reading_id: str,
+        user_id: str,
+    ) -> Optional[FeedbackDTO]:
+        """리딩과 사용자 조합으로 피드백 조회"""
+        db = self._get_session()
+        feedback = (
+            db.query(FeedbackModel)
+            .filter(
+                FeedbackModel.reading_id == uuid.UUID(reading_id),
+                FeedbackModel.user_id == uuid.UUID(user_id),
+            )
+            .first()
+        )
+        return self._model_to_feedback_dto(feedback) if feedback else None
+
+    async def update_feedback(
+        self,
+        feedback_id: str,
+        feedback_data: Dict[str, Any],
+    ) -> Optional[FeedbackDTO]:
+        """피드백 수정"""
+        db = self._get_session()
+        feedback = db.query(FeedbackModel).filter(
+            FeedbackModel.id == uuid.UUID(feedback_id)
+        ).first()
+
+        if not feedback:
+            return None
+
+        for field in ("rating", "comment", "helpful", "accurate"):
+            if field in feedback_data and feedback_data[field] is not None:
+                setattr(feedback, field, feedback_data[field])
+
+        db.commit()
+        db.refresh(feedback)
+
+        return self._model_to_feedback_dto(feedback)
+
+    async def delete_feedback(self, feedback_id: str) -> bool:
+        """피드백 삭제"""
+        db = self._get_session()
+        feedback = db.query(FeedbackModel).filter(
+            FeedbackModel.id == uuid.UUID(feedback_id)
+        ).first()
+
+        if not feedback:
+            return False
+
+        db.delete(feedback)
+        db.commit()
+        return True
+
+    async def get_feedback_statistics(self) -> Dict[str, Any]:
+        """전체 피드백 통계"""
+        db = self._get_session()
+
+        stats_query = db.query(
+            func.count(FeedbackModel.id).label("total_count"),
+            func.avg(FeedbackModel.rating).label("avg_rating"),
+            func.sum(cast(FeedbackModel.helpful, Integer)).label("helpful_count"),
+            func.sum(cast(FeedbackModel.accurate, Integer)).label("accurate_count"),
+        ).first()
+
+        total_count = stats_query.total_count or 0
+        avg_rating = float(stats_query.avg_rating) if stats_query.avg_rating else 0.0
+        helpful_count = stats_query.helpful_count or 0
+        accurate_count = stats_query.accurate_count or 0
+
+        return {
+            "total_feedback_count": total_count,
+            "average_rating": round(avg_rating, 2) if avg_rating else 0.0,
+            "helpful_count": helpful_count,
+            "accurate_count": accurate_count,
+            "helpful_rate": round((helpful_count / total_count * 100), 1) if total_count else 0.0,
+            "accurate_rate": round((accurate_count / total_count * 100), 1) if total_count else 0.0,
+        }
+
+    async def get_feedback_statistics_by_date_range(
+        self,
+        start_date: datetime,
+        end_date: datetime,
+    ) -> Dict[str, Any]:
+        """기간별 피드백 통계"""
+        db = self._get_session()
+
+        stats_query = db.query(
+            func.count(FeedbackModel.id).label("total_count"),
+            func.avg(FeedbackModel.rating).label("avg_rating"),
+            func.sum(cast(FeedbackModel.helpful, Integer)).label("helpful_count"),
+            func.sum(cast(FeedbackModel.accurate, Integer)).label("accurate_count"),
+        ).filter(
+            and_(
+                FeedbackModel.created_at >= start_date,
+                FeedbackModel.created_at < end_date,
+            )
+        ).first()
+
+        total_count = stats_query.total_count or 0
+        avg_rating = float(stats_query.avg_rating) if stats_query.avg_rating else 0.0
+        helpful_count = stats_query.helpful_count or 0
+        accurate_count = stats_query.accurate_count or 0
+
+        return {
+            "period": {
+                "start": start_date.isoformat(),
+                "end": end_date.isoformat(),
+            },
+            "total_feedback_count": total_count,
+            "average_rating": round(avg_rating, 2) if avg_rating else 0.0,
+            "helpful_count": helpful_count,
+            "accurate_count": accurate_count,
+            "helpful_rate": round((helpful_count / total_count * 100), 1) if total_count else 0.0,
+            "accurate_rate": round((accurate_count / total_count * 100), 1) if total_count else 0.0,
+        }
+
+    async def get_feedback_statistics_by_spread_type(self) -> List[Dict[str, Any]]:
+        """스프레드 타입별 피드백 통계"""
+        db = self._get_session()
+
+        stats = db.query(
+            ReadingModel.spread_type,
+            func.count(FeedbackModel.id).label("feedback_count"),
+            func.avg(FeedbackModel.rating).label("avg_rating"),
+            func.sum(cast(FeedbackModel.helpful, Integer)).label("helpful_count"),
+            func.sum(cast(FeedbackModel.accurate, Integer)).label("accurate_count"),
+        ).join(
+            FeedbackModel, ReadingModel.id == FeedbackModel.reading_id
+        ).group_by(
+            ReadingModel.spread_type
+        ).all()
+
+        results: List[Dict[str, Any]] = []
+        for stat in stats:
+            total_count = stat.feedback_count or 0
+            avg_rating = float(stat.avg_rating) if stat.avg_rating else 0.0
+            helpful_count = stat.helpful_count or 0
+            accurate_count = stat.accurate_count or 0
+
+            results.append({
+                "spread_type": stat.spread_type,
+                "feedback_count": total_count,
+                "average_rating": round(avg_rating, 2) if avg_rating else 0.0,
+                "helpful_count": helpful_count,
+                "accurate_count": accurate_count,
+                "helpful_rate": round((helpful_count / total_count * 100), 1) if total_count else 0.0,
+                "accurate_rate": round((accurate_count / total_count * 100), 1) if total_count else 0.0,
+            })
+
+        return results
 
     # ==================== Connection Management ====================
 

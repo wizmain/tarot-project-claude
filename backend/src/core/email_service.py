@@ -48,14 +48,17 @@ class EmailService:
         self.from_name = settings.SMTP_FROM_NAME
 
         # Jinja2 템플릿 환경 설정
-        template_dir = Path(__file__).parent.parent.parent / "templates" / "email"
-        if template_dir.exists():
-            self.template_env = Environment(
-                loader=FileSystemLoader(str(template_dir))
-            )
+        if EMAIL_AVAILABLE:
+            template_dir = Path(__file__).parent.parent.parent / "templates" / "email"
+            if template_dir.exists():
+                self.template_env = Environment(
+                    loader=FileSystemLoader(str(template_dir))
+                )
+            else:
+                self.template_env = None
+                logger.warning(f"Email template directory not found: {template_dir}")
         else:
             self.template_env = None
-            logger.warning(f"Email template directory not found: {template_dir}")
 
     def _validate_config(self) -> bool:
         """

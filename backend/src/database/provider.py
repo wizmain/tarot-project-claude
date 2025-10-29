@@ -20,8 +20,13 @@ class Card:
         suit: Optional[str],
         keywords_upright: List[str],
         keywords_reversed: List[str],
-        description_ko: str,
-        image_url: str,
+        meaning_upright: str,
+        meaning_reversed: str,
+        description: Optional[str],
+        symbolism: Optional[str],
+        image_url: Optional[str],
+        created_at: Optional[datetime] = None,
+        updated_at: Optional[datetime] = None,
     ):
         self.id = id
         self.name_en = name_en
@@ -31,8 +36,33 @@ class Card:
         self.suit = suit
         self.keywords_upright = keywords_upright
         self.keywords_reversed = keywords_reversed
-        self.description_ko = description_ko
+        self.meaning_upright = meaning_upright
+        self.meaning_reversed = meaning_reversed
+        self.description = description
+        self.symbolism = symbolism
         self.image_url = image_url
+        self.created_at = created_at
+        self.updated_at = updated_at
+
+    def to_dict(self) -> Dict[str, Any]:
+        """카드 데이터를 API 응답 형식으로 변환"""
+        return {
+            "id": self.id,
+            "name": self.name_en,
+            "name_ko": self.name_ko,
+            "number": self.number,
+            "arcana_type": self.arcana_type,
+            "suit": self.suit,
+            "keywords_upright": self.keywords_upright,
+            "keywords_reversed": self.keywords_reversed,
+            "meaning_upright": self.meaning_upright,
+            "meaning_reversed": self.meaning_reversed,
+            "description": self.description,
+            "symbolism": self.symbolism,
+            "image_url": self.image_url,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
 
 
 class Reading:
@@ -45,8 +75,12 @@ class Reading:
         spread_type: str,
         category: Optional[str],
         cards: List[Dict[str, Any]],
-        interpretation: Dict[str, Any],
+        card_relationships: Optional[str],
+        overall_reading: str,
+        advice: Dict[str, Any],
+        summary: str,
         created_at: datetime,
+        updated_at: Optional[datetime] = None,
     ):
         self.id = id
         self.user_id = user_id
@@ -54,8 +88,67 @@ class Reading:
         self.spread_type = spread_type
         self.category = category
         self.cards = cards
-        self.interpretation = interpretation
+        self.card_relationships = card_relationships
+        self.overall_reading = overall_reading
+        self.advice = advice
+        self.summary = summary
         self.created_at = created_at
+        self.updated_at = updated_at
+
+    def to_dict(self) -> Dict[str, Any]:
+        """리딩 데이터를 API 응답 형식으로 변환"""
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "question": self.question,
+            "spread_type": self.spread_type,
+            "category": self.category,
+            "cards": self.cards,
+            "card_relationships": self.card_relationships,
+            "overall_reading": self.overall_reading,
+            "advice": self.advice,
+            "summary": self.summary,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+
+class Feedback:
+    """피드백 데이터 모델"""
+    def __init__(
+        self,
+        id: str,
+        reading_id: str,
+        user_id: str,
+        rating: int,
+        comment: Optional[str],
+        helpful: bool,
+        accurate: bool,
+        created_at: datetime,
+        updated_at: datetime,
+    ):
+        self.id = id
+        self.reading_id = reading_id
+        self.user_id = user_id
+        self.rating = rating
+        self.comment = comment
+        self.helpful = helpful
+        self.accurate = accurate
+        self.created_at = created_at
+        self.updated_at = updated_at
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "reading_id": self.reading_id,
+            "user_id": self.user_id,
+            "rating": self.rating,
+            "comment": self.comment,
+            "helpful": self.helpful,
+            "accurate": self.accurate,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
 
 
 class DatabaseProvider(ABC):
@@ -159,6 +252,70 @@ class DatabaseProvider(ABC):
     @abstractmethod
     async def delete_reading(self, reading_id: str) -> bool:
         """리딩 삭제"""
+        pass
+
+    # ==================== Feedback Operations ====================
+
+    @abstractmethod
+    async def create_feedback(self, feedback_data: Dict[str, Any]) -> Feedback:
+        """피드백 생성"""
+        pass
+
+    @abstractmethod
+    async def get_feedback_by_id(self, feedback_id: str) -> Optional[Feedback]:
+        """ID로 피드백 조회"""
+        pass
+
+    @abstractmethod
+    async def get_feedback_by_reading(
+        self,
+        reading_id: str,
+        skip: int = 0,
+        limit: int = 50,
+    ) -> List[Feedback]:
+        """특정 리딩의 피드백 목록 조회"""
+        pass
+
+    @abstractmethod
+    async def get_feedback_by_reading_and_user(
+        self,
+        reading_id: str,
+        user_id: str,
+    ) -> Optional[Feedback]:
+        """리딩과 사용자 조합으로 피드백 조회"""
+        pass
+
+    @abstractmethod
+    async def update_feedback(
+        self,
+        feedback_id: str,
+        feedback_data: Dict[str, Any],
+    ) -> Optional[Feedback]:
+        """피드백 수정"""
+        pass
+
+    @abstractmethod
+    async def delete_feedback(self, feedback_id: str) -> bool:
+        """피드백 삭제"""
+        pass
+
+    @abstractmethod
+    async def get_feedback_statistics(self) -> Dict[str, Any]:
+        """전체 피드백 통계"""
+        pass
+
+    @abstractmethod
+    async def get_feedback_statistics_by_date_range(
+        self,
+        start_date: datetime,
+        end_date: datetime,
+    ) -> Dict[str, Any]:
+        """기간별 피드백 통계"""
+        pass
+
+    @abstractmethod
+    async def get_feedback_statistics_by_spread_type(self) -> List[Dict[str, Any]]:
+        """스프레드 타입별 피드백 통계"""
         pass
 
     # ==================== Connection Management ====================

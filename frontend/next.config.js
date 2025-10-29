@@ -1,14 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export', // Static export for Firebase Hosting
+  output: 'export',
   images: {
-    unoptimized: true, // Firebase Hosting doesn't support Image Optimization
+    unoptimized: true,
   },
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+  // Generate unique build ID to bust cache
+  generateBuildId: async () => {
+    return `build-${Date.now()}`;
   },
-  trailingSlash: true, // Firebase Hosting recommendation
 };
 
 module.exports = nextConfig;

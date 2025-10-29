@@ -6,29 +6,29 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD3jtsv2vNVym3pti_m8zdMJPF8py3RTGo",
-  authDomain: "tarot-aacbf.firebaseapp.com",
-  projectId: "tarot-aacbf",
-  storageBucket: "tarot-aacbf.firebasestorage.app",
-  messagingSenderId: "414870328191",
-  appId: "1:414870328191:web:b5f81830d3657c609b804a",
-  measurementId: "G-XBZDCBG5SQ"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyD3jtsv2vNVym3pti_m8zdMJPF8py3RTGo",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "tarot-aacbf.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "tarot-aacbf",
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "tarot-aacbf.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "414870328191",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:414870328191:web:b5f81830d3657c609b804a",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-XBZDCBG5SQ"
 };
 
 // Initialize Firebase (singleton pattern)
-let app: FirebaseApp;
-let auth: Auth;
-let db: Firestore;
+let app: FirebaseApp | undefined;
+let auth: Auth | undefined;
+let db: Firestore | undefined;
 
-if (typeof window !== 'undefined' && !getApps().length) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-} else if (typeof window !== 'undefined') {
-  app = getApps()[0];
+if (typeof window !== 'undefined') {
+  if (!getApps().length) {
+    app = initializeApp(firebaseConfig);
+  } else {
+    app = getApps()[0];
+  }
   auth = getAuth(app);
   db = getFirestore(app);
 }
 
 export { auth, db };
-export default app;
+export default app as FirebaseApp;

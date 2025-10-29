@@ -65,6 +65,9 @@ firebaserc
 service-account-key.json
 firebase-credentials.json
 *-credentials.json
+backend/firebase-service-account.json
+backend/tarot-*-firebase-adminsdk-*.json
+backend/firebase-service-account.local.json
 
 # Secrets
 *.pem

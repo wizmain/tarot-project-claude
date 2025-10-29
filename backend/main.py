@@ -30,6 +30,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.core.config import settings
 from src.core.logging import setup_logging, get_logger
+from src.core.firebase_admin import initialize_firebase_admin
 from src.api.routes import cards_router, readings_router, auth_router, feedback_router, admin_router
 
 # 로깅 시스템 초기화
@@ -37,6 +38,12 @@ from src.api.routes import cards_router, readings_router, auth_router, feedback_
 # 이후 모든 로그가 올바르게 기록되도록 합니다
 setup_logging()
 logger = get_logger(__name__)
+
+# Firebase Admin SDK 초기화 (Firestore 사용을 위해)
+try:
+    initialize_firebase_admin()
+except Exception as e:
+    logger.warning(f"Firebase initialization failed (non-critical): {e}")
 
 # FastAPI 애플리케이션 인스턴스 생성
 # Swagger UI와 ReDoc 자동 문서화 활성화

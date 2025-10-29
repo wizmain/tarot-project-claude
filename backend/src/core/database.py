@@ -54,3 +54,22 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def get_db_optional():
+    """
+    Firestore 환경에서는 DB 세션이 필요 없는 의존성 함수
+
+    Returns:
+        Session | None: SQL 백엔드 사용 시 세션, 그렇지 않으면 None
+    """
+    provider = getattr(settings, "DATABASE_PROVIDER", "postgresql").lower()
+    if provider == "firestore":
+        yield None
+        return
+
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

@@ -2,7 +2,10 @@
  * Reading Types and Spread Configuration
  */
 
-import { Card } from './card';
+import { Card, DrawnCard } from './card';
+
+// Re-export DrawnCard from card module
+export type { DrawnCard } from './card';
 
 export type ReadingType = 'one-card' | 'three-card' | 'celtic-cross';
 
@@ -24,11 +27,7 @@ export interface ReadingPosition {
   description_ko: string;
 }
 
-export interface DrawnCard {
-  card: Card;
-  position: ReadingPosition;
-  isReversed: boolean;
-}
+// DrawnCard is imported from './card'
 
 export interface Reading {
   id?: number;

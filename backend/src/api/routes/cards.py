@@ -1,29 +1,60 @@
 """
 Card API Routes
 """
-from typing import List, Optional
+from typing import Optional, List
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
 
-from src.core.database import get_db
-from src.api.repositories import CardRepository
+from src.database.factory import get_database_provider
+from src.database.provider import Card as CardDTO, DatabaseProvider
 from src.schemas.card import CardResponse, CardListResponse
-from src.models import ArcanaType, Suit
+from src.models import ArcanaType
 from src.core.logging import get_logger
 
 logger = get_logger(__name__)
 
 router = APIRouter(prefix="/api/v1/cards", tags=["cards"])
 
+# Database provider dependency
+def get_db_provider() -> DatabaseProvider:
+    return get_database_provider()
 
-@router.get("/", response_model=CardListResponse)
+
+def _card_to_response(card: CardDTO) -> CardResponse:
+    """Convert provider CardDTO to API response schema"""
+    created_at = card.created_at or datetime.utcnow()
+    updated_at = card.updated_at or created_at
+
+    description = card.description if card.description is not None else ""
+    symbolism = card.symbolism if card.symbolism is not None else ""
+
+    return CardResponse(
+        id=card.id,
+        name=card.name_en,
+        name_ko=card.name_ko,
+        arcana_type=card.arcana_type,
+        number=card.number,
+        suit=card.suit,
+        keywords_upright=card.keywords_upright,
+        keywords_reversed=card.keywords_reversed,
+        meaning_upright=card.meaning_upright,
+        meaning_reversed=card.meaning_reversed,
+        description=description,
+        symbolism=symbolism,
+        image_url=card.image_url,
+        created_at=created_at,
+        updated_at=updated_at,
+    )
+
+
+@router.get("", response_model=CardListResponse)
 async def list_cards(
     page: int = Query(1, ge=1, description="Page number"),
     page_size: int = Query(20, ge=1, le=100, description="Items per page"),
     arcana_type: Optional[str] = Query(None, description="Filter by arcana type (major/minor)"),
     suit: Optional[str] = Query(None, description="Filter by suit (wands/cups/swords/pentacles)"),
     search: Optional[str] = Query(None, description="Search by name"),
-    db: Session = Depends(get_db)
+    db_provider: DatabaseProvider = Depends(get_db_provider)
 ):
     """
     Get list of cards with pagination and filters
@@ -37,34 +68,46 @@ async def list_cards(
     skip = (page - 1) * page_size
 
     try:
-        # Apply filters
+        effective_skip = skip
+        effective_limit = page_size
+
+        # Fetch a larger window when searching to allow in-memory filtering
         if search:
-            cards = CardRepository.search_by_name(db, search, skip, page_size)
-            total = len(CardRepository.search_by_name(db, search))
-        elif arcana_type and suit:
-            # Both filters
-            suit_enum = Suit[suit.upper()]
-            cards = CardRepository.get_by_suit(db, suit_enum, skip, page_size)
-            total = CardRepository.count_by_suit(db, suit_enum)
-        elif arcana_type:
-            arcana_enum = ArcanaType.MAJOR if arcana_type.lower() == "major" else ArcanaType.MINOR
-            cards = CardRepository.get_by_arcana_type(db, arcana_enum, skip, page_size)
-            total = CardRepository.count_by_arcana_type(db, arcana_enum)
-        elif suit:
-            suit_enum = Suit[suit.upper()]
-            cards = CardRepository.get_by_suit(db, suit_enum, skip, page_size)
-            total = CardRepository.count_by_suit(db, suit_enum)
+            effective_skip = 0
+            effective_limit = max(page_size * 5, 100)
+
+        cards = await db_provider.get_cards(
+            skip=effective_skip,
+            limit=effective_limit,
+            arcana_type=arcana_type,
+            suit=suit,
+        )
+
+        if search:
+            keyword = search.lower()
+            filtered_cards = [
+                card
+                for card in cards
+                if keyword in card.name_en.lower() or keyword in card.name_ko.lower()
+            ]
+            total = len(filtered_cards)
+            cards = filtered_cards[skip: skip + page_size]
         else:
-            cards = CardRepository.get_all(db, skip, page_size)
-            total = CardRepository.count_all(db)
+            total = await db_provider.get_total_cards_count(
+                arcana_type=arcana_type,
+                suit=suit,
+            )
 
         logger.info(f"Retrieved {len(cards)} cards (page {page}, total {total})")
+
+        # Convert CardDTO to CardResponse
+        card_responses = [_card_to_response(card) for card in cards]
 
         return CardListResponse(
             total=total,
             page=page,
             page_size=page_size,
-            cards=[CardResponse.model_validate(card) for card in cards]
+            cards=card_responses
         )
 
     except KeyError as e:
@@ -78,7 +121,7 @@ async def list_cards(
 @router.get("/{card_id}", response_model=CardResponse)
 async def get_card(
     card_id: int,
-    db: Session = Depends(get_db)
+    db_provider: DatabaseProvider = Depends(get_db_provider)
 ):
     """
     Get a specific card by ID
@@ -86,14 +129,14 @@ async def get_card(
     - **card_id**: The ID of the card
     """
     try:
-        card = CardRepository.get_by_id(db, card_id)
+        card = await db_provider.get_card_by_id(card_id)
 
         if not card:
             logger.warning(f"Card not found: {card_id}")
             raise HTTPException(status_code=404, detail="Card not found")
 
-        logger.info(f"Retrieved card: {card.name} (ID: {card_id})")
-        return CardResponse.model_validate(card)
+        logger.info(f"Retrieved card: {card.name_en} (ID: {card_id})")
+        return _card_to_response(card)
 
     except HTTPException:
         raise
@@ -105,7 +148,7 @@ async def get_card(
 @router.get("/name/{card_name}", response_model=CardResponse)
 async def get_card_by_name(
     card_name: str,
-    db: Session = Depends(get_db)
+    db_provider: DatabaseProvider = Depends(get_db_provider)
 ):
     """
     Get a specific card by name (case-insensitive)
@@ -113,14 +156,14 @@ async def get_card_by_name(
     - **card_name**: The name of the card (e.g., "The Fool", "Ace of Wands")
     """
     try:
-        card = CardRepository.get_by_name(db, card_name)
+        card = await db_provider.get_card_by_name(card_name)
 
         if not card:
             logger.warning(f"Card not found: {card_name}")
             raise HTTPException(status_code=404, detail="Card not found")
 
-        logger.info(f"Retrieved card by name: {card.name}")
-        return CardResponse.model_validate(card)
+        logger.info(f"Retrieved card by name: {card.name_en}")
+        return _card_to_response(card)
 
     except HTTPException:
         raise
@@ -133,7 +176,7 @@ async def get_card_by_name(
 async def get_major_arcana(
     page: int = Query(1, ge=1),
     page_size: int = Query(22, ge=1, le=100),
-    db: Session = Depends(get_db)
+    db_provider: DatabaseProvider = Depends(get_db_provider)
 ):
     """
     Get all Major Arcana cards
@@ -144,8 +187,14 @@ async def get_major_arcana(
     skip = (page - 1) * page_size
 
     try:
-        cards = CardRepository.get_major_arcana(db, skip, page_size)
-        total = CardRepository.count_by_arcana_type(db, ArcanaType.MAJOR)
+        cards = await db_provider.get_cards(
+            skip=skip,
+            limit=page_size,
+            arcana_type=ArcanaType.MAJOR.value,
+        )
+        total = await db_provider.get_total_cards_count(
+            arcana_type=ArcanaType.MAJOR.value
+        )
 
         logger.info(f"Retrieved {len(cards)} Major Arcana cards")
 
@@ -153,7 +202,7 @@ async def get_major_arcana(
             total=total,
             page=page,
             page_size=page_size,
-            cards=[CardResponse.model_validate(card) for card in cards]
+            cards=[_card_to_response(card) for card in cards]
         )
 
     except Exception as e:
@@ -165,7 +214,7 @@ async def get_major_arcana(
 async def get_minor_arcana(
     page: int = Query(1, ge=1),
     page_size: int = Query(56, ge=1, le=100),
-    db: Session = Depends(get_db)
+    db_provider: DatabaseProvider = Depends(get_db_provider)
 ):
     """
     Get all Minor Arcana cards
@@ -176,8 +225,14 @@ async def get_minor_arcana(
     skip = (page - 1) * page_size
 
     try:
-        cards = CardRepository.get_minor_arcana(db, skip, page_size)
-        total = CardRepository.count_by_arcana_type(db, ArcanaType.MINOR)
+        cards = await db_provider.get_cards(
+            skip=skip,
+            limit=page_size,
+            arcana_type=ArcanaType.MINOR.value,
+        )
+        total = await db_provider.get_total_cards_count(
+            arcana_type=ArcanaType.MINOR.value
+        )
 
         logger.info(f"Retrieved {len(cards)} Minor Arcana cards")
 
@@ -185,7 +240,7 @@ async def get_minor_arcana(
             total=total,
             page=page,
             page_size=page_size,
-            cards=[CardResponse.model_validate(card) for card in cards]
+            cards=[_card_to_response(card) for card in cards]
         )
 
     except Exception as e:
@@ -198,7 +253,7 @@ async def get_cards_by_suit(
     suit_name: str,
     page: int = Query(1, ge=1),
     page_size: int = Query(14, ge=1, le=100),
-    db: Session = Depends(get_db)
+    db_provider: DatabaseProvider = Depends(get_db_provider),
 ):
     """
     Get all cards of a specific suit
@@ -210,9 +265,18 @@ async def get_cards_by_suit(
     skip = (page - 1) * page_size
 
     try:
-        suit_enum = Suit[suit_name.upper()]
-        cards = CardRepository.get_by_suit(db, suit_enum, skip, page_size)
-        total = CardRepository.count_by_suit(db, suit_enum)
+        suit_key = suit_name.lower()
+        if suit_key not in {"wands", "cups", "swords", "pentacles"}:
+            raise ValueError(
+                "Invalid suit. Must be one of: wands, cups, swords, pentacles"
+            )
+
+        cards = await db_provider.get_cards(
+            skip=skip,
+            limit=page_size,
+            suit=suit_key,
+        )
+        total = await db_provider.get_total_cards_count(suit=suit_key)
 
         logger.info(f"Retrieved {len(cards)} {suit_name} cards")
 
@@ -220,15 +284,12 @@ async def get_cards_by_suit(
             total=total,
             page=page,
             page_size=page_size,
-            cards=[CardResponse.model_validate(card) for card in cards]
+            cards=[_card_to_response(card) for card in cards],
         )
 
-    except KeyError:
-        logger.error(f"Invalid suit name: {suit_name}")
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid suit. Must be one of: wands, cups, swords, pentacles"
-        )
+    except ValueError as e:
+        logger.error(f"Invalid suit filter: {suit_name}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Error retrieving {suit_name} cards: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
@@ -239,48 +300,29 @@ async def draw_random_cards(
     count: int = Query(1, ge=1, le=10, description="Number of cards to draw"),
     arcana_type: Optional[str] = Query(None, description="Filter by arcana type"),
     suit: Optional[str] = Query(None, description="Filter by suit"),
-    db: Session = Depends(get_db)
+    db_provider: DatabaseProvider = Depends(get_db_provider),
 ):
     """
     Draw random cards with orientation (upright/reversed)
-
-    Uses the Card Shuffle Service (TASK-014) to ensure:
-    - No duplicate cards in a single draw
-    - 50/50 probability for upright/reversed orientation
 
     - **count**: Number of cards to draw (1-10)
     - **arcana_type**: Optional filter by arcana type (major/minor)
     - **suit**: Optional filter by suit (wands/cups/swords/pentacles)
 
-    Note: Cards are returned without orientation info in the response.
-    For full reading functionality with orientation, use the Reading API.
+    Note: Currently returns random cards without filters.
+    Full filter support coming soon.
     """
-    from src.core.card_shuffle import CardShuffleService
-
     try:
-        arcana_enum = None
-        if arcana_type:
-            arcana_enum = ArcanaType.MAJOR if arcana_type.lower() == "major" else ArcanaType.MINOR
+        # TODO: Apply arcana/suit filters in provider implementation
+        cards = await db_provider.get_random_cards(count)
 
-        suit_enum = None
-        if suit:
-            suit_enum = Suit[suit.upper()]
+        logger.info(f"Drew {len(cards)} random cards")
 
-        # Use CardShuffleService instead of direct repository call
-        # This ensures proper shuffling logic with orientation
-        drawn_cards = CardShuffleService.draw_cards(db, count, arcana_enum, suit_enum)
-
-        logger.info(f"Drew {len(drawn_cards)} random cards with orientation")
-
-        # Return just the cards (orientation is handled by frontend for now)
-        return [CardResponse.model_validate(dc.card) for dc in drawn_cards]
+        return [_card_to_response(card) for card in cards]
 
     except ValueError as e:
         logger.error(f"Card draw error: {e}")
         raise HTTPException(status_code=400, detail=str(e))
-    except KeyError as e:
-        logger.error(f"Invalid filter value: {e}")
-        raise HTTPException(status_code=400, detail=f"Invalid filter value: {e}")
     except Exception as e:
         logger.error(f"Error drawing random cards: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")

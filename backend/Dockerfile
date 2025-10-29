@@ -17,8 +17,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 포트 설정 (Cloud Run은 PORT 환경변수 사용)
-ENV PORT=8000
-EXPOSE 8000
+ENV PORT=8080
+EXPOSE 8080
+
+# 기본 환경 변수 설정
+ENV DEBUG=False
+ENV DATABASE_PROVIDER=firestore
 
 # 실행 명령 (Cloud Run의 PORT 환경변수 사용)
 CMD exec uvicorn main:app --host 0.0.0.0 --port ${PORT}

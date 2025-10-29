@@ -20,6 +20,7 @@ def initialize_firebase_admin():
 
     설정:
     - FIREBASE_CREDENTIALS_PATH: Service Account Key JSON 파일 경로
+    - Cloud Run 환경에서는 Application Default Credentials (ADC) 사용
     """
     # 이미 초기화되었는지 확인
     if firebase_admin._apps:
@@ -30,18 +31,15 @@ def initialize_firebase_admin():
         # Firebase credentials path 확인
         credentials_path = settings.FIREBASE_CREDENTIALS_PATH
 
-        if not credentials_path:
-            logger.warning(
-                "Firebase credentials path not configured. "
-                "Firebase features will not be available."
-            )
-            return
-
-        # Certificate 로드
-        cred = credentials.Certificate(credentials_path)
-
-        # Firebase Admin 초기화
-        firebase_admin.initialize_app(cred)
+        if credentials_path:
+            # 로컬 환경: JSON 파일 사용
+            logger.info("Initializing Firebase with credentials file")
+            cred = credentials.Certificate(credentials_path)
+            firebase_admin.initialize_app(cred)
+        else:
+            # Cloud Run 환경: Application Default Credentials 사용
+            logger.info("Initializing Firebase with Application Default Credentials")
+            firebase_admin.initialize_app()
 
         logger.info("Firebase Admin SDK initialized successfully")
 

@@ -4,6 +4,7 @@ PostgreSQL 데이터를 Firestore로 마이그레이션하는 스크립트
 사용법:
     python scripts/migrate_to_firestore.py --cards     # 카드만 마이그레이션
     python scripts/migrate_to_firestore.py --readings  # 리딩만 마이그레이션
+    python scripts/migrate_to_firestore.py --feedback  # 피드백만 마이그레이션
     python scripts/migrate_to_firestore.py --all       # 전체 마이그레이션
 """
 import asyncio
@@ -21,6 +22,7 @@ from src.core.database import SessionLocal
 from src.core.firebase_admin import initialize_firebase_admin
 from src.models.card import Card as CardModel
 from src.models.reading import Reading as ReadingModel
+from src.models.feedback import Feedback as FeedbackModel
 
 
 async def migrate_cards(dry_run: bool = False):
@@ -182,11 +184,83 @@ async def migrate_readings(dry_run: bool = False, limit: int = None):
     print(f"\n리딩 마이그레이션 완료: 성공 {success_count}, 실패 {error_count}")
 
 
+async def migrate_feedback(dry_run: bool = False, limit: int = None):
+    """
+    피드백 데이터를 PostgreSQL에서 Firestore로 마이그레이션
+
+    Args:
+        dry_run: True면 실제 쓰기 없이 로그만 출력
+        limit: 마이그레이션할 최대 개수 (None이면 전체)
+    """
+    print("\n=== 피드백 마이그레이션 시작 ===")
+
+    db: Session = SessionLocal()
+    query = db.query(FeedbackModel).join(ReadingModel, FeedbackModel.reading)
+
+    if limit:
+        query = query.limit(limit)
+        print(f"최대 {limit}개의 피드백을 마이그레이션합니다.")
+
+    feedback_rows = query.all()
+    print(f"총 {len(feedback_rows)}개의 피드백을 마이그레이션합니다.")
+
+    if dry_run:
+        print("(DRY RUN 모드 - 실제 쓰기는 하지 않습니다)")
+        for feedback in feedback_rows[:5]:
+            spread_type = feedback.reading.spread_type if feedback.reading else None
+            print(
+                f"  - Feedback {feedback.id}: rating={feedback.rating}, "
+                f"reading={feedback.reading_id} ({spread_type})"
+            )
+        if len(feedback_rows) > 5:
+            print(f"  ... 외 {len(feedback_rows) - 5}개")
+        db.close()
+        return
+
+    firestore_db = firestore.client()
+    feedback_collection = firestore_db.collection('feedback')
+
+    success_count = 0
+    error_count = 0
+
+    for feedback in feedback_rows:
+        try:
+            doc_id = str(feedback.id)
+            doc_data = {
+                'id': doc_id,
+                'reading_id': str(feedback.reading_id),
+                'user_id': str(feedback.user_id),
+                'rating': feedback.rating,
+                'comment': feedback.comment,
+                'helpful': feedback.helpful,
+                'accurate': feedback.accurate,
+                'created_at': feedback.created_at,
+                'updated_at': feedback.updated_at,
+            }
+
+            if feedback.reading:
+                doc_data['spread_type'] = feedback.reading.spread_type
+                doc_data['reading_category'] = feedback.reading.category
+
+            feedback_collection.document(doc_id).set(doc_data)
+            success_count += 1
+            print(f"  ✓ Feedback {doc_id} migrated (rating={feedback.rating})")
+
+        except Exception as e:
+            error_count += 1
+            print(f"  ✗ Feedback {feedback.id} 실패: {e}")
+
+    db.close()
+
+    print(f"\n피드백 마이그레이션 완료: 성공 {success_count}, 실패 {error_count}")
+
+
 async def main():
     """메인 실행 함수"""
     parser = argparse.ArgumentParser(description='PostgreSQL 데이터를 Firestore로 마이그레이션')
     parser.add_argument('--cards', action='store_true', help='카드 데이터 마이그레이션')
     parser.add_argument('--readings', action='store_true', help='리딩 데이터 마이그레이션')
+    parser.add_argument('--feedback', action='store_true', help='피드백 데이터 마이그레이션')
     parser.add_argument('--all', action='store_true', help='전체 데이터 마이그레이션')
     parser.add_argument('--dry-run', action='store_true', help='실제 쓰기 없이 테스트만 수행')
     parser.add_argument('--limit', type=int, help='리딩 마이그레이션 개수 제한')
@@ -194,7 +268,7 @@ async def main():
     args = parser.parse_args()
 
     # 옵션이 하나도 없으면 도움말 출력
-    if not (args.cards or args.readings or args.all):
+    if not (args.cards or args.readings or args.feedback or args.all):
         parser.print_help()
         return
 
@@ -210,6 +284,8 @@ async def main():
 
         if args.all or args.readings:
             await migrate_readings(dry_run=args.dry_run, limit=args.limit)
+        if args.all or args.feedback:
+            await migrate_feedback(dry_run=args.dry_run, limit=args.limit)
 
         print("\n✓ 마이그레이션 완료!")
 

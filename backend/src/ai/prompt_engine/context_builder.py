@@ -57,8 +57,8 @@ TASK 참조:
     #     "reversed_meaning": "무모함을 나타냅니다."
     # }
 """
-from typing import Dict, Any, List, Optional
-from src.models import Card, ArcanaType, Suit
+from typing import Dict, Any, List, Optional, Union
+from src.models import ArcanaType, Suit
 from src.core.card_shuffle import DrawnCard, Orientation
 
 
@@ -105,7 +105,7 @@ class ContextBuilder:
         return ContextBuilder.ORIENTATION_KOREAN.get(orientation, orientation)
 
     @staticmethod
-    def get_arcana_korean(arcana: ArcanaType) -> str:
+    def get_arcana_korean(arcana: Union[ArcanaType, str]) -> str:
         """
         아르카나 타입을 한국어로 변환
 
@@ -115,10 +115,17 @@ class ContextBuilder:
         Returns:
             한국어 아르카나 타입 ("메이저 아르카나" 또는 "마이너 아르카나")
         """
-        return ContextBuilder.ARCANA_KOREAN.get(arcana, str(arcana))
+        if isinstance(arcana, str):
+            try:
+                arcana_enum = ArcanaType(arcana)
+            except ValueError:
+                return arcana
+        else:
+            arcana_enum = arcana
+        return ContextBuilder.ARCANA_KOREAN.get(arcana_enum, str(arcana_enum))
 
     @staticmethod
-    def get_suit_korean(suit: Optional[Suit]) -> Optional[str]:
+    def get_suit_korean(suit: Optional[Union[Suit, str]]) -> Optional[str]:
         """
         수트를 한국어로 변환
 
@@ -130,7 +137,14 @@ class ContextBuilder:
         """
         if suit is None:
             return None
-        return ContextBuilder.SUIT_KOREAN.get(suit, str(suit))
+        if isinstance(suit, str):
+            try:
+                suit_enum = Suit(suit)
+            except ValueError:
+                return suit
+        else:
+            suit_enum = suit
+        return ContextBuilder.SUIT_KOREAN.get(suit_enum, str(suit_enum))
 
     @staticmethod
     def build_card_context(drawn_card: DrawnCard) -> Dict[str, Any]:
@@ -160,24 +174,25 @@ class ContextBuilder:
 
         # 방향에 따라 적절한 키워드 선택
         if orientation == "upright":
-            keywords = card.keywords_upright if card.keywords_upright else []
+            keywords = card.keywords_upright if getattr(card, "keywords_upright", None) else []
         else:
-            keywords = card.keywords_reversed if card.keywords_reversed else []
+            keywords = card.keywords_reversed if getattr(card, "keywords_reversed", None) else []
 
         context = {
             "name": card.name,
             "orientation": orientation,
             "orientation_korean": ContextBuilder.get_orientation_korean(orientation),
-            "arcana_korean": ContextBuilder.get_arcana_korean(card.arcana_type),
-            "number": card.number,
+            "arcana_korean": ContextBuilder.get_arcana_korean(getattr(card, "arcana_type", None)),
+            "number": getattr(card, "number", None),
             "keywords": keywords,
-            "upright_meaning": card.meaning_upright,
-            "reversed_meaning": card.meaning_reversed,
+            "upright_meaning": getattr(card, "meaning_upright", ""),
+            "reversed_meaning": getattr(card, "meaning_reversed", ""),
         }
 
         # 수트 정보 추가 (마이너 아르카나만 해당)
-        if card.suit:
-            context["suit_korean"] = ContextBuilder.get_suit_korean(card.suit)
+        suit_value = getattr(card, "suit", None)
+        if suit_value:
+            context["suit_korean"] = ContextBuilder.get_suit_korean(suit_value)
         else:
             context["suit_korean"] = None
 

@@ -1,40 +1,45 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { ReadingResponse } from '@/types/reading';
-import { readingAPI } from '@/lib/api';
-import TarotCard from '@/components/TarotCard';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import TarotCard from '@/components/TarotCard';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { readingAPI } from '@/lib/api';
+import type { ReadingResponse } from '@/types/reading';
 
 const SPREAD_TYPE_LABELS: Record<string, string> = {
-  'one_card': '원카드 리딩',
-  'three_card_past_present_future': '쓰리카드 리딩 - 과거/현재/미래',
-  'three_card_situation_action_outcome': '쓰리카드 리딩 - 상황/행동/결과',
+  one_card: '원카드 리딩',
+  three_card_past_present_future: '쓰리카드 리딩 - 과거/현재/미래',
+  three_card_situation_action_outcome: '쓰리카드 리딩 - 상황/행동/결과',
 };
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+}
 
 function ReadingDetailPageContent() {
   const router = useRouter();
-  const params = useParams();
-  const readingId = params.id as string;
+  const searchParams = useSearchParams();
+  const readingId = searchParams.get('id');
 
   const [reading, setReading] = useState<ReadingResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (readingId) {
-      fetchReading();
-    }
-  }, [readingId]);
-
-  const fetchReading = async () => {
+  async function fetchReading(id: string) {
     setLoading(true);
     setError(null);
 
     try {
-      const data = await readingAPI.getReading(readingId);
+      const data = await readingAPI.getReading(id);
       setReading(data);
     } catch (err) {
       console.error('Failed to fetch reading:', err);
@@ -42,23 +47,22 @@ function ReadingDetailPageContent() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date);
-  };
+  useEffect(() => {
+    if (!readingId) {
+      setReading(null);
+      setLoading(false);
+      setError('유효한 리딩 ID를 찾을 수 없습니다.');
+      return;
+    }
+
+    fetchReading(readingId);
+  }, [readingId]);
 
   return (
     <main className="min-h-screen p-8 bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="mb-8 text-center">
           <button
             onClick={() => router.push('/history')}
@@ -68,7 +72,6 @@ function ReadingDetailPageContent() {
           </button>
         </div>
 
-        {/* Loading State */}
         {loading && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-12 text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-600 mx-auto mb-4"></div>
@@ -76,13 +79,12 @@ function ReadingDetailPageContent() {
           </div>
         )}
 
-        {/* Error State */}
         {error && !loading && (
           <div className="bg-red-50 dark:bg-red-900/20 rounded-lg shadow-lg p-6">
             <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
             <div className="flex gap-4">
               <button
-                onClick={fetchReading}
+                onClick={() => (readingId ? fetchReading(readingId) : router.push('/history'))}
                 className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
               >
                 다시 시도
@@ -97,14 +99,12 @@ function ReadingDetailPageContent() {
           </div>
         )}
 
-        {/* Reading Detail */}
         {reading && !loading && !error && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-8"
           >
-            {/* Spread Type */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 {SPREAD_TYPE_LABELS[reading.spread_type] || reading.spread_type}
@@ -114,26 +114,16 @@ function ReadingDetailPageContent() {
               </p>
             </div>
 
-            {/* Question */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <p className="text-sm text-purple-600 dark:text-purple-400 mb-1">
-                당신의 질문
-              </p>
-              <p className="text-gray-900 dark:text-white text-lg font-medium">
-                {reading.question}
-              </p>
+              <p className="text-sm text-purple-600 dark:text-purple-400 mb-1">당신의 질문</p>
+              <p className="text-gray-900 dark:text-white text-lg font-medium">{reading.question}</p>
             </div>
 
-            {/* Summary */}
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg shadow-lg p-6">
-              <p className="text-white text-xl font-semibold text-center">
-                {reading.summary}
-              </p>
+              <p className="text-white text-xl font-semibold text-center">{reading.summary}</p>
             </div>
 
-            {/* Cards Display - One Card or Three Card */}
             {reading.cards.length === 1 ? (
-              /* One Card Layout */
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
                 <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 text-center">
                   {reading.cards[0].card.name_ko}
@@ -145,34 +135,28 @@ function ReadingDetailPageContent() {
                 <div className="flex flex-col items-center gap-6">
                   <TarotCard
                     card={reading.cards[0].card}
-                    isRevealed={true}
+                    isRevealed
                     isReversed={reading.cards[0].orientation === 'reversed'}
                     size="large"
                   />
 
                   <div className="max-w-2xl w-full">
                     <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 mb-6">
-                      <h4 className="font-semibold text-purple-900 dark:text-purple-200 mb-2">
-                        💡 핵심 메시지
-                      </h4>
+                      <h4 className="font-semibold text-purple-900 dark:text-purple-200 mb-2">💡 핵심 메시지</h4>
                       <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
                         {reading.cards[0].key_message}
                       </p>
                     </div>
 
                     <div className="mb-6">
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
-                        🔮 AI 카드 해석
-                      </h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-3">🔮 AI 카드 해석</h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
                         {reading.cards[0].interpretation}
                       </p>
                     </div>
 
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
-                        🏷️ 키워드
-                      </h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-3">🏷️ 키워드</h4>
                       <div className="flex flex-wrap gap-2">
                         {(reading.cards[0].orientation === 'reversed'
                           ? reading.cards[0].card.keywords_reversed
@@ -191,7 +175,6 @@ function ReadingDetailPageContent() {
                 </div>
               </div>
             ) : (
-              /* Three Card Layout */
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
                 <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8 text-center">
                   당신의 타임라인
@@ -217,7 +200,7 @@ function ReadingDetailPageContent() {
 
                       <TarotCard
                         card={cardData.card}
-                        isRevealed={true}
+                        isRevealed
                         isReversed={cardData.orientation === 'reversed'}
                         size="medium"
                       />
@@ -273,7 +256,6 @@ function ReadingDetailPageContent() {
               </div>
             )}
 
-            {/* Card Relationships */}
             {reading.card_relationships && (
               <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg shadow-lg p-6">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
@@ -285,63 +267,47 @@ function ReadingDetailPageContent() {
               </div>
             )}
 
-            {/* Overall Reading */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                📖 종합 리딩
-              </h3>
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">📖 종합 리딩</h3>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
                 {reading.overall_reading}
               </p>
             </div>
 
-            {/* Advice */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-                💬 조언
-              </h3>
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">💬 조언</h3>
 
               <div className="space-y-4">
                 <div className="border-l-4 border-purple-500 pl-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                    즉시 실천할 행동
-                  </h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">즉시 실천할 행동</h4>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {reading.advice.immediate_action}
                   </p>
                 </div>
 
                 <div className="border-l-4 border-indigo-500 pl-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                    단기 목표
-                  </h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">단기 목표</h4>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {reading.advice.short_term}
                   </p>
                 </div>
 
                 <div className="border-l-4 border-blue-500 pl-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                    장기 전망
-                  </h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">장기 전망</h4>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {reading.advice.long_term}
                   </p>
                 </div>
 
                 <div className="border-l-4 border-green-500 pl-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                    마음가짐
-                  </h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">마음가짐</h4>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {reading.advice.mindset}
                   </p>
                 </div>
 
                 <div className="border-l-4 border-yellow-500 pl-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                    주의사항
-                  </h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">주의사항</h4>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {reading.advice.cautions}
                   </p>
@@ -349,7 +315,6 @@ function ReadingDetailPageContent() {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex gap-4">
               <button
                 onClick={() => router.push('/history')}
