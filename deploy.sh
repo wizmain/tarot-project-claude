@@ -43,6 +43,36 @@ if ! command -v gcloud &> /dev/null; then
     exit 1
 fi
 
+# AI Provider 환경 변수 확인
+if [ -z "$OPENAI_API_KEY" ]; then
+    echo -e "${RED}❌ OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.${NC}"
+    echo "  export OPENAI_API_KEY=sk-..."
+    exit 1
+fi
+
+if [ -z "$ANTHROPIC_API_KEY" ]; then
+    echo -e "${RED}❌ ANTHROPIC_API_KEY 환경 변수가 설정되지 않았습니다.${NC}"
+    echo "  export ANTHROPIC_API_KEY=sk-ant-..."
+    exit 1
+fi
+
+# Cloud Run 환경 변수 구성
+GCLOUD_ENV_VARS=(
+  "AUTH_PRIMARY_PROVIDER=firebase"
+  "FIREBASE_CREDENTIALS_PATH=/app/firebase-service-account.json"
+  "FIREBASE_API_KEY=${FIREBASE_WEB_API_KEY:-}"
+  "DATABASE_PROVIDER=${DATABASE_PROVIDER:-firestore}"
+  "OPENAI_API_KEY=${OPENAI_API_KEY}"
+  "OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}"
+  "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}"
+  "ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-3-5-sonnet-20241022}"
+)
+
+GCLOUD_ENV_FLAGS=()
+for env_var in "${GCLOUD_ENV_VARS[@]}"; do
+  GCLOUD_ENV_FLAGS+=("--set-env-vars" "$env_var")
+done
+
 # Cloud Run에 배포
 gcloud run deploy $BACKEND_SERVICE \
   --source . \
@@ -55,7 +85,7 @@ gcloud run deploy $BACKEND_SERVICE \
   --min-instances 0 \
   --max-instances 10 \
   --timeout 300 \
-  --set-env-vars AUTH_PRIMARY_PROVIDER=firebase,FIREBASE_CREDENTIALS_PATH=/app/firebase-service-account.json,FIREBASE_API_KEY=${FIREBASE_WEB_API_KEY:-}
+  "${GCLOUD_ENV_FLAGS[@]}"
 
 # Backend URL 가져오기
 BACKEND_URL=$(gcloud run services describe $BACKEND_SERVICE \
