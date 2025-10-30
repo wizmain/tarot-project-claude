@@ -55,8 +55,8 @@ class Settings(BaseSettings):
 
     # AI Settings
     DEFAULT_AI_PROVIDER: str = "claude"  # openai, claude
-    OPENAI_MODEL: str = "gpt-4-turbo-preview"
-    ANTHROPIC_MODEL: str = "claude-sonnet-4-5-20250929"
+    OPENAI_MODEL: str = "gpt-4o-mini"
+    ANTHROPIC_MODEL: str = "claude-3-haiku-20240307"
     AI_PROVIDER_PRIORITY: str = "claude,openai"
     AI_PROVIDER_TIMEOUT: int = 60  # seconds per provider
     AI_REQUEST_TIMEOUT: int = 180  # seconds total request timeout
