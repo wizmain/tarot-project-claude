@@ -7,7 +7,7 @@ import { config } from '@/config/env';
 
 interface CardSelectorProps {
   cardCount: number;
-  onCardsSelected: (cards: Card[], reversedStates: boolean[]) => void;
+  onCardsSelected: (cards: Card[], reversedStates: boolean[]) => void | Promise<void>;
   disabled?: boolean;
 }
 
@@ -20,6 +20,9 @@ export default function CardSelector({
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasConfirmed, setHasConfirmed] = useState(false);
+
+  const isInteractionDisabled = disabled || hasConfirmed;
 
   // Fetch all cards on mount
   useEffect(() => {
@@ -59,7 +62,7 @@ export default function CardSelector({
   };
 
   const handleCardClick = (cardId: number) => {
-    if (disabled) return;
+    if (isInteractionDisabled) return;
 
     setSelectedCards((prev) => {
       // If already selected, remove it
@@ -75,8 +78,8 @@ export default function CardSelector({
     });
   };
 
-  const handleConfirm = () => {
-    if (selectedCards.length !== cardCount) return;
+  const handleConfirm = async () => {
+    if (selectedCards.length !== cardCount || isInteractionDisabled) return;
 
     const selected = selectedCards
       .map((id) => allCards.find((card) => card.id === id))
@@ -85,11 +88,20 @@ export default function CardSelector({
     // Randomly determine if each card is reversed (30% chance)
     const reversedStates = selected.map(() => Math.random() < 0.3);
 
-    onCardsSelected(selected, reversedStates);
+    setHasConfirmed(true);
+
+    try {
+      await onCardsSelected(selected, reversedStates);
+    } catch (err) {
+      // 실패 시 다시 선택할 수 있도록 상태를 복구한다.
+      console.error('카드 선택 처리 중 오류:', err);
+      setHasConfirmed(false);
+    }
   };
 
   const handleReset = () => {
     setSelectedCards([]);
+    setHasConfirmed(false);
   };
 
   if (loading) {
@@ -149,7 +161,7 @@ export default function CardSelector({
                         ? 'ring-4 ring-purple-500 scale-105 shadow-2xl'
                         : 'hover:scale-105 hover:shadow-lg'
                     }
-                    ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                    ${isInteractionDisabled ? 'opacity-50 cursor-not-allowed' : ''}
                   `}
                 >
                   {/* Card Image */}
@@ -202,9 +214,9 @@ export default function CardSelector({
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleReset}
-          disabled={disabled || selectedCards.length === 0}
+          disabled={isInteractionDisabled || selectedCards.length === 0}
           className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-            disabled || selectedCards.length === 0
+            isInteractionDisabled || selectedCards.length === 0
               ? 'bg-gray-300 cursor-not-allowed text-gray-500'
               : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white'
           }`}
@@ -216,9 +228,9 @@ export default function CardSelector({
           whileHover={{ scale: selectedCards.length === cardCount ? 1.05 : 1 }}
           whileTap={{ scale: selectedCards.length === cardCount ? 0.95 : 1 }}
           onClick={handleConfirm}
-          disabled={disabled || selectedCards.length !== cardCount}
+          disabled={isInteractionDisabled || selectedCards.length !== cardCount}
           className={`px-8 py-3 rounded-lg font-semibold text-lg shadow-lg transition-all ${
-            disabled || selectedCards.length !== cardCount
+            isInteractionDisabled || selectedCards.length !== cardCount
               ? 'bg-gray-400 cursor-not-allowed text-gray-700'
               : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white'
           }`}

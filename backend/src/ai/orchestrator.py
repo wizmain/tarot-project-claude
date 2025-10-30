@@ -34,6 +34,7 @@ import logging
 from src.ai.provider import AIProvider
 from src.ai.models import (
     AIResponse,
+    OrchestratorResponse,
     AIProviderError,
     AIRateLimitError,
     AIAuthenticationError,
@@ -95,7 +96,7 @@ class AIOrchestrator:
         config: Optional[GenerationConfig] = None,
         model: Optional[str] = None,
         **kwargs
-    ) -> AIResponse:
+    ) -> OrchestratorResponse:
         """
         Generate text with automatic fallback
 
@@ -111,13 +112,14 @@ class AIOrchestrator:
             **kwargs: Additional parameters
 
         Returns:
-            AIResponse from first successful provider
+            OrchestratorResponse with successful response and all attempts
 
         Raises:
             AIProviderError: If all providers fail
         """
         start_time = time.time()
         errors: List[Dict[str, Any]] = []
+        all_attempts: List[AIResponse] = []
 
         # Try primary provider first
         logger.info(f"[Orchestrator] Attempting primary provider: {self.primary_provider.provider_name}")
@@ -132,13 +134,20 @@ class AIOrchestrator:
                 is_primary=True,
                 **kwargs
             )
+            all_attempts.append(response)
 
             elapsed = int((time.time() - start_time) * 1000)
             logger.info(
                 f"[Orchestrator] ✓ Primary provider succeeded "
                 f"({self.primary_provider.provider_name}) in {elapsed}ms"
             )
-            return response
+
+            total_cost = sum(attempt.estimated_cost or 0.0 for attempt in all_attempts)
+            return OrchestratorResponse(
+                response=response,
+                all_attempts=all_attempts,
+                total_cost=total_cost
+            )
 
         except Exception as e:
             error_info = {
@@ -171,13 +180,20 @@ class AIOrchestrator:
                     is_primary=False,
                     **kwargs
                 )
+                all_attempts.append(response)
 
                 elapsed = int((time.time() - start_time) * 1000)
                 logger.info(
                     f"[Orchestrator] ✓ Fallback provider succeeded "
                     f"({fallback_provider.provider_name}) in {elapsed}ms"
                 )
-                return response
+
+                total_cost = sum(attempt.estimated_cost or 0.0 for attempt in all_attempts)
+                return OrchestratorResponse(
+                    response=response,
+                    all_attempts=all_attempts,
+                    total_cost=total_cost
+                )
 
             except Exception as e:
                 error_info = {

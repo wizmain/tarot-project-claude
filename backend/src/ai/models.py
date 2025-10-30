@@ -3,7 +3,7 @@ AI Provider Data Models
 
 Defines data structures used across all AI providers
 """
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from datetime import datetime
 from pydantic import BaseModel, Field
 
@@ -135,6 +135,44 @@ class TokenUsage(BaseModel):
         Estimate cost in USD (will be overridden by provider-specific implementations)
         """
         return 0.0
+
+
+class OrchestratorResponse(BaseModel):
+    """
+    Response from AIOrchestrator including the successful response and all attempts
+    """
+    response: AIResponse = Field(..., description="Successful AI response")
+    all_attempts: List[AIResponse] = Field(default=[], description="All LLM attempts (including failures)")
+    total_cost: float = Field(0.0, description="Total estimated cost across all attempts")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "response": {
+                    "content": "The Fool card represents...",
+                    "model": "gpt-4-turbo-preview",
+                    "provider": "openai",
+                    "prompt_tokens": 450,
+                    "completion_tokens": 800,
+                    "total_tokens": 1250,
+                    "estimated_cost": 0.0325,
+                    "latency_ms": 3250
+                },
+                "all_attempts": [
+                    {
+                        "content": "The Fool card represents...",
+                        "model": "gpt-4-turbo-preview",
+                        "provider": "openai",
+                        "prompt_tokens": 450,
+                        "completion_tokens": 800,
+                        "total_tokens": 1250,
+                        "estimated_cost": 0.0325,
+                        "latency_ms": 3250
+                    }
+                ],
+                "total_cost": 0.0325
+            }
+        }
 
 
 class GenerationConfig(BaseModel):

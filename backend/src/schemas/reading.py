@@ -50,6 +50,42 @@ from pydantic import BaseModel, Field
 from src.schemas.card import CardResponse
 
 
+class LLMUsageResponse(BaseModel):
+    """
+    LLM 사용 기록 응답 스키마
+
+    리딩 생성 시 사용된 LLM의 메트릭 정보를 담습니다.
+    """
+    id: str = Field(..., description="로그 ID")
+    reading_id: str = Field(..., description="연관된 리딩 ID")
+    provider: str = Field(..., description="AI 제공자 (openai, anthropic)")
+    model: str = Field(..., description="사용된 모델명")
+    prompt_tokens: int = Field(..., description="입력 토큰 수")
+    completion_tokens: int = Field(..., description="출력 토큰 수")
+    total_tokens: int = Field(..., description="총 토큰 수")
+    estimated_cost: float = Field(..., description="추정 비용 (USD)")
+    latency_seconds: float = Field(..., description="소요 시간 (초)")
+    purpose: str = Field(default="main_reading", description="호출 목적 (main_reading, fallback, retry)")
+    created_at: Optional[datetime] = Field(None, description="생성 시각")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "id": "log_abc123",
+                "reading_id": "reading_xyz789",
+                "provider": "openai",
+                "model": "gpt-4-turbo-preview",
+                "prompt_tokens": 450,
+                "completion_tokens": 800,
+                "total_tokens": 1250,
+                "estimated_cost": 0.0325,
+                "latency_seconds": 3.25,
+                "purpose": "main_reading",
+                "created_at": "2025-10-29T10:30:00Z"
+            }
+        }
+
+
 class ReadingRequest(BaseModel):
     """
     타로 리딩 생성 요청 스키마
@@ -125,6 +161,7 @@ class ReadingResponse(BaseModel):
     overall_reading: str = Field(..., description="AI가 생성한 종합 리딩")
     advice: Dict[str, str] = Field(..., description="조언 객체")
     summary: str = Field(..., description="한 줄 요약")
+    llm_usage: List[LLMUsageResponse] = Field(default=[], description="LLM 사용 기록")
     created_at: Optional[datetime] = Field(None, description="생성 시각")
     updated_at: Optional[datetime] = Field(None, description="수정 시각")
 

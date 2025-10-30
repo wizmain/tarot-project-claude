@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Card } from '@/types';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -78,10 +79,13 @@ export default function TarotCard({
               {/* Card Image Placeholder */}
               <div className="flex-1 bg-gradient-to-br from-purple-100 to-indigo-100 rounded flex items-center justify-center mb-2 relative overflow-hidden">
                 {card.image_url ? (
-                  <img
+                  <Image
                     src={card.image_url}
                     alt={card.name}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="100%"
+                    className="object-cover"
+                    priority={size !== 'large'}
                   />
                 ) : (
                   <div className="text-center p-2">

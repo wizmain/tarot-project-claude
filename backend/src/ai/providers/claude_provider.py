@@ -3,6 +3,7 @@ Anthropic Claude Provider Implementation
 
 Implements AIProvider interface for Anthropic's Claude models
 """
+import logging
 import time
 from typing import List, Optional, Dict, Any
 from anthropic import AsyncAnthropic, APIError, RateLimitError, AuthenticationError as AnthropicAuthError, APITimeoutError
@@ -18,6 +19,8 @@ from src.ai.models import (
     AIServiceUnavailableError,
     GenerationConfig,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ClaudeProvider(AIProvider):
@@ -132,12 +135,13 @@ class ClaudeProvider(AIProvider):
         messages = [{"role": "user", "content": prompt}]
 
         # Build request parameters
+        # Note: Claude Sonnet 4.5 does not support both temperature and top_p
+        # We only use temperature for better control
         request_params = {
             "model": model,
             "messages": messages,
             "max_tokens": config.max_tokens,
             "temperature": config.temperature,
-            "top_p": config.top_p,
         }
 
         # Add system prompt if provided
@@ -152,6 +156,13 @@ class ClaudeProvider(AIProvider):
         request_params.update(kwargs)
 
         try:
+            logger.info(
+                "[Anthropic] Sending request model=%s max_tokens=%s temperature=%.2f timeout=%ss",
+                model,
+                config.max_tokens,
+                config.temperature,
+                self.timeout,
+            )
             # Call Anthropic API
             response = await self.client.messages.create(**request_params)
 

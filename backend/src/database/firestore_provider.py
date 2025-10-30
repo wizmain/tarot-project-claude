@@ -16,6 +16,7 @@ from .provider import (
     Card as CardDTO,
     Reading as ReadingDTO,
     Feedback as FeedbackDTO,
+    LLMUsageLog as LLMUsageLogDTO,
 )
 
 
@@ -419,6 +420,78 @@ class FirestoreProvider(DatabaseProvider):
         # Delete reading document
         doc_ref.delete()
         return True
+
+    # ==================== LLM Usage Log Operations ====================
+
+    async def create_llm_usage_log(self, log_data: Dict[str, Any]) -> LLMUsageLogDTO:
+        """LLM 사용 로그 생성 (Firestore는 readings 문서의 llm_usage 배열에 추가)"""
+        import uuid
+        from datetime import datetime, timezone
+
+        reading_id = log_data['reading_id']
+        log_id = log_data.get('id') or str(uuid.uuid4())
+
+        log_entry = {
+            'id': log_id,
+            'reading_id': reading_id,
+            'provider': log_data['provider'],
+            'model': log_data['model'],
+            'prompt_tokens': log_data['prompt_tokens'],
+            'completion_tokens': log_data['completion_tokens'],
+            'total_tokens': log_data['total_tokens'],
+            'estimated_cost': log_data['estimated_cost'],
+            'latency_seconds': log_data['latency_seconds'],
+            'purpose': log_data.get('purpose', 'main_reading'),
+            'created_at': log_data.get('created_at') or datetime.now(timezone.utc),
+        }
+
+        # readings 문서의 llm_usage 배열에 추가
+        doc_ref = self.readings_collection.document(reading_id)
+        doc_ref.update({
+            'llm_usage': firestore.ArrayUnion([log_entry])
+        })
+
+        return LLMUsageLogDTO(
+            id=log_id,
+            reading_id=reading_id,
+            provider=log_entry['provider'],
+            model=log_entry['model'],
+            prompt_tokens=log_entry['prompt_tokens'],
+            completion_tokens=log_entry['completion_tokens'],
+            total_tokens=log_entry['total_tokens'],
+            estimated_cost=log_entry['estimated_cost'],
+            latency_seconds=log_entry['latency_seconds'],
+            purpose=log_entry['purpose'],
+            created_at=log_entry['created_at'],
+        )
+
+    async def get_llm_usage_logs(self, reading_id: str) -> List[LLMUsageLogDTO]:
+        """특정 리딩의 LLM 사용 로그 조회"""
+        doc_ref = self.readings_collection.document(reading_id)
+        doc = doc_ref.get()
+
+        if not doc.exists:
+            return []
+
+        data = doc.to_dict()
+        llm_usage = data.get('llm_usage', [])
+
+        return [
+            LLMUsageLogDTO(
+                id=log['id'],
+                reading_id=log['reading_id'],
+                provider=log['provider'],
+                model=log['model'],
+                prompt_tokens=log['prompt_tokens'],
+                completion_tokens=log['completion_tokens'],
+                total_tokens=log['total_tokens'],
+                estimated_cost=log['estimated_cost'],
+                latency_seconds=log['latency_seconds'],
+                purpose=log.get('purpose', 'main_reading'),
+                created_at=log.get('created_at'),
+            )
+            for log in llm_usage
+        ]
 
     # ==================== Feedback Operations ====================
 

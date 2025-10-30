@@ -101,6 +101,7 @@ class ResponseParser:
             raise ParseError("AI 응답이 비어있습니다")
 
         logger.info(f"[ResponseParser] 응답 파싱 시작 (길이: {len(response_text)}자)")
+        logger.debug("[ResponseParser] 원본 응답:\n%s", response_text)
 
         # 1. JSON 추출
         try:

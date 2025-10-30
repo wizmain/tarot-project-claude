@@ -115,8 +115,12 @@ def get_orchestrator() -> AIOrchestrator:
         if not providers:
             raise ValueError("No AI providers configured")
 
-        _orchestrator = AIOrchestrator(providers=providers, provider_timeout=30)
-        logger.info("AIOrchestrator initialized")
+        timeout = getattr(settings, "AI_PROVIDER_TIMEOUT", 60)
+        _orchestrator = AIOrchestrator(
+            providers=providers,
+            provider_timeout=timeout,
+        )
+        logger.info(f"AIOrchestrator initialized with timeout={timeout}s")
 
     return _orchestrator
 
@@ -207,12 +211,31 @@ async def _build_reading_response(
     provider: DatabaseProvider,
 ) -> ReadingResponse:
     """Reading DTO를 API 응답으로 변환"""
+    from src.schemas.reading import LLMUsageResponse
+
     cards: List[ReadingCardResponse] = []
     for index, card_entry in enumerate(reading.cards or []):
         cards.append(await _hydrate_card_entry(card_entry, reading.id, index, provider))
 
     created_at = _parse_datetime(reading.created_at) or datetime.utcnow()
     updated_at = _parse_datetime(reading.updated_at) or created_at
+
+    # Build LLM usage response objects
+    llm_usage_responses = []
+    for log_entry in reading.llm_usage:
+        llm_usage_responses.append(LLMUsageResponse(
+            id=log_entry.get("id", ""),
+            reading_id=log_entry.get("reading_id", reading.id),
+            provider=log_entry.get("provider", ""),
+            model=log_entry.get("model", ""),
+            prompt_tokens=log_entry.get("prompt_tokens", 0),
+            completion_tokens=log_entry.get("completion_tokens", 0),
+            total_tokens=log_entry.get("total_tokens", 0),
+            estimated_cost=log_entry.get("estimated_cost", 0.0),
+            latency_seconds=log_entry.get("latency_seconds", 0.0),
+            purpose=log_entry.get("purpose", "main_reading"),
+            created_at=_parse_datetime(log_entry.get("created_at")),
+        ))
 
     return ReadingResponse(
         id=reading.id,
@@ -225,6 +248,7 @@ async def _build_reading_response(
         overall_reading=reading.overall_reading,
         advice=reading.advice,
         summary=reading.summary,
+        llm_usage=llm_usage_responses,
         created_at=created_at,
         updated_at=updated_at,
     )
@@ -321,9 +345,9 @@ async def create_reading(
         orchestrator = get_orchestrator()
         # 다중 카드 스프레드에서는 응답이 길어져 타임아웃이 발생하기 쉬우므로
         # 카드 수에 맞춰 토큰 한도를 조정해 응답 시간을 단축한다.
-        max_tokens = 900 if card_count == 1 else 1300
+        max_tokens = 900 if card_count == 1 else 2200
 
-        ai_response = await orchestrator.generate(
+        orchestrator_response = await orchestrator.generate(
             prompt=full_prompt,
             system_prompt=system_prompt,
             config=GenerationConfig(
@@ -332,6 +356,8 @@ async def create_reading(
             ),
         )
 
+        # Extract successful response
+        ai_response = orchestrator_response.response
         raw_response = ai_response.content
         parsed_response = ResponseParser.parse(raw_response)
 
@@ -353,9 +379,30 @@ async def create_reading(
         }
 
         reading_dto = await db_provider.create_reading(reading_data)
+
+        # Save LLM usage logs for all attempts
+        for idx, attempt in enumerate(orchestrator_response.all_attempts):
+            purpose = "main_reading" if idx == len(orchestrator_response.all_attempts) - 1 else "retry"
+            await db_provider.create_llm_usage_log({
+                "reading_id": reading_dto.id,
+                "provider": attempt.provider,
+                "model": attempt.model,
+                "prompt_tokens": attempt.prompt_tokens or 0,
+                "completion_tokens": attempt.completion_tokens or 0,
+                "total_tokens": attempt.total_tokens or 0,
+                "estimated_cost": attempt.estimated_cost or 0.0,
+                "latency_seconds": (attempt.latency_ms or 0) / 1000.0,
+                "purpose": purpose,
+            })
+
         reading_response = await _build_reading_response(reading_dto, db_provider)
 
-        logger.info("[CreateReading] 리딩 생성 성공: %s", reading_response.id)
+        logger.info(
+            "[CreateReading] 리딩 생성 성공: %s (LLM attempts: %d, Total cost: $%.4f)",
+            reading_response.id,
+            len(orchestrator_response.all_attempts),
+            orchestrator_response.total_cost
+        )
         return reading_response
 
     except (ParseError, JSONExtractionError, ValidationError) as e:

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, ArcanaType, Suit } from '@/types';
 import { cardAPI } from '@/lib/api';
@@ -23,11 +23,7 @@ export default function CardsPage() {
 
   const pageSize = 12;
 
-  useEffect(() => {
-    loadCards();
-  }, [page, arcanaFilter, suitFilter, searchQuery]);
-
-  const loadCards = async () => {
+  const loadCards = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -45,7 +41,11 @@ export default function CardsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, pageSize, arcanaFilter, suitFilter, searchQuery]);
+
+  useEffect(() => {
+    loadCards();
+  }, [loadCards]);
 
   const resetFilters = () => {
     setArcanaFilter(undefined);

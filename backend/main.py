@@ -31,7 +31,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.core.config import settings
 from src.core.logging import setup_logging, get_logger
 from src.core.firebase_admin import initialize_firebase_admin
-from src.api.routes import cards_router, readings_router, auth_router, feedback_router, admin_router
+from src.api.routes import cards_router, readings_router, auth_router, feedback_router, admin_router, analytics_router
 
 # 로깅 시스템 초기화
 # 애플리케이션 시작 시 로그 설정을 먼저 수행하여
@@ -89,6 +89,10 @@ logger.info("Feedback routes registered")
 app.include_router(admin_router)
 logger.info("Admin routes registered")
 
+# /api/v1/analytics 경로로 분석 관련 API 엔드포인트 추가
+app.include_router(analytics_router)
+logger.info("Analytics routes registered")
+
 
 @app.get("/")
 async def root():
@@ -129,6 +133,7 @@ async def api_status():
             "readings": "available",  # TASK-027: 원카드 리딩 구현 완료
             "auth": "available",  # 인증 및 회원가입 기능
             "feedback": "available",  # TASK-036: 피드백 제출 API 구현 완료
+            "analytics": "available",  # LLM 사용 기록 분석 API
             "ai_providers": ["openai", "claude"],
             "auth_providers": ["custom_jwt", "firebase", "auth0"],
         }

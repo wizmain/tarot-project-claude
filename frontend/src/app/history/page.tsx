@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { ReadingResponse } from '@/types/reading';
 import { readingAPI } from '@/lib/api';
@@ -24,11 +24,7 @@ function HistoryPageContent() {
 
   const pageSize = 10;
 
-  useEffect(() => {
-    fetchReadings();
-  }, [page, selectedSpread]);
-
-  const fetchReadings = async () => {
+  const fetchReadings = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -47,7 +43,11 @@ function HistoryPageContent() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, pageSize, selectedSpread]);
+
+  useEffect(() => {
+    fetchReadings();
+  }, [fetchReadings]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

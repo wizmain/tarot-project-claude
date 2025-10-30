@@ -145,6 +145,7 @@ function OneCardReadingContent() {
             <CardSelector
               cardCount={spread.cardCount}
               onCardsSelected={handleCardsSelected}
+              disabled={loading}
             />
           </motion.div>
         )}

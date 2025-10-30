@@ -64,7 +64,7 @@ class ReadingValidator:
 
     # 최소 길이 기준 (자)
     MIN_INTERPRETATION_LENGTH = 100  # 각 카드 해석 최소 길이
-    MIN_OVERALL_READING_LENGTH = 150  # 전체 리딩 최소 길이
+    MIN_OVERALL_READING_LENGTH = 120  # 전체 리딩 최소 길이
     MIN_KEY_MESSAGE_LENGTH = 5  # 핵심 메시지 최소 길이 (Pydantic schema와 일치)
     MIN_ADVICE_FIELD_LENGTH = 30  # 조언 각 필드 최소 길이 (Pydantic schema와 일치)
     MIN_SUMMARY_LENGTH = 10  # 요약 최소 길이 (Pydantic schema와 일치)

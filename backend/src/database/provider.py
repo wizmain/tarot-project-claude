@@ -65,6 +65,51 @@ class Card:
         }
 
 
+class LLMUsageLog:
+    """LLM 사용 기록 데이터 모델"""
+    def __init__(
+        self,
+        id: str,
+        reading_id: str,
+        provider: str,
+        model: str,
+        prompt_tokens: int,
+        completion_tokens: int,
+        total_tokens: int,
+        estimated_cost: float,
+        latency_seconds: float,
+        purpose: str = "main_reading",
+        created_at: Optional[datetime] = None,
+    ):
+        self.id = id
+        self.reading_id = reading_id
+        self.provider = provider
+        self.model = model
+        self.prompt_tokens = prompt_tokens
+        self.completion_tokens = completion_tokens
+        self.total_tokens = total_tokens
+        self.estimated_cost = estimated_cost
+        self.latency_seconds = latency_seconds
+        self.purpose = purpose
+        self.created_at = created_at or datetime.utcnow()
+
+    def to_dict(self) -> Dict[str, Any]:
+        """LLM 사용 로그를 딕셔너리로 변환"""
+        return {
+            "id": self.id,
+            "reading_id": self.reading_id,
+            "provider": self.provider,
+            "model": self.model,
+            "prompt_tokens": self.prompt_tokens,
+            "completion_tokens": self.completion_tokens,
+            "total_tokens": self.total_tokens,
+            "estimated_cost": self.estimated_cost,
+            "latency_seconds": self.latency_seconds,
+            "purpose": self.purpose,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
 class Reading:
     """타로 리딩 데이터 모델"""
     def __init__(
@@ -81,6 +126,7 @@ class Reading:
         summary: str,
         created_at: datetime,
         updated_at: Optional[datetime] = None,
+        llm_usage: Optional[List[Dict[str, Any]]] = None,
     ):
         self.id = id
         self.user_id = user_id
@@ -94,6 +140,7 @@ class Reading:
         self.summary = summary
         self.created_at = created_at
         self.updated_at = updated_at
+        self.llm_usage = llm_usage or []
 
     def to_dict(self) -> Dict[str, Any]:
         """리딩 데이터를 API 응답 형식으로 변환"""
@@ -110,6 +157,7 @@ class Reading:
             "summary": self.summary,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "llm_usage": self.llm_usage,
         }
 
 
@@ -252,6 +300,18 @@ class DatabaseProvider(ABC):
     @abstractmethod
     async def delete_reading(self, reading_id: str) -> bool:
         """리딩 삭제"""
+        pass
+
+    # ==================== LLM Usage Log Operations ====================
+
+    @abstractmethod
+    async def create_llm_usage_log(self, log_data: Dict[str, Any]) -> LLMUsageLog:
+        """LLM 사용 로그 생성"""
+        pass
+
+    @abstractmethod
+    async def get_llm_usage_logs(self, reading_id: str) -> List[LLMUsageLog]:
+        """특정 리딩의 LLM 사용 로그 조회"""
         pass
 
     # ==================== Feedback Operations ====================

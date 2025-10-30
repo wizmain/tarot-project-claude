@@ -21,6 +21,7 @@ OpenAI Provider 구현 모듈
 TASK-016: OpenAI Provider 구현
 """
 import time
+import logging
 from typing import List, Optional, Dict, Any
 import tiktoken
 from openai import AsyncOpenAI, OpenAIError, RateLimitError, AuthenticationError as OpenAIAuthError, APITimeoutError
@@ -36,6 +37,8 @@ from src.ai.models import (
     AIServiceUnavailableError,
     GenerationConfig,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class OpenAIProvider(AIProvider):
@@ -159,6 +162,13 @@ class OpenAIProvider(AIProvider):
         messages.append({"role": "user", "content": prompt})
 
         try:
+            logger.info(
+                "[OpenAI] Sending request model=%s max_tokens=%s temperature=%.2f timeout=%ss",
+                model,
+                config.max_tokens,
+                config.temperature,
+                self.timeout,
+            )
             # Call OpenAI API
             response = await self.client.chat.completions.create(
                 model=model,

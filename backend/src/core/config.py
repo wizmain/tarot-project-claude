@@ -54,10 +54,12 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: Optional[str] = None
 
     # AI Settings
-    DEFAULT_AI_PROVIDER: str = "openai"  # openai, claude
+    DEFAULT_AI_PROVIDER: str = "claude"  # openai, claude
     OPENAI_MODEL: str = "gpt-4-turbo-preview"
     ANTHROPIC_MODEL: str = "claude-sonnet-4-5-20250929"
-    AI_PROVIDER_PRIORITY: str = "openai,anthropic"
+    AI_PROVIDER_PRIORITY: str = "claude,openai"
+    AI_PROVIDER_TIMEOUT: int = 60  # seconds per provider
+    AI_REQUEST_TIMEOUT: int = 180  # seconds total request timeout
 
     # Email Configuration (for Custom JWT Provider)
     SMTP_HOST: str = "smtp.gmail.com"
