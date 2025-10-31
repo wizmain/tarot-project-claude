@@ -162,13 +162,18 @@ async def _aggregate_llm_logs(
             stats["by_model"][model]["provider"] = provider_name
 
             # 날짜별 통계
-            created_at = log.get("created_at")
-            if created_at:
-                if hasattr(created_at, "date"):
-                    date_key = created_at.date().isoformat()
+            timestamp = log.get("timestamp")
+            if timestamp:
+                if hasattr(timestamp, "date"):
+                    # datetime 객체
+                    date_key = timestamp.date().isoformat()
+                elif hasattr(timestamp, "timestamp"):
+                    # Firestore Timestamp 객체
+                    dt = datetime.fromtimestamp(timestamp.timestamp(), tz=timezone.utc)
+                    date_key = dt.date().isoformat()
                 else:
-                    # Firestore Timestamp
-                    date_key = created_at.strftime("%Y-%m-%d")
+                    # 문자열로 저장된 경우 (fallback)
+                    date_key = str(timestamp)[:10]
 
                 stats["by_date"][date_key]["total_cost"] += log.get("estimated_cost", 0.0)
                 stats["by_date"][date_key]["total_calls"] += 1
@@ -356,15 +361,32 @@ async def get_recent_logs(
         all_logs = []
         for reading in readings:
             reading_data = reading.to_dict()
-            reading_id = reading_data.get("id")
+            reading_id = reading.id  # Firestore 문서 ID
             question = reading_data.get("question", "")
             llm_usage = reading_data.get("llm_usage", [])
 
             for log in llm_usage:
+                # reading_id가 None이면 건너뛰기 (이전 리딩)
+                log_reading_id = log.get("reading_id", reading_id)
+                if not log_reading_id:
+                    logger.warning(f"[Analytics] Skipping log with no reading_id")
+                    continue
+
+                # timestamp를 datetime으로 변환
+                timestamp = log.get("timestamp")
+                if timestamp and hasattr(timestamp, "timestamp"):
+                    # Firestore Timestamp 객체
+                    log_created_at = datetime.fromtimestamp(timestamp.timestamp(), tz=timezone.utc)
+                elif isinstance(timestamp, datetime):
+                    log_created_at = timestamp
+                else:
+                    # fallback: reading의 created_at 사용
+                    log_created_at = reading_data.get("created_at", datetime.now(timezone.utc))
+
                 all_logs.append(RecentLogEntry(
                     id=log.get("id", ""),
-                    reading_id=log.get("reading_id", reading_id),
-                    created_at=log.get("created_at", datetime.now(timezone.utc)),
+                    reading_id=log_reading_id,
+                    created_at=log_created_at,
                     provider=log.get("provider", ""),
                     model=log.get("model", ""),
                     prompt_tokens=log.get("prompt_tokens", 0),
