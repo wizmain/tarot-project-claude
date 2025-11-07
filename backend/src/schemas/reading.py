@@ -69,7 +69,7 @@ class LLMUsageResponse(BaseModel):
     created_at: Optional[datetime] = Field(None, description="생성 시각")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "id": "log_abc123",
                 "reading_id": "reading_xyz789",
@@ -91,6 +91,10 @@ class ReadingRequest(BaseModel):
     타로 리딩 생성 요청 스키마
 
     클라이언트로부터 받는 리딩 요청 데이터를 검증합니다.
+    
+    Two modes:
+    - User Selection Mode: selected_card_ids가 제공되면 해당 카드 사용
+    - Random Mode: selected_card_ids가 없으면 랜덤으로 카드 선택
     """
     question: str = Field(
         ...,
@@ -117,9 +121,23 @@ class ReadingRequest(BaseModel):
         description="추가 컨텍스트 정보 (최대 1000자)",
         examples=["현재 3년차 개발자이며, 더 큰 회사로 이직을 고민 중입니다."]
     )
+    selected_card_ids: Optional[List[int]] = Field(
+        default=None,
+        description="사용자가 선택한 카드 ID 목록 (User Selection Mode). None이면 랜덤 선택",
+        examples=[[0, 15, 42]],
+        min_length=1,
+        max_length=3
+    )
+    reversed_states: Optional[List[bool]] = Field(
+        default=None,
+        description="카드의 역방향 상태 목록 (selected_card_ids와 함께 사용). None이면 백엔드에서 랜덤 결정",
+        examples=[[False, True, False]],
+        min_length=1,
+        max_length=3
+    )
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "question": "새로운 프로젝트를 시작해야 할까요?",
                 "spread_type": "one_card",
@@ -166,7 +184,7 @@ class ReadingResponse(BaseModel):
     updated_at: Optional[datetime] = Field(None, description="수정 시각")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "id": "reading_123",
                 "user_id": "firebase_uid_abc",
@@ -229,7 +247,7 @@ class ReadingListResponse(BaseModel):
     readings: List[ReadingResponse] = Field(..., description="리딩 목록")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "total": 10,
                 "page": 1,

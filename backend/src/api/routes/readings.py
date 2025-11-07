@@ -29,6 +29,9 @@ from src.ai.prompt_engine.context_builder import ContextBuilder
 from src.ai.prompt_engine.response_parser import ResponseParser
 from src.ai.prompt_engine.reading_validator import ReadingValidator
 from src.ai.prompt_engine.schemas import ParseError, JSONExtractionError, ValidationError
+from src.ai.rag.retriever import Retriever
+from src.ai.rag.context_enricher import ContextEnricher
+from src.ai.provider_loader import load_providers_from_settings, get_default_timeout_from_settings
 from src.api.dependencies.auth import get_current_active_user
 from src.database.factory import get_database_provider
 from src.database.provider import (
@@ -55,74 +58,89 @@ jinja_env = Environment(loader=FileSystemLoader(str(PROMPTS_DIR)))
 
 # AI Orchestrator 초기화 (글로벌, 싱글톤 패턴)
 _orchestrator: Optional[AIOrchestrator] = None
+_retriever: Optional[Retriever] = None
+_context_enricher: Optional[ContextEnricher] = None
 
 
-def get_orchestrator() -> AIOrchestrator:
-    """AI Orchestrator 싱글톤 인스턴스 반환"""
+async def get_orchestrator(db_provider: DatabaseProvider) -> AIOrchestrator:
+    """
+    AI Orchestrator 싱글톤 인스턴스 반환
+    
+    데이터베이스에서 AI Provider 설정을 로드합니다.
+    DB에 설정이 없으면 환경 변수로 폴백합니다.
+    """
     global _orchestrator
+    
     if _orchestrator is None:
-        providers = []
-
-        priority_raw = getattr(settings, "AI_PROVIDER_PRIORITY", "anthropic,openai")
-        provider_order = [
-            provider.strip().lower()
-            for provider in priority_raw.split(",")
-            if provider.strip()
-        ]
-
-        added = set()
-        for provider_name in provider_order:
-            if provider_name == "openai" and settings.OPENAI_API_KEY and "openai" not in added:
-                openai_provider = ProviderFactory.create(
-                    provider_name="openai",
-                    api_key=settings.OPENAI_API_KEY,
-                    default_model=settings.OPENAI_MODEL,
-                )
-                providers.append(openai_provider)
-                added.add("openai")
-                logger.info("OpenAI Provider initialized")
-            elif provider_name == "anthropic" and settings.ANTHROPIC_API_KEY and "anthropic" not in added:
-                anthropic_provider = ProviderFactory.create(
-                    provider_name="anthropic",
-                    api_key=settings.ANTHROPIC_API_KEY,
-                    default_model=settings.ANTHROPIC_MODEL,
-                )
-                providers.append(anthropic_provider)
-                added.add("anthropic")
-                logger.info("Anthropic Provider initialized")
-
-        # Fallback to defaults if none added due to misconfiguration
-        if not providers:
-            if settings.ANTHROPIC_API_KEY:
-                providers.append(
-                    ProviderFactory.create(
-                        provider_name="anthropic",
-                        api_key=settings.ANTHROPIC_API_KEY,
-                        default_model=settings.ANTHROPIC_MODEL,
-                    )
-                )
-                logger.info("Anthropic Provider initialized (default fallback)")
-            if settings.OPENAI_API_KEY:
-                providers.append(
-                    ProviderFactory.create(
-                        provider_name="openai",
-                        api_key=settings.OPENAI_API_KEY,
-                        default_model=settings.OPENAI_MODEL,
-                    )
-                )
-                logger.info("OpenAI Provider initialized (default fallback)")
-
-        if not providers:
-            raise ValueError("No AI providers configured")
-
-        timeout = getattr(settings, "AI_PROVIDER_TIMEOUT", 60)
+        # Load providers from database settings
+        providers = await load_providers_from_settings(
+            db_provider=db_provider,
+            fallback_to_env=True
+        )
+        
+        # Get timeout from settings
+        timeout = await get_default_timeout_from_settings(db_provider)
+        
         _orchestrator = AIOrchestrator(
             providers=providers,
             provider_timeout=timeout,
         )
-        logger.info(f"AIOrchestrator initialized with timeout={timeout}s")
+        logger.info(
+            f"AIOrchestrator initialized with {len(providers)} provider(s) from DB, "
+            f"timeout={timeout}s"
+        )
 
     return _orchestrator
+
+
+def get_retriever() -> Retriever:
+    """RAG Retriever 싱글톤 인스턴스 반환"""
+    global _retriever
+    if _retriever is None:
+        logger.info("Initializing RAG Retriever...")
+        _retriever = Retriever()
+        logger.info("RAG Retriever initialized successfully")
+    return _retriever
+
+
+def get_context_enricher() -> ContextEnricher:
+    """RAG Context Enricher 싱글톤 인스턴스 반환"""
+    global _context_enricher
+    if _context_enricher is None:
+        logger.info("Initializing RAG Context Enricher...")
+        retriever = get_retriever()
+        _context_enricher = ContextEnricher(retriever)
+        logger.info("RAG Context Enricher initialized successfully")
+    return _context_enricher
+
+
+def invalidate_orchestrator_cache() -> None:
+    """
+    AI Orchestrator 캐시를 무효화하여 다음 요청 시 재초기화되도록 합니다.
+    
+    관리자가 AI Provider 설정을 변경한 후 이 함수를 호출하면
+    다음 리딩 요청부터 새로운 설정이 적용됩니다.
+    """
+    global _orchestrator
+    if _orchestrator is not None:
+        logger.info("[CacheInvalidation] Invalidating AI Orchestrator cache")
+        _orchestrator = None
+    else:
+        logger.info("[CacheInvalidation] AI Orchestrator cache is already empty")
+
+
+def invalidate_rag_cache() -> None:
+    """
+    RAG 관련 캐시를 무효화합니다 (Retriever, ContextEnricher).
+    """
+    global _retriever, _context_enricher
+    
+    if _retriever is not None or _context_enricher is not None:
+        logger.info("[CacheInvalidation] Invalidating RAG cache (Retriever, ContextEnricher)")
+        _retriever = None
+        _context_enricher = None
+    else:
+        logger.info("[CacheInvalidation] RAG cache is already empty")
 
 
 def _parse_datetime(value: Optional[Any]) -> Optional[datetime]:
@@ -298,14 +316,94 @@ async def create_reading(
         }
         card_count = card_count_map.get(request.spread_type, 1)
 
-        drawn_cards = await CardShuffleService.draw_cards(
-            count=card_count,
-            provider=db_provider,
+        # Two modes: User Selection vs Random
+        if request.selected_card_ids:
+            # User Selection Mode: Use selected cards
+            logger.info(
+                "[CreateReading] User Selection Mode: %s",
+                request.selected_card_ids
+            )
+            
+            # Validate card count
+            if len(request.selected_card_ids) != card_count:
+                raise ValueError(
+                    f"선택한 카드 수({len(request.selected_card_ids)})가 "
+                    f"필요한 카드 수({card_count})와 일치하지 않습니다."
+                )
+            
+            # Fetch selected cards from database
+            from src.core.card_shuffle import DrawnCard, Orientation, CardData, CardShuffleService
+            
+            # Validate reversed_states if provided
+            if request.reversed_states is not None:
+                if len(request.reversed_states) != len(request.selected_card_ids):
+                    raise ValueError(
+                        f"reversed_states 길이({len(request.reversed_states)})가 "
+                        f"selected_card_ids 길이({len(request.selected_card_ids)})와 일치하지 않습니다."
+                    )
+            
+            drawn_cards = []
+            for idx, card_id in enumerate(request.selected_card_ids):
+                card_dto = await db_provider.get_card_by_id(card_id)
+                if not card_dto:
+                    raise ValueError(f"카드 ID {card_id}를 찾을 수 없습니다.")
+                
+                # Convert to CardData
+                card_data = CardData(
+                    id=card_dto.id,
+                    name=card_dto.name_en,
+                    name_ko=card_dto.name_ko,
+                    arcana_type=card_dto.arcana_type,
+                    number=card_dto.number,
+                    suit=card_dto.suit,
+                    keywords_upright=card_dto.keywords_upright,
+                    keywords_reversed=card_dto.keywords_reversed,
+                    meaning_upright=card_dto.meaning_upright,
+                    meaning_reversed=card_dto.meaning_reversed,
+                    description=card_dto.description,
+                    symbolism=card_dto.symbolism,
+                    image_url=card_dto.image_url,
+                )
+                
+                # Use provided reversed_states if available, otherwise randomly determine (30% chance for reversed)
+                if request.reversed_states is not None and idx < len(request.reversed_states):
+                    orientation = Orientation.REVERSED if request.reversed_states[idx] else Orientation.UPRIGHT
+                else:
+                    orientation = CardShuffleService._random_orientation()
+                
+                drawn_cards.append(DrawnCard(card_data, orientation))
+            
+            logger.info(
+                "[CreateReading] 사용자 선택 카드: %s",
+                [f"{dc.card.name}({dc.orientation.value})" for dc in drawn_cards],
+            )
+        else:
+            # Random Mode: Draw random cards
+            logger.info("[CreateReading] Random Mode: drawing %d cards", card_count)
+            
+            drawn_cards = await CardShuffleService.draw_cards(
+                count=card_count,
+                provider=db_provider,
+            )
+            logger.info(
+                "[CreateReading] 랜덤 카드 선택 완료: %s",
+                [f"{dc.card.name}({dc.orientation.value})" for dc in drawn_cards],
+            )
+
+        # RAG context enrichment
+        context_enricher = get_context_enricher()
+        card_data = [
+            {"id": dc.card.id, "is_reversed": dc.orientation.value == "reversed"}
+            for dc in drawn_cards
+        ]
+        rag_context = context_enricher.enrich_prompt_context(
+            cards=card_data,
+            spread_type=request.spread_type,
+            question=request.question,
+            category=request.category or "general",
+            language="ko",
         )
-        logger.info(
-            "[CreateReading] 카드 선택 완료: %s",
-            [f"{dc.card.name}({dc.orientation.value})" for dc in drawn_cards],
-        )
+        logger.info("[CreateReading] RAG 컨텍스트 강화 완료")
 
         cards_context = [ContextBuilder.build_card_context(dc) for dc in drawn_cards]
 
@@ -327,6 +425,7 @@ async def create_reading(
                 "category": request.category,
                 "user_context": request.user_context,
                 "card": cards_context[0],
+                "rag_context": rag_context,
             }
         else:
             prompt_context = {
@@ -334,6 +433,7 @@ async def create_reading(
                 "category": request.category,
                 "user_context": request.user_context,
                 "cards": cards_context,
+                "rag_context": rag_context,
             }
 
         reading_prompt = reading_template.render(**prompt_context)
@@ -342,24 +442,96 @@ async def create_reading(
 
         full_prompt = f"{reading_prompt}\n\n{output_format}"
 
-        orchestrator = get_orchestrator()
-        # 다중 카드 스프레드에서는 응답이 길어져 타임아웃이 발생하기 쉬우므로
-        # 카드 수에 맞춰 토큰 한도를 조정해 응답 시간을 단축한다.
-        max_tokens = 900 if card_count == 1 else 2200
+        orchestrator = await get_orchestrator(db_provider)
+        # Phase 1 Optimization: Increased max_tokens to prevent truncation
+        # English prompts are more token-efficient, but Korean responses still need sufficient space
+        # - One card: 2000 tokens (increased from 1500)
+        # - Three card: 3500 tokens (increased from 2500)
+        max_tokens = 2000 if card_count == 1 else 3500
 
-        orchestrator_response = await orchestrator.generate(
-            prompt=full_prompt,
-            system_prompt=system_prompt,
-            config=GenerationConfig(
-                max_tokens=max_tokens,
-                temperature=0.7,
-            ),
-        )
+        # Retry logic for parsing failures
+        MAX_PARSE_RETRIES = 2  # 최대 2번 재시도 (총 3번 시도)
+        parsed_response = None
+        last_parse_error = None
+        all_orchestrator_responses = []  # 모든 시도의 응답 저장 (LLM 로그용)
 
-        # Extract successful response
-        ai_response = orchestrator_response.response
-        raw_response = ai_response.content
-        parsed_response = ResponseParser.parse(raw_response)
+        for parse_attempt in range(MAX_PARSE_RETRIES + 1):
+            try:
+                # Generate response (재시도 시에는 새로운 응답 생성)
+                if parse_attempt > 0:
+                    logger.warning(
+                        "[CreateReading] 파싱 재시도 %d/%d: 이전 오류=%s",
+                        parse_attempt,
+                        MAX_PARSE_RETRIES,
+                        str(last_parse_error)[:100]
+                    )
+                    # 재시도 시 max_tokens를 증가시켜 응답이 잘리지 않도록 함
+                    max_tokens = int(max_tokens * 1.3)
+                    logger.info(
+                        "[CreateReading] max_tokens 증가: %d → %d",
+                        int(max_tokens / 1.3),
+                        max_tokens
+                    )
+
+                orchestrator_response = await orchestrator.generate(
+                    prompt=full_prompt,
+                    system_prompt=system_prompt,
+                    config=GenerationConfig(
+                        max_tokens=max_tokens,
+                        temperature=0.7,
+                    ),
+                )
+
+                # 모든 시도 저장 (LLM 로그용)
+                all_orchestrator_responses.append(orchestrator_response)
+
+                # Extract successful response
+                ai_response = orchestrator_response.response
+                raw_response = ai_response.content
+
+                # Check if response was truncated due to max_tokens limit
+                if ai_response.finish_reason == "max_tokens" or ai_response.finish_reason == "length":
+                    logger.warning(
+                        "[CreateReading] 응답이 max_tokens 제한으로 잘렸을 수 있습니다. "
+                        "finish_reason=%s, tokens=%d/%d, attempt=%d",
+                        ai_response.finish_reason,
+                        ai_response.completion_tokens,
+                        max_tokens,
+                        parse_attempt + 1
+                    )
+
+                # Try to parse the response
+                parsed_response = ResponseParser.parse(raw_response)
+
+                # Parsing succeeded!
+                if parse_attempt > 0:
+                    logger.info(
+                        "[CreateReading] 파싱 성공! (재시도 %d회 후)",
+                        parse_attempt
+                    )
+                break  # Exit retry loop on success
+
+            except (ParseError, JSONExtractionError, ValidationError) as e:
+                last_parse_error = e
+
+                # 마지막 시도였다면 예외를 다시 던짐
+                if parse_attempt >= MAX_PARSE_RETRIES:
+                    logger.error(
+                        "[CreateReading] 모든 파싱 재시도 실패 (%d회 시도)",
+                        parse_attempt + 1
+                    )
+                    raise
+
+                # 아직 재시도 가능하면 계속 진행
+                logger.warning(
+                    "[CreateReading] 파싱 실패, 재시도 예정: %s",
+                    str(e)[:200]
+                )
+                continue
+
+        # 파싱이 성공하지 못했다면 (이론적으로 도달 불가능)
+        if parsed_response is None:
+            raise ParseError("파싱 재시도 후에도 응답을 처리할 수 없습니다")
 
         ReadingValidator.validate_reading_quality(
             reading=parsed_response,
@@ -380,28 +552,64 @@ async def create_reading(
 
         reading_dto = await db_provider.create_reading(reading_data)
 
-        # Save LLM usage logs for all attempts
-        for idx, attempt in enumerate(orchestrator_response.all_attempts):
-            purpose = "main_reading" if idx == len(orchestrator_response.all_attempts) - 1 else "retry"
-            await db_provider.create_llm_usage_log({
-                "reading_id": reading_dto.id,
-                "provider": attempt.provider,
-                "model": attempt.model,
-                "prompt_tokens": attempt.prompt_tokens or 0,
-                "completion_tokens": attempt.completion_tokens or 0,
-                "total_tokens": attempt.total_tokens or 0,
-                "estimated_cost": attempt.estimated_cost or 0.0,
-                "latency_seconds": (attempt.latency_ms or 0) / 1000.0,
-                "purpose": purpose,
-            })
+        # Phase 3 Optimization: Build LLM usage logs for batch creation
+        llm_logs_batch = []
+        total_llm_attempts = 0
+        total_llm_cost = 0.0
+
+        for orch_resp_idx, orch_resp in enumerate(all_orchestrator_responses):
+            # 각 파싱 시도마다 orchestrator가 여러 provider를 시도할 수 있음
+            for attempt_idx, attempt in enumerate(orch_resp.all_attempts):
+                # purpose 결정
+                if orch_resp_idx == len(all_orchestrator_responses) - 1:
+                    # 마지막 파싱 시도
+                    if attempt_idx == len(orch_resp.all_attempts) - 1:
+                        purpose = "main_reading"  # 최종 성공
+                    else:
+                        purpose = "retry"  # 같은 파싱 시도 내 재시도
+                else:
+                    # 이전 파싱 시도들
+                    purpose = "parse_retry"  # 파싱 실패 후 재시도
+
+                llm_logs_batch.append({
+                    "provider": attempt.provider,
+                    "model": attempt.model,
+                    "prompt_tokens": attempt.prompt_tokens or 0,
+                    "completion_tokens": attempt.completion_tokens or 0,
+                    "total_tokens": attempt.total_tokens or 0,
+                    "estimated_cost": attempt.estimated_cost or 0.0,
+                    "latency_seconds": (attempt.latency_ms or 0) / 1000.0,
+                    "purpose": purpose,
+                })
+
+                total_llm_attempts += 1
+                total_llm_cost += attempt.estimated_cost or 0.0
+        
+        # Phase 3: Create all LLM logs in one batch operation
+        if llm_logs_batch:
+            await db_provider.create_llm_usage_logs_batch(
+                reading_dto.id,
+                llm_logs_batch
+            )
+            
+            # Log latency statistics
+            total_latency = sum(log['latency_seconds'] for log in llm_logs_batch)
+            avg_latency = total_latency / len(llm_logs_batch) if llm_logs_batch else 0
+            logger.info(
+                "[CreateReading] LLM 로그 저장 완료: %d개, 평균 응답시간: %.2fs",
+                len(llm_logs_batch),
+                avg_latency
+            )
 
         reading_response = await _build_reading_response(reading_dto, db_provider)
 
         logger.info(
-            "[CreateReading] 리딩 생성 성공: %s (LLM attempts: %d, Total cost: $%.4f)",
+            "[CreateReading] 리딩 생성 성공: %s (LLM attempts: %d, Parsing retries: %d, Total cost: $%.4f, Avg latency: %.2fs)",
             reading_response.id,
-            len(orchestrator_response.all_attempts),
-            orchestrator_response.total_cost
+            total_llm_attempts,
+            len(all_orchestrator_responses) - 1,  # 첫 시도는 제외
+            total_llm_cost,
+            avg_latency if llm_logs_batch else 0
         )
         return reading_response
 

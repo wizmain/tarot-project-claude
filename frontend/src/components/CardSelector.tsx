@@ -4,30 +4,55 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '@/types';
 import { config } from '@/config/env';
+import { shuffleArray } from '@/lib/utils';
 
 interface CardSelectorProps {
   cardCount: number;
   onCardsSelected: (cards: Card[], reversedStates: boolean[]) => void | Promise<void>;
   disabled?: boolean;
+  isAdmin?: boolean;  // Show admin info if true
+  allCards?: Card[];  // Optional: Pre-fetched and shuffled cards from parent
 }
 
 export default function CardSelector({
   cardCount,
   onCardsSelected,
   disabled = false,
+  isAdmin = false,
+  allCards: providedCards,
 }: CardSelectorProps) {
-  const [allCards, setAllCards] = useState<Card[]>([]);
+  const [allCards, setAllCards] = useState<Card[]>(providedCards || []);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [reversedStatesMap, setReversedStatesMap] = useState<Map<number, boolean>>(new Map());  // Track reversed states by card ID
+  const [loading, setLoading] = useState(!providedCards);  // If cards provided, no need to load
   const [error, setError] = useState<string | null>(null);
   const [hasConfirmed, setHasConfirmed] = useState(false);
 
   const isInteractionDisabled = disabled || hasConfirmed;
 
-  // Fetch all cards on mount
+  // Pre-determine reversed states for all cards when cards are loaded/shuffled
+  // This ensures the same card always has the same reversed state during a session
   useEffect(() => {
+    if (allCards.length > 0) {
+      const newReversedStatesMap = new Map<number, boolean>();
+      allCards.forEach((card) => {
+        // Determine reversed state once when cards are loaded (30% chance)
+        newReversedStatesMap.set(card.id, Math.random() < 0.3);
+      });
+      setReversedStatesMap(newReversedStatesMap);
+    }
+  }, [allCards]);
+
+  // Use provided cards if available, otherwise fetch
+  useEffect(() => {
+    if (providedCards && providedCards.length > 0) {
+      setAllCards(providedCards);
+      setLoading(false);
+      return;
+    }
+    // Only fetch if cards not provided
     fetchAllCards();
-  }, []);
+  }, [providedCards]);
 
   const fetchAllCards = async () => {
     try {
@@ -47,7 +72,10 @@ export default function CardSelector({
 
       if (!response.ok) throw new Error('Failed to fetch cards');
       const data = await response.json();
-      setAllCards(data.cards || []);
+      const cards: Card[] = data.cards || [];
+      // Randomize card order for better user experience
+      const shuffledCards = shuffleArray(cards);
+      setAllCards(shuffledCards);
     } catch (err) {
       if ((err as Error).name === 'AbortError') {
         console.error('Card fetch timed out');
@@ -85,13 +113,15 @@ export default function CardSelector({
       .map((id) => allCards.find((card) => card.id === id))
       .filter((card): card is Card => card !== undefined);
 
-    // Randomly determine if each card is reversed (30% chance)
-    const reversedStates = selected.map(() => Math.random() < 0.3);
+    // Use pre-calculated reversed states from map, in the order of selectedCards
+    const finalReversedStates = selectedCards.map((cardId) => 
+      reversedStatesMap.get(cardId) ?? Math.random() < 0.3
+    );
 
     setHasConfirmed(true);
 
     try {
-      await onCardsSelected(selected, reversedStates);
+      await onCardsSelected(selected, finalReversedStates);
     } catch (err) {
       // 실패 시 다시 선택할 수 있도록 상태를 복구한다.
       console.error('카드 선택 처리 중 오류:', err);
@@ -101,6 +131,7 @@ export default function CardSelector({
 
   const handleReset = () => {
     setSelectedCards([]);
+    // Don't reset reversedStatesMap - it's determined when cards are loaded/shuffled
     setHasConfirmed(false);
   };
 
@@ -240,6 +271,45 @@ export default function CardSelector({
             : `${cardCount - selectedCards.length}장 더 선택하세요`}
         </motion.button>
       </div>
+
+      {/* Admin Info Panel - Show selected card details */}
+      {isAdmin && selectedCards.length > 0 && (
+        <div className="mt-6 bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xl">👨‍💼</span>
+            <h4 className="text-sm font-semibold text-amber-900 dark:text-amber-200">
+              관리자 정보 - 선택된 카드
+            </h4>
+          </div>
+          <div className="space-y-2">
+            {selectedCards.map((cardId, index) => {
+              const card = allCards.find(c => c.id === cardId);
+              const isReversed = reversedStatesMap.get(cardId) ?? false;
+              return (
+                <div key={cardId} className="text-sm text-amber-800 dark:text-amber-300">
+                  <span className="font-medium">{index + 1}번:</span>
+                  <span className="ml-2 font-mono">#{cardId}</span>
+                  {card && (
+                    <>
+                      <span className="ml-2">{card.name_ko || card.name}</span>
+                      {card.arcana_type && (
+                        <span className="ml-2 text-xs text-amber-600 dark:text-amber-400">
+                          ({card.arcana_type === 'major' ? '대아르카나' : card.suit || '소아르카나'})
+                        </span>
+                      )}
+                      {reversedStatesMap.has(cardId) && (
+                        <span className="ml-2 text-xs font-semibold text-amber-700 dark:text-amber-500">
+                          [{isReversed ? '역방향' : '정방향'}]
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

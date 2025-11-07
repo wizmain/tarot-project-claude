@@ -3,7 +3,7 @@
 
 이 모듈의 목적:
 - 타로 카드 랜덤 선택 로직 구현
-- 카드 정방향/역방향 결정 (각 50% 확률)
+- 카드 정방향/역방향 결정 (역방향 30% 확률)
 - 중복 없는 카드 추첨 보장
 - 다양한 스프레드를 위한 카드 그룹 선택 지원
 
@@ -14,7 +14,7 @@
 
 구현 사항:
 - Fisher-Yates 알고리즘 기반 셔플
-- 정방향/역방향 50/50 확률 보장
+- 정방향/역방향 30% 확률 보장 (역방향 30%)
 - TASK-014 요구사항 충족
 """
 import random
@@ -113,7 +113,7 @@ class CardShuffleService:
 
     Implements TASK-014 requirements:
     - Random card selection with no duplicates
-    - 50/50 upright/reversed orientation
+    - 30% reversed orientation probability
     - Validated through statistical testing
     """
 
@@ -164,7 +164,7 @@ class CardShuffleService:
                 f"Not enough cards available. Requested: {count}, Available: {available}"
             )
 
-        # Assign random orientation to each card (50/50 upright/reversed)
+        # Assign random orientation to each card (30% chance for reversed)
         drawn_cards = []
         for card in card_data_list:
             orientation = CardShuffleService._random_orientation()
@@ -175,12 +175,12 @@ class CardShuffleService:
     @staticmethod
     def _random_orientation() -> Orientation:
         """
-        Randomly determine card orientation with 50/50 probability
+        Randomly determine card orientation with 30% probability for reversed
 
         Returns:
-            Orientation.UPRIGHT or Orientation.REVERSED
+            Orientation.UPRIGHT or Orientation.REVERSED (30% chance for REVERSED)
         """
-        return random.choice([Orientation.UPRIGHT, Orientation.REVERSED])
+        return Orientation.REVERSED if random.random() < 0.3 else Orientation.UPRIGHT
 
     @staticmethod
     async def shuffle_and_draw(
