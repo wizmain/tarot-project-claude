@@ -1,0 +1,38 @@
+{
+  "id": 73,
+  "name": "Page of Pentacles",
+  "name_ko": "펜타클의 페이지",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "page",
+  "deep_meaning": "The Page of Pentacles represents new opportunities, practical learning, and the beginning of material manifestation. A young figure stands in a field, holding a pentacle up with both hands, gazing at it with focus and wonder. This card embodies the student, the apprentice beginning their journey, and the practical dreamer who wants to make visions real. It signals new financial opportunities, educational pursuits, or the first steps of a business venture. The Page of Pentacles reminds us that every master was once a beginner, that practical skills are learned through study and practice, and that opportunities must be carefully examined before commitment.",
+  "deep_meaning_ko": "펜타클의 페이지는 새로운 기회, 실용적 학습, 그리고 물질적 실현의 시작을 나타냅니다. 젊은 인물이 들판에 서서 양손으로 펜타클을 들고 집중과 경이로움으로 그것을 바라봅니다. 이 카드는 학생, 여정을 시작하는 견습생, 그리고 비전을 현실로 만들고 싶어하는 실용적 꿈꾸는 사람을 구현합니다. 새로운 재정 기회, 교육적 추구, 또는 비즈니스 벤처의 첫 단계를 알립니다. 펜타클의 페이지는 모든 마스터가 한때 초보자였고, 실용적 기술이 연구와 연습을 통해 배워지며, 기회는 헌신하기 전에 신중하게 검토되어야 한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "holding_pentacle": "examining opportunity",
+    "focused_gaze": "concentration and study",
+    "young_figure": "beginner and student",
+    "fertile_field": "potential for growth",
+    "mountains": "goals to achieve through learning"
+  },
+  "upright_themes": [
+    "opportunity",
+    "new venture",
+    "manifestation",
+    "practical learning",
+    "ambition",
+    "diligence",
+    "planning",
+    "financial messages"
+  ],
+  "reversed_themes": [
+    "lack of progress",
+    "poor planning",
+    "missed opportunity",
+    "lack of commitment",
+    "bad investment"
+  ],
+  "life_lessons": "Examine opportunities carefully before committing. Every expert starts as a student. Practical dreams require study, planning, and consistent effort.",
+  "related_cards": [0, 1, 3, 8],
+  "element": "Earth",
+  "numerology": "Page - Material messenger, beginning of practical manifestation"
+}

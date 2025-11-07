@@ -1,0 +1,38 @@
+{
+  "id": 75,
+  "name": "Queen of Pentacles",
+  "name_ko": "펜타클의 여왕",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "queen",
+  "deep_meaning": "The Queen of Pentacles represents nurturing abundance, practical wisdom, and mastery of the material realm. She sits on a throne amid nature's beauty, holding a pentacle lovingly while a rabbit, symbol of fertility, appears at her feet. This card embodies the person who creates comfort and security for others, who nurtures through practical means, and who has achieved both material success and emotional warmth. The Queen of Pentacles is grounded, generous, and resourceful - she reminds us that true wealth includes caring for others, that success should create comfort not just for ourselves but for our communities, and that the material and nurturing aspects of life are deeply connected.",
+  "deep_meaning_ko": "펜타클의 여왕은 양육하는 풍요, 실용적 지혜, 그리고 물질 영역의 숙달을 나타냅니다. 그녀는 자연의 아름다움 한가운데 왕좌에 앉아 펜타클을 사랑스럽게 들고 있으며, 다산의 상징인 토끼가 발 아래 나타납니다. 이 카드는 다른 사람들을 위해 편안함과 안전을 창조하는 사람, 실용적 수단으로 양육하는 사람, 그리고 물질적 성공과 감정적 따뜻함을 모두 달성한 사람을 구현합니다. 펜타클의 여왕은 접지되고, 관대하며, 자원이 풍부합니다 - 그녀는 진정한 부가 다른 사람을 돌보는 것을 포함하고, 성공이 우리 자신뿐만 아니라 우리 공동체를 위한 편안함을 창조해야 하며, 삶의 물질적이고 양육하는 측면이 깊이 연결되어 있다는 것을 상기시킵니다.",
+  "symbolism": {
+    "pentacle_held_lovingly": "material wealth with warmth",
+    "lush_nature": "abundance and fertility",
+    "rabbit": "fertility and abundance",
+    "throne_in_garden": "comfort created from resources",
+    "roses": "beauty and nurturing"
+  },
+  "upright_themes": [
+    "nurturing",
+    "abundance",
+    "practicality",
+    "security",
+    "financial success",
+    "generosity",
+    "comfort",
+    "resourcefulness"
+  ],
+  "reversed_themes": [
+    "self-care neglected",
+    "financial insecurity",
+    "materialism",
+    "jealousy",
+    "smothering"
+  ],
+  "life_lessons": "Create comfort and security for yourself and others. True wealth includes nurturing and generosity. Material success is most fulfilling when shared.",
+  "related_cards": [3, 4, 14, 19],
+  "element": "Earth",
+  "numerology": "Queen - Mastery of material realm, nurturing through practical means"
+}

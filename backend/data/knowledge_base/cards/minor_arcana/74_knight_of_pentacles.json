@@ -1,0 +1,39 @@
+{
+  "id": 74,
+  "name": "Knight of Pentacles",
+  "name_ko": "펜타클의 기사",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "knight",
+  "deep_meaning": "The Knight of Pentacles represents dedication, reliability, and methodical progress. A knight sits steadily on a sturdy workhorse, holding a pentacle with care, surveying the plowed field ahead. This card embodies patience in action, the commitment to see things through, and the wisdom of slow, sustainable progress. Unlike other knights who charge ahead, this one moves deliberately, ensuring each step is solid before taking the next. The Knight of Pentacles reminds us that consistency beats intensity, that reliability is a form of honor, and that the tortoise often wins the race through persistence and careful planning.",
+  "deep_meaning_ko": "펜타클의 기사는 헌신, 신뢰성, 그리고 체계적 진전을 나타냅니다. 기사가 튼튼한 일하는 말 위에 안정적으로 앉아 펜타클을 조심스럽게 들고 앞의 경작된 들판을 조사합니다. 이 카드는 행동 중의 인내, 일을 끝까지 하겠다는 헌신, 그리고 느리고 지속 가능한 진전의 지혜를 구현합니다. 앞으로 돌진하는 다른 기사들과 달리, 이 기사는 다음 단계를 밟기 전에 각 단계가 견고한지 확인하며 신중하게 움직입니다. 펜타클의 기사는 일관성이 강도를 이기고, 신뢰성이 명예의 한 형태이며, 거북이가 끈기와 신중한 계획을 통해 종종 경주에서 이긴다는 것을 상기시킵니다.",
+  "symbolism": {
+    "steady_horse": "reliable progress and patience",
+    "plowed_field": "prepared ground and hard work",
+    "pentacle_in_hand": "careful stewardship",
+    "methodical_pose": "deliberate and thoughtful",
+    "work_horse": "practical service over flash"
+  },
+  "upright_themes": [
+    "reliability",
+    "dedication",
+    "responsibility",
+    "methodical",
+    "hard work",
+    "routine",
+    "conservatism",
+    "persistence"
+  ],
+  "reversed_themes": [
+    "laziness",
+    "boredom",
+    "stagnation",
+    "perfectionism",
+    "stubbornness",
+    "lack of progress"
+  ],
+  "life_lessons": "Steady progress beats sporadic intensity. Reliability is a virtue. Success comes from consistent effort over time, not dramatic leaps.",
+  "related_cards": [4, 7, 9, 19],
+  "element": "Earth",
+  "numerology": "Knight - Methodical action, reliable progress in material realm"
+}

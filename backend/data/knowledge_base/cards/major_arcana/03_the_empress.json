@@ -1,0 +1,41 @@
+{
+  "id": 3,
+  "name": "The Empress",
+  "name_ko": "여제",
+  "arcana_type": "major",
+  "number": 3,
+  "deep_meaning": "The Empress embodies abundance, nurturing, and the creative force of nature. She represents the fertile ground from which all life springs forth - both literal and metaphorical creation. This card celebrates sensuality, beauty, and the natural world's abundance. The Empress encourages us to connect with our senses, nurture ourselves and others, and recognize that we are part of nature's endless creative cycle. She reminds us that creativity flows when we are aligned with our natural rhythms.",
+  "deep_meaning_ko": "여제는 풍요, 양육, 그리고 자연의 창조력을 구현합니다. 그녀는 모든 생명이 솟아나는 비옥한 땅을 나타내며, 문자 그대로의 창조와 은유적인 창조를 모두 포함합니다. 이 카드는 관능, 아름다움, 그리고 자연 세계의 풍요로움을 기념합니다. 여제는 우리가 감각과 연결하고, 자신과 타인을 양육하며, 우리가 자연의 끝없는 창조 순환의 일부임을 인식하도록 격려합니다. 그녀는 우리가 자연의 리듬과 일치할 때 창의성이 흐른다는 것을 상기시킵니다.",
+  "symbolism": {
+    "venus_symbol": "love, beauty, and feminine power",
+    "crown_of_stars": "connection to divine and celestial wisdom",
+    "wheat_field": "abundance, harvest, and fertility",
+    "flowing_water": "emotions, intuition, and life force",
+    "cushions": "comfort, luxury, and sensual pleasure",
+    "trees": "growth, stability, and connection to nature",
+    "pregnant_figure": "creation, gestation of ideas, and nurturing"
+  },
+  "upright_themes": [
+    "abundance",
+    "nurturing",
+    "fertility",
+    "creativity",
+    "beauty",
+    "nature",
+    "sensuality",
+    "motherhood"
+  ],
+  "reversed_themes": [
+    "creative block",
+    "dependence",
+    "neglecting self-care",
+    "lack of growth",
+    "overindulgence",
+    "smothering"
+  ],
+  "life_lessons": "Nurture yourself as lovingly as you nurture others. Abundance flows when you honor your natural rhythms and creative impulses. True creation requires both action and patient gestation.",
+  "related_cards": [4, 6, 21],
+  "astrological_association": "Venus",
+  "element": "Earth",
+  "numerology": "3 - The number of creativity, expression, growth, and manifestation"
+}

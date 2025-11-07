@@ -1,0 +1,38 @@
+{
+  "id": 70,
+  "name": "Eight of Pentacles",
+  "name_ko": "펜타클의 8",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "eight",
+  "deep_meaning": "The Eight of Pentacles represents mastery, dedication, and the commitment to craft. A craftsman works diligently at his bench, carefully creating pentacles with focus and skill, with seven completed pentacles displayed nearby. This card embodies the journey from apprentice to master, the satisfaction of skilled work, and the commitment required to achieve excellence. It speaks to education, developing expertise, and finding fulfillment through dedicated practice. The Eight of Pentacles reminds us that mastery requires consistent effort, that work can be meditation, and that the path to excellence is paved with focused repetition and continuous improvement.",
+  "deep_meaning_ko": "펜타클의 8은 숙달, 헌신, 그리고 기술에 대한 헌신을 나타냅니다. 장인이 작업대에서 부지런히 일하며 집중과 기술로 펜타클을 신중하게 만들고, 일곱 개의 완성된 펜타클이 근처에 전시되어 있습니다. 이 카드는 견습생에서 마스터로의 여정, 숙련된 작업의 만족, 그리고 탁월함을 달성하는 데 필요한 헌신을 구현합니다. 교육, 전문 지식 개발, 그리고 헌신적인 연습을 통한 충족 찾기에 대해 말합니다. 펜타클의 8은 숙달이 일관된 노력을 필요로 하고, 작업이 명상이 될 수 있으며, 탁월함으로 가는 길이 집중된 반복과 지속적인 개선으로 포장되어 있다는 것을 상기시킵니다.",
+  "symbolism": {
+    "craftsman_at_work": "dedication and focus",
+    "creating_pentacles": "developing mastery",
+    "seven_completed": "progress toward excellence",
+    "town_distant": "separated from distraction",
+    "focused_attention": "deliberate practice"
+  },
+  "upright_themes": [
+    "mastery",
+    "skill development",
+    "dedication",
+    "craftsmanship",
+    "education",
+    "apprenticeship",
+    "focus",
+    "diligence"
+  ],
+  "reversed_themes": [
+    "lack of focus",
+    "poor quality",
+    "wasted effort",
+    "lack of ambition",
+    "shortcuts"
+  ],
+  "life_lessons": "Mastery requires consistent practice. Find fulfillment in developing your craft. Excellence is achieved through focused repetition and dedication.",
+  "related_cards": [1, 7, 8, 19],
+  "element": "Earth",
+  "numerology": "8 - Mastery through effort, power of dedicated practice"
+}

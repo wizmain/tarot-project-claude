@@ -74,7 +74,7 @@ class FeedbackCreate(BaseModel):
         return v
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "rating": 5,
                 "comment": "매우 정확하고 도움이 되는 리딩이었습니다. 감사합니다!",
@@ -123,7 +123,7 @@ class FeedbackUpdate(BaseModel):
         return v
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "rating": 4,
                 "comment": "수정된 피드백 코멘트입니다.",
@@ -160,7 +160,7 @@ class FeedbackResponse(BaseModel):
 
     class Config:
         from_attributes = True
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "id": "123e4567-e89b-12d3-a456-426614174000",
                 "reading_id": "123e4567-e89b-12d3-a456-426614174001",

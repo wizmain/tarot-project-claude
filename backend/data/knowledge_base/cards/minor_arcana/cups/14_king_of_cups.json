@@ -1,0 +1,35 @@
+{
+  "id": 49,
+  "name": "King of Cups",
+  "name_ko": "컵의 킹",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "king",
+  "number": 14,
+  "deep_meaning": "The King of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of mastery, control, leadership. The King represents full mastery and authoritative command of emotions, relationships, feelings, intuition.",
+  "deep_meaning_ko": "컵의 킹는 emotions, relationships, feelings, intuition의 에너지를 나타냅니다.",
+  "symbolism": {
+    "cups": "Water element energy",
+    "king": "mastery, control, leadership"
+  },
+  "upright_themes": [
+    "emotions",
+    "mastery",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked emotions",
+    "resistance to mastery",
+    "delays"
+  ],
+  "upright_extended": "The King of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of mastery, control, leadership. The King represents full mastery and authoritative command of emotions, relationships, feelings, intuition.",
+  "reversed_extended": "When reversed, King of Cups suggests challenges or blockages in emotions, relationships, feelings, intuition. The natural flow is interrupted.",
+  "element": "Water",
+  "numerology": "Number 14: mastery, control, leadership",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Water energy of cups manifesting in my life?",
+    "What does this card teach me about emotions, relationships, feelings, intuition?"
+  ]
+}

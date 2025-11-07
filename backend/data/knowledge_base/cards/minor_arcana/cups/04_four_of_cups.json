@@ -1,0 +1,35 @@
+{
+  "id": 39,
+  "name": "Four of Cups",
+  "name_ko": "컵의 4",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "four",
+  "number": 4,
+  "deep_meaning": "The Four of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of foundation, stability, structure. This numbered card shows the progression of cups energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "컵의 4는 emotions, relationships, feelings, intuition의 에너지를 나타냅니다.",
+  "symbolism": {
+    "cups": "Water element energy",
+    "four": "foundation, stability, structure"
+  },
+  "upright_themes": [
+    "emotions",
+    "foundation",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked emotions",
+    "resistance to foundation",
+    "delays"
+  ],
+  "upright_extended": "The Four of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of foundation, stability, structure. This numbered card shows the progression of cups energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Four of Cups suggests challenges or blockages in emotions, relationships, feelings, intuition. The natural flow is interrupted.",
+  "element": "Water",
+  "numerology": "Number 4: foundation, stability, structure",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Water energy of cups manifesting in my life?",
+    "What does this card teach me about emotions, relationships, feelings, intuition?"
+  ]
+}

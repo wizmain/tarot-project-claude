@@ -1,0 +1,39 @@
+{
+  "id": 47,
+  "name": "Queen of Cups",
+  "name_ko": "컵의 여왕",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "queen",
+  "deep_meaning": "The Queen of Cups represents emotional maturity, intuitive wisdom, and compassionate nurturing. She sits on her throne at water's edge, holding an ornate cup while gazing at it with deep contemplation. This card embodies emotional intelligence, psychic sensitivity, and the ability to hold space for others' feelings while maintaining healthy boundaries. The Queen of Cups is deeply intuitive, emotionally available, and creates safe harbor for emotional expression. She reminds us that true strength includes gentleness, that emotional wisdom comes from feeling deeply while remaining centered, and that caring for others begins with caring for ourselves.",
+  "deep_meaning_ko": "컵의 여왕은 감정적 성숙, 직관적 지혜, 그리고 연민 어린 양육을 나타냅니다. 그녀는 물가에 있는 왕좌에 앉아 화려한 컵을 들고 깊은 명상으로 그것을 바라봅니다. 이 카드는 감정적 지능, 심령적 민감성, 그리고 건강한 경계를 유지하면서 다른 사람의 감정을 위한 공간을 유지하는 능력을 구현합니다. 컵의 여왕은 깊이 직관적이고, 감정적으로 이용 가능하며, 감정 표현을 위한 안전한 피난처를 만듭니다. 그녀는 진정한 힘이 온화함을 포함하고, 감정적 지혜가 중심을 유지하면서 깊이 느끼는 것에서 나오며, 다른 사람을 돌보는 것이 자신을 돌보는 것에서 시작된다는 것을 상기시킵니다.",
+  "symbolism": {
+    "ornate_cup": "deep emotions and spiritual insight",
+    "water": "emotions, intuition, and the unconscious",
+    "throne_by_sea": "emotional stability at the edge of deep feelings",
+    "angels_on_throne": "divine guidance and purity",
+    "contemplative_gaze": "introspection and intuitive wisdom"
+  },
+  "upright_themes": [
+    "emotional security",
+    "intuition",
+    "compassion",
+    "calmness",
+    "caring",
+    "psychic ability",
+    "loving mother",
+    "emotional intelligence"
+  ],
+  "reversed_themes": [
+    "emotional insecurity",
+    "codependency",
+    "martyrdom",
+    "overwhelmed by emotions",
+    "giving too much",
+    "emotional manipulation"
+  ],
+  "life_lessons": "Trust your intuition deeply. Care for others without losing yourself. Emotional wisdom means feeling deeply while maintaining boundaries.",
+  "related_cards": [2, 3, 11, 18],
+  "element": "Water",
+  "numerology": "Queen - Mastery of emotional realm, intuitive wisdom"
+}

@@ -1,0 +1,38 @@
+{
+  "id": 40,
+  "name": "Six of Cups",
+  "name_ko": "컵의 6",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "six",
+  "deep_meaning": "The Six of Cups represents nostalgia, childhood memories, and innocent joy. A child offers a cup filled with flowers to another, surrounded by five more cups in a scene of sweet simplicity. This card embodies the pure love of childhood, happy memories that comfort us, and the healing power of innocence. It speaks to reconnecting with your inner child, revisiting the past with tenderness, and finding joy in simple pleasures. The Six of Cups reminds us that our past shapes who we are, that innocence lost can be reclaimed, and that sometimes looking back helps us move forward with a lighter heart.",
+  "deep_meaning_ko": "컵의 6은 향수, 어린 시절 기억, 그리고 순수한 기쁨을 나타냅니다. 아이가 꽃으로 가득 찬 컵을 다른 아이에게 주며, 달콤한 단순함의 장면에서 다섯 개의 컵이 더 둘러싸여 있습니다. 이 카드는 어린 시절의 순수한 사랑, 우리를 위로하는 행복한 기억, 그리고 순수함의 치유력을 구현합니다. 내면의 아이와 재연결하고, 과거를 부드럽게 재방문하며, 단순한 즐거움에서 기쁨을 찾는 것에 대해 말합니다. 컵의 6은 우리의 과거가 우리가 누구인지를 형성하고, 잃어버린 순수함을 되찾을 수 있으며, 때로는 뒤돌아보는 것이 더 가벼운 마음으로 앞으로 나아가는 데 도움이 된다는 것을 상기시킵니다.",
+  "symbolism": {
+    "children": "innocence, simplicity, and pure joy",
+    "flowers_in_cups": "gifts of love and beauty",
+    "giving_and_receiving": "exchange of affection",
+    "old_town": "past, memories, and nostalgia",
+    "x_on_cups": "sweet memories and gifts"
+  },
+  "upright_themes": [
+    "nostalgia",
+    "childhood memories",
+    "innocence",
+    "reunion",
+    "simple pleasures",
+    "kindness",
+    "past happiness",
+    "generosity"
+  ],
+  "reversed_themes": [
+    "stuck in the past",
+    "unrealistic expectations",
+    "naivety",
+    "lost innocence",
+    "moving forward"
+  ],
+  "life_lessons": "Honor your past but don't live there. Reconnect with childlike wonder and joy. Simple acts of kindness create lasting memories.",
+  "related_cards": [0, 17, 19, 21],
+  "element": "Water",
+  "numerology": "6 - Harmony, nostalgia, and sweet memories"
+}

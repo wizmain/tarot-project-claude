@@ -1,0 +1,40 @@
+{
+  "id": 22,
+  "name": "Ace of Wands",
+  "name_ko": "완드의 에이스",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "ace",
+  "deep_meaning": "The Ace of Wands represents a burst of creative energy, inspiration, and the spark of new initiatives. This card signifies the pure potential of the fire element - passion, enthusiasm, and the drive to take action. It heralds new opportunities, particularly in creative, spiritual, or entrepreneurial ventures. The Ace of Wands encourages you to seize the moment, trust your inspiration, and take the first bold step toward manifesting your vision.",
+  "deep_meaning_ko": "완드의 에이스는 창조적 에너지의 폭발, 영감, 그리고 새로운 계획의 불씨를 나타냅니다. 이 카드는 불 원소의 순수한 잠재력을 의미합니다 - 열정, 열의, 그리고 행동을 취하려는 추진력. 특히 창의적, 영적, 또는 기업가적 모험에서 새로운 기회를 예고합니다. 완드의 에이스는 순간을 포착하고, 영감을 신뢰하며, 비전을 실현하기 위한 첫 대담한 발걸음을 내딛도록 격려합니다.",
+  "symbolism": {
+    "sprouting_wand": "new growth, potential, and vitality",
+    "hand_from_cloud": "divine inspiration and spiritual gift",
+    "leaves_falling": "abundance and spreading of ideas",
+    "castle": "goals and achievements on the horizon",
+    "mountains": "challenges to overcome",
+    "river": "flow of creative energy"
+  },
+  "upright_themes": [
+    "inspiration",
+    "new opportunities",
+    "growth",
+    "potential",
+    "creative spark",
+    "enthusiasm",
+    "bold ventures",
+    "spiritual awakening"
+  ],
+  "reversed_themes": [
+    "delays",
+    "lack of motivation",
+    "missed opportunities",
+    "hesitation",
+    "creative blocks",
+    "false starts"
+  ],
+  "life_lessons": "When inspiration strikes, act quickly before the spark fades. Every great achievement begins with a single burst of creative energy. Trust your passion and take that first step.",
+  "related_cards": [0, 1, 8],
+  "element": "Fire",
+  "numerology": "1 - New beginnings and raw potential"
+}

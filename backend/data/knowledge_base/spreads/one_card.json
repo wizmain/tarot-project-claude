@@ -1,0 +1,26 @@
+{
+  "id": "one_card",
+  "name": "One Card Reading",
+  "name_ko": "원카드 리딩",
+  "description": "A single card provides direct insight into a specific question or situation. This simple yet powerful spread cuts through complexity to reveal the core energy or message most relevant to your inquiry.",
+  "description_ko": "단일 카드는 특정 질문이나 상황에 대한 직접적인 통찰을 제공합니다. 이 간단하면서도 강력한 스프레드는 복잡함을 뚫고 질문과 가장 관련된 핵심 에너지나 메시지를 드러냅니다.",
+  "positions": [
+    {
+      "position": "single",
+      "meaning": "The core message, answer, or energy surrounding the question",
+      "meaning_ko": "질문을 둘러싼 핵심 메시지, 답변 또는 에너지"
+    }
+  ],
+  "interpretation_guide": "Focus on the card's primary meaning and how it directly relates to the querent's question. Consider both upright and reversed interpretations. Look for immediate insights rather than complex narratives. The simplicity of this spread demands clarity and precision in interpretation. Pay attention to your first intuitive response to the card.",
+  "interpretation_guide_ko": "카드의 주요 의미와 그것이 질문자의 질문과 어떻게 직접 관련되는지에 집중하세요. 정방향과 역방향 해석을 모두 고려하세요. 복잡한 이야기보다는 즉각적인 통찰을 찾으세요. 이 스프레드의 단순함은 해석에서 명확성과 정확성을 요구합니다. 카드에 대한 첫 직관적 반응에 주의를 기울이세요.",
+  "best_for": [
+    "daily guidance",
+    "quick questions",
+    "yes/no insights",
+    "immediate clarity",
+    "meditation focus",
+    "situation snapshots"
+  ],
+  "timing": "Immediate to within 24 hours",
+  "difficulty": "beginner"
+}

@@ -1,0 +1,35 @@
+{
+  "id": 75,
+  "name": "Knight of Pentacles",
+  "name_ko": "펜타클의 나이트",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "knight",
+  "number": 12,
+  "deep_meaning": "The Knight of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of swift action, courage, pursuit. The Knight takes action, pursuing material, money, career, physical world with determination and speed.",
+  "deep_meaning_ko": "펜타클의 나이트는 material, money, career, physical world의 에너지를 나타냅니다.",
+  "symbolism": {
+    "pentacles": "Earth element energy",
+    "knight": "swift action, courage, pursuit"
+  },
+  "upright_themes": [
+    "material",
+    "swift action",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked material",
+    "resistance to swift action",
+    "delays"
+  ],
+  "upright_extended": "The Knight of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of swift action, courage, pursuit. The Knight takes action, pursuing material, money, career, physical world with determination and speed.",
+  "reversed_extended": "When reversed, Knight of Pentacles suggests challenges or blockages in material, money, career, physical world. The natural flow is interrupted.",
+  "element": "Earth",
+  "numerology": "Number 12: swift action, courage, pursuit",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Earth energy of pentacles manifesting in my life?",
+    "What does this card teach me about material, money, career, physical world?"
+  ]
+}

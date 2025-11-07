@@ -1,0 +1,35 @@
+{
+  "id": 62,
+  "name": "Queen of Swords",
+  "name_ko": "검의 퀸",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "queen",
+  "number": 13,
+  "deep_meaning": "The Queen of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of thoughts, communication, conflict, intellect through nurturing and intuitive wisdom.",
+  "deep_meaning_ko": "검의 퀸는 thoughts, communication, conflict, intellect의 에너지를 나타냅니다.",
+  "symbolism": {
+    "swords": "Air element energy",
+    "queen": "nurturing, intuitive, caring authority"
+  },
+  "upright_themes": [
+    "thoughts",
+    "nurturing",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked thoughts",
+    "resistance to nurturing",
+    "delays"
+  ],
+  "upright_extended": "The Queen of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of thoughts, communication, conflict, intellect through nurturing and intuitive wisdom.",
+  "reversed_extended": "When reversed, Queen of Swords suggests challenges or blockages in thoughts, communication, conflict, intellect. The natural flow is interrupted.",
+  "element": "Air",
+  "numerology": "Number 13: nurturing, intuitive, caring authority",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Air energy of swords manifesting in my life?",
+    "What does this card teach me about thoughts, communication, conflict, intellect?"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": 35,
+  "name": "Ace of Cups",
+  "name_ko": "컵의 에이스",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "ace",
+  "deep_meaning": "The Ace of Cups represents new emotional beginnings, overflowing love, and spiritual awakening. A hand emerges from clouds offering a golden chalice from which water flows abundantly. This card embodies the pure potential of the heart - new love, deep compassion, creative inspiration, and spiritual renewal. It signals the opening of the heart, emotional fulfillment, and the divine grace that flows when we're open to receive. The Ace of Cups reminds us that love in all its forms is always available, that our capacity for feeling is a gift, and that emotional abundance begins with opening ourselves to possibility.",
+  "deep_meaning_ko": "컵의 에이스는 새로운 감정적 시작, 넘치는 사랑, 그리고 영적 각성을 나타냅니다. 손이 구름에서 나와 물이 풍부하게 흐르는 황금 성배를 제공합니다. 이 카드는 심장의 순수한 잠재력을 구현합니다 - 새로운 사랑, 깊은 연민, 창조적 영감, 그리고 영적 재생. 마음의 개방, 감정적 충족, 그리고 우리가 받아들일 준비가 되었을 때 흐르는 신성한 은총을 알립니다. 컵의 에이스는 모든 형태의 사랑이 항상 가능하고, 느끼는 우리의 능력이 선물이며, 감정적 풍요가 가능성에 자신을 여는 것에서 시작된다는 것을 상기시킵니다.",
+  "symbolism": {
+    "chalice": "vessel of emotional and spiritual fulfillment",
+    "hand_from_cloud": "divine offering and spiritual gift",
+    "overflowing_water": "abundance of emotion and love",
+    "five_streams": "five senses awakened to beauty",
+    "dove": "holy spirit, peace, and divine love",
+    "lotus": "spiritual enlightenment and purity"
+  },
+  "upright_themes": [
+    "new love",
+    "emotional awakening",
+    "creativity",
+    "intuition",
+    "spiritual connection",
+    "compassion",
+    "overflowing joy",
+    "new relationships"
+  ],
+  "reversed_themes": [
+    "emotional loss",
+    "blocked creativity",
+    "emptiness",
+    "repressed emotions",
+    "sadness",
+    "closed heart"
+  ],
+  "life_lessons": "Open your heart to receive love and joy. Emotional abundance flows when you allow yourself to feel deeply. Every moment offers the gift of new emotional beginning.",
+  "related_cards": [0, 2, 6, 17],
+  "element": "Water",
+  "numerology": "1 - New emotional beginnings and pure potential of the heart"
+}

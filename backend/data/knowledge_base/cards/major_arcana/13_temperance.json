@@ -1,0 +1,41 @@
+{
+  "id": 13,
+  "name": "Temperance",
+  "name_ko": "절제",
+  "arcana_type": "major",
+  "rank": "Temperance",
+  "number": 13,
+  "deep_meaning": "Temperance represents balance, moderation, and harmony. An angel pours water between two cups, symbolizing the alchemical mixing of opposites to create something new. This card teaches the middle way - avoiding extremes and finding equilibrium in all things. Temperance is about patience, purpose, and the gradual blending of elements to achieve the perfect mix. It speaks to healing through balance and the importance of timing. True alchemy happens when we learn to moderate our energies and work with natural flows rather than against them.",
+  "deep_meaning_ko": "절제는 balance을/를 상징합니다.",
+  "symbolism": {
+    "angel": "higher guidance and protection",
+    "two_cups": "balance of opposites",
+    "water_flowing": "mixing of conscious and unconscious",
+    "one_foot_on_land_one_in_water": "balance of material and spiritual",
+    "iris_flowers": "the rainbow and hope"
+  },
+  "upright_themes": [
+    "balance",
+    "moderation",
+    "patience",
+    "purpose",
+    "meaning"
+  ],
+  "reversed_themes": [
+    "imbalance",
+    "excess",
+    "lack of harmony",
+    "impatience"
+  ],
+  "upright_extended": "Temperance represents balance, moderation, and harmony. An angel pours water between two cups, symbolizing the alchemical mixing of opposites to create something new. This card teaches the middle way - avoiding extremes and finding equilibrium in all things. Temperance is about patience, purpose, and the gradual blending of elements to achieve the perfect mix. It speaks to healing through balance and the importance of timing. True alchemy happens when we learn to moderate our energies and work with natural flows rather than against them.",
+  "reversed_extended": "역방향에서 Temperance는 imbalance, excess, lack of harmony을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Sagittarius",
+  "element": "Fire",
+  "numerology": "Number 13 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of Temperance?",
+    "What does Temperance teach me about my current situation?"
+  ]
+}

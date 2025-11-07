@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { Card } from '@/types';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface TarotCardProps {
   card?: Card;
@@ -83,9 +83,8 @@ export default function TarotCard({
                     src={card.image_url}
                     alt={card.name}
                     fill
-                    sizes="100%"
                     className="object-cover"
-                    priority={size !== 'large'}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 ) : (
                   <div className="text-center p-2">

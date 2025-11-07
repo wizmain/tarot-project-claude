@@ -1,0 +1,38 @@
+{
+  "id": 28,
+  "name": "Eight of Wands",
+  "name_ko": "완드의 8",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "eight",
+  "deep_meaning": "The Eight of Wands represents swift action, rapid progress, and momentum. Eight wands fly through the air in perfect alignment, cutting through space with purpose and speed. This card signifies that delays are ending, things are moving quickly, and opportunities are arriving faster than expected. The Eight of Wands embodies dynamic energy, clear communication, and the exciting rush when everything suddenly falls into place. This card reminds us that sometimes we must act quickly, trust the momentum, and move forward with confidence when the time is right.",
+  "deep_meaning_ko": "완드의 8은 신속한 행동, 빠른 진전, 그리고 추진력을 나타냅니다. 여덟 개의 완드가 완벽한 정렬을 이루며 목적과 속도로 공간을 가르며 날아갑니다. 이 카드는 지연이 끝나고, 일이 빠르게 움직이며, 예상보다 빠르게 기회가 도착하고 있음을 의미합니다. 완드의 8은 역동적인 에너지, 명확한 소통, 그리고 모든 것이 갑자기 제자리를 찾을 때의 흥분되는 돌진을 구현합니다. 이 카드는 때로는 빠르게 행동하고, 추진력을 신뢰하며, 적절한 시기에 자신감 있게 앞으로 나아가야 한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "flying_wands": "swift movement and rapid progress",
+    "clear_sky": "clarity and unobstructed path",
+    "downward_trajectory": "ideas manifesting into reality",
+    "river": "flow and natural movement",
+    "eight_parallel_lines": "alignment and focused energy"
+  },
+  "upright_themes": [
+    "speed",
+    "swift action",
+    "movement",
+    "momentum",
+    "quick decisions",
+    "travel",
+    "communication",
+    "progress"
+  ],
+  "reversed_themes": [
+    "delays",
+    "frustration",
+    "hasty decisions",
+    "missed opportunities",
+    "slowing down"
+  ],
+  "life_lessons": "Strike while the iron is hot. When momentum builds, ride the wave. Quick action is sometimes necessary - trust your readiness and move forward.",
+  "related_cards": [1, 7, 19, 22],
+  "element": "Fire",
+  "numerology": "8 - Swift movement, power in motion, and infinite progress"
+}

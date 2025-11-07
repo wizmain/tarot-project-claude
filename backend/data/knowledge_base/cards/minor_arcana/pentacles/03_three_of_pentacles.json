@@ -1,0 +1,35 @@
+{
+  "id": 66,
+  "name": "Three of Pentacles",
+  "name_ko": "펜타클의 3",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "three",
+  "number": 3,
+  "deep_meaning": "The Three of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of collaboration, groups, growth. This numbered card shows the progression of pentacles energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "펜타클의 3는 material, money, career, physical world의 에너지를 나타냅니다.",
+  "symbolism": {
+    "pentacles": "Earth element energy",
+    "three": "collaboration, groups, growth"
+  },
+  "upright_themes": [
+    "material",
+    "collaboration",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked material",
+    "resistance to collaboration",
+    "delays"
+  ],
+  "upright_extended": "The Three of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of collaboration, groups, growth. This numbered card shows the progression of pentacles energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Three of Pentacles suggests challenges or blockages in material, money, career, physical world. The natural flow is interrupted.",
+  "element": "Earth",
+  "numerology": "Number 3: collaboration, groups, growth",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Earth energy of pentacles manifesting in my life?",
+    "What does this card teach me about material, money, career, physical world?"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": 25,
+  "name": "Five of Wands",
+  "name_ko": "완드의 5",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "five",
+  "deep_meaning": "The Five of Wands represents conflict, competition, and the clash of differing perspectives. Five figures appear to battle with their wands, yet none seem truly hurt - suggesting that this conflict may be more about competition than genuine harm. This card embodies creative tension, healthy rivalry, and the challenges that arise when multiple strong wills meet. The Five of Wands reminds us that conflict can be productive, that competition can spur growth, and that diverse opinions, though chaotic, often lead to better solutions.",
+  "deep_meaning_ko": "완드의 5는 갈등, 경쟁, 그리고 다른 관점의 충돌을 나타냅니다. 다섯 인물이 완드로 싸우는 것처럼 보이지만, 실제로 다친 사람은 없는 것처럼 보입니다 - 이 갈등이 진정한 해악보다는 경쟁에 관한 것일 수 있음을 시사합니다. 이 카드는 창조적 긴장, 건강한 경쟁, 그리고 여러 강한 의지가 만날 때 발생하는 도전을 구현합니다. 완드의 5는 갈등이 생산적일 수 있고, 경쟁이 성장을 촉진할 수 있으며, 혼란스럽더라도 다양한 의견이 종종 더 나은 해결책으로 이어진다는 것을 상기시킵니다.",
+  "symbolism": {
+    "five_figures": "multiple perspectives and competing interests",
+    "raised_wands": "conflict, competition, and struggle",
+    "no_clear_victor": "ongoing struggle without resolution",
+    "chaotic_arrangement": "disorganization and lack of unity",
+    "different_colors": "diverse viewpoints and approaches"
+  },
+  "upright_themes": [
+    "conflict",
+    "competition",
+    "tension",
+    "diversity of opinion",
+    "rivalry",
+    "struggle",
+    "disagreement",
+    "creative clash"
+  ],
+  "reversed_themes": [
+    "resolution of conflict",
+    "avoiding confrontation",
+    "inner conflict",
+    "harmony restored",
+    "agreement"
+  ],
+  "life_lessons": "Not all conflict is destructive - competition can fuel growth. Different perspectives create friction but also innovation. Choose battles worth fighting.",
+  "related_cards": [5, 7, 16, 18],
+  "element": "Fire",
+  "numerology": "5 - Conflict, change, and dynamic tension"
+}

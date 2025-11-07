@@ -1,0 +1,40 @@
+{
+  "id": 15,
+  "name": "The Tower",
+  "name_ko": "탑",
+  "arcana_type": "major",
+  "rank": "The Tower",
+  "number": 15,
+  "deep_meaning": "The Tower represents sudden upheaval, revelation, and the destruction of false structures. Lightning strikes a tower built on faulty foundations, sending people falling from its heights. This card speaks to those moments when everything we thought was solid comes crashing down. While frightening, The Tower is ultimately liberating - it destroys only what was built on lies, illusions, or shaky ground. The lightning is divine intervention, a wake-up call that, though painful, clears the way for rebuilding on truth and solid foundations.",
+  "deep_meaning_ko": "탑는 sudden change을/를 상징합니다.",
+  "symbolism": {
+    "lightning": "divine intervention and revelation",
+    "falling_figures": "ego and false constructs falling away",
+    "crown": "material thoughts being overthrown",
+    "black_sky": "the unknown and chaos",
+    "flames": "purification through destruction"
+  },
+  "upright_themes": [
+    "sudden change",
+    "upheaval",
+    "revelation",
+    "awakening",
+    "liberation"
+  ],
+  "reversed_themes": [
+    "avoiding disaster",
+    "fear of change",
+    "delaying the inevitable"
+  ],
+  "upright_extended": "The Tower represents sudden upheaval, revelation, and the destruction of false structures. Lightning strikes a tower built on faulty foundations, sending people falling from its heights. This card speaks to those moments when everything we thought was solid comes crashing down. While frightening, The Tower is ultimately liberating - it destroys only what was built on lies, illusions, or shaky ground. The lightning is divine intervention, a wake-up call that, though painful, clears the way for rebuilding on truth and solid foundations.",
+  "reversed_extended": "역방향에서 The Tower는 avoiding disaster, fear of change, delaying the inevitable을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Mars",
+  "element": "Fire",
+  "numerology": "Number 15 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The Tower?",
+    "What does The Tower teach me about my current situation?"
+  ]
+}

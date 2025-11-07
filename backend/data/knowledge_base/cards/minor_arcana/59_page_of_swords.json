@@ -1,0 +1,39 @@
+{
+  "id": 59,
+  "name": "Page of Swords",
+  "name_ko": "소드의 페이지",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "page",
+  "deep_meaning": "The Page of Swords represents curiosity, vigilance, and new ways of thinking. A young figure holds a sword upright while standing in a defensive yet alert posture, ready to learn and protect. This card embodies intellectual curiosity, the desire to uncover truth, and the mental energy of youth. It signals new ideas, the gathering of information, and the development of communication skills. The Page of Swords reminds us to stay curious and alert, to question everything, and to be ready to defend our ideas while remaining open to learning. This is the mind awakening to its power.",
+  "deep_meaning_ko": "소드의 페이지는 호기심, 경계, 그리고 새로운 사고방식을 나타냅니다. 젊은 인물이 방어적이면서도 경계하는 자세로 서서 검을 곧게 들고 있으며, 배우고 보호할 준비가 되어 있습니다. 이 카드는 지적 호기심, 진실을 발견하려는 욕망, 그리고 젊음의 정신적 에너지를 구현합니다. 새로운 아이디어, 정보 수집, 그리고 소통 기술의 발전을 알립니다. 소드의 페이지는 호기심 있고 경계하며, 모든 것을 질문하고, 배우는 데 열려 있으면서 우리의 아이디어를 방어할 준비가 되어 있도록 상기시킵니다. 이것은 자신의 힘에 깨어나는 정신입니다.",
+  "symbolism": {
+    "upright_sword": "mental clarity and truth-seeking",
+    "alert_stance": "vigilance and readiness",
+    "turbulent_clouds": "mental activity and ideas forming",
+    "birds": "thoughts taking flight",
+    "young_figure": "inexperience but eagerness to learn"
+  },
+  "upright_themes": [
+    "curiosity",
+    "new ideas",
+    "vigilance",
+    "mental energy",
+    "communication",
+    "truth-seeking",
+    "planning",
+    "intellectual youth"
+  ],
+  "reversed_themes": [
+    "gossip",
+    "haste",
+    "scattered thoughts",
+    "lack of planning",
+    "deceit",
+    "all talk no action"
+  ],
+  "life_lessons": "Stay curious and question everything. Mental vigilance protects while curiosity expands. Ideas without action remain just ideas.",
+  "related_cards": [1, 8, 11, 49],
+  "element": "Air",
+  "numerology": "Page - Mental messenger, beginning of intellectual journey"
+}

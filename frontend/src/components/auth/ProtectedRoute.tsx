@@ -22,7 +22,15 @@ export function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
   const pathname = usePathname();
 
   useEffect(() => {
+    console.log('[ProtectedRoute] Auth state changed', {
+      isLoading,
+      isAuthenticated,
+      pathname,
+      timestamp: new Date().toISOString(),
+    });
+
     if (!isLoading && !isAuthenticated) {
+      console.warn('[ProtectedRoute] Redirecting to login - user not authenticated');
       // Save the attempted URL to redirect back after login
       const returnUrl = encodeURIComponent(pathname);
       router.push(`/login?returnUrl=${returnUrl}`);

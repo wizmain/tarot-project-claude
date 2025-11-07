@@ -1,0 +1,35 @@
+{
+  "id": 24,
+  "name": "Three of Wands",
+  "name_ko": "완드의 3",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "three",
+  "number": 3,
+  "deep_meaning": "The Three of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of collaboration, groups, growth. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "완드의 3는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "three": "collaboration, groups, growth"
+  },
+  "upright_themes": [
+    "action",
+    "collaboration",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to collaboration",
+    "delays"
+  ],
+  "upright_extended": "The Three of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of collaboration, groups, growth. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Three of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 3: collaboration, groups, growth",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

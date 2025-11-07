@@ -1,0 +1,410 @@
+{
+  "cards_context": [
+    {
+      "card_id": 0,
+      "is_reversed": false,
+      "card_data": {
+        "id": 0,
+        "name": "The Fool",
+        "name_ko": "바보",
+        "arcana_type": "major",
+        "number": 0,
+        "deep_meaning": "The Fool represents new beginnings, spontaneity, and infinite possibilities. Standing at the edge of a cliff, the Fool embodies the courage to take leaps of faith without knowing the destination. This card symbolizes the pure potential that exists before any journey begins, untainted by experience or expectation. The Fool invites us to embrace uncertainty with childlike wonder and trust in the universe's guidance.",
+        "deep_meaning_ko": "바보 카드는 새로운 시작, 자발성, 무한한 가능성을 나타냅니다. 절벽 끝에 서 있는 바보는 목적지를 알지 못한 채 믿음의 도약을 할 용기를 상징합니다. 이 카드는 여행이 시작되기 전에 존재하는 순수한 잠재력을 상징하며, 경험이나 기대에 물들지 않은 상태를 나타냅니다. 바보는 우리에게 어린아이 같은 경이로움으로 불확실성을 받아들이고 우주의 안내를 신뢰하도록 초대합니다.",
+        "symbolism": {
+          "white_rose": "purity and innocence of intention",
+          "small_dog": "loyalty, protection, and instinctual wisdom",
+          "cliff": "the unknown, taking risks, and life's precipices",
+          "sun": "optimism, enlightenment, and divine guidance",
+          "knapsack": "potential and resources carried from past experiences",
+          "white_clothing": "spiritual purity and clean slate"
+        },
+        "upright_themes": [
+          "new beginnings",
+          "adventure",
+          "innocence",
+          "freedom",
+          "originality",
+          "spontaneity",
+          "unlimited potential",
+          "faith in the journey"
+        ],
+        "reversed_themes": [
+          "recklessness",
+          "naivety",
+          "poor judgment",
+          "folly",
+          "taking unnecessary risks",
+          "lack of planning",
+          "immaturity",
+          "fear of commitment"
+        ],
+        "life_lessons": "Embrace uncertainty as the gateway to growth. Sometimes not knowing is the first step to discovering. Trust your instincts and take that leap of faith, but balance spontaneity with mindfulness.",
+        "related_cards": [
+          1,
+          8,
+          13,
+          19
+        ],
+        "astrological_association": "Uranus",
+        "element": "Air",
+        "numerology": "0 - The number of unlimited potential, the void before creation, and infinite possibilities"
+      },
+      "relevant_snippets": [
+        "The Fool (바보): The Fool represents new beginnings, spontaneity, and infinite possibilities. Standing at the edge of a cliff, the Fool embodies the courage to take leaps of faith without knowing the destination. This card symbolizes the pure potential that exists before any journey begins, untainted by experience or expectation. The Fool invites us to embrace uncertainty with childlike wonder and trust in the universe's guidance.",
+        "The Fool upright themes: new beginnings, adventure, innocence, freedom, originality, spontaneity, unlimited potential, faith in the journey"
+      ]
+    },
+    {
+      "card_id": 1,
+      "is_reversed": false,
+      "card_data": {
+        "id": 1,
+        "name": "The Magician",
+        "name_ko": "마법사",
+        "arcana_type": "major",
+        "number": 1,
+        "deep_meaning": "The Magician represents manifestation, resourcefulness, and the power to transform vision into reality. With one hand pointing to the heavens and the other to the earth, the Magician channels divine wisdom into material form. This card embodies mastery over the four elements and the ability to use available resources skillfully. The Magician reminds us that we possess all the tools needed to create our desired reality through focused will and action.",
+        "deep_meaning_ko": "마법사는 현현, 재치, 그리고 비전을 현실로 바꾸는 힘을 나타냅니다. 한 손은 하늘을, 다른 손은 땅을 가리키며, 마법사는 신성한 지혜를 물질적 형태로 전환합니다. 이 카드는 네 가지 원소에 대한 숙달과 사용 가능한 자원을 능숙하게 활용하는 능력을 구현합니다. 마법사는 우리가 집중된 의지와 행동을 통해 원하는 현실을 창조하는 데 필요한 모든 도구를 가지고 있음을 상기시킵니다.",
+        "symbolism": {
+          "infinity_symbol": "unlimited potential and connection to divine wisdom",
+          "wand": "will, inspiration, and active masculine energy",
+          "cup": "emotions, intuition, and the subconscious",
+          "sword": "intellect, communication, and mental clarity",
+          "pentacle": "manifestation, material world, and grounded action",
+          "red_roses": "passion and desire",
+          "white_lilies": "pure intention and spiritual awareness",
+          "ouroboros_belt": "eternal cycle and spiritual wholeness"
+        },
+        "upright_themes": [
+          "manifestation",
+          "resourcefulness",
+          "power",
+          "inspired action",
+          "skill",
+          "concentration",
+          "willpower",
+          "transformation"
+        ],
+        "reversed_themes": [
+          "manipulation",
+          "poor planning",
+          "untapped potential",
+          "scattered energy",
+          "deception",
+          "lack of focus",
+          "misuse of power"
+        ],
+        "life_lessons": "You have everything you need to succeed. Focus your intention, align your resources, and take deliberate action. As above, so below - what you conceive in mind can manifest in reality.",
+        "related_cards": [
+          0,
+          8,
+          19,
+          21
+        ],
+        "astrological_association": "Mercury",
+        "element": "Air",
+        "numerology": "1 - The number of new beginnings, independence, and focused will"
+      },
+      "relevant_snippets": [
+        "The Magician (마법사): The Magician represents manifestation, resourcefulness, and the power to transform vision into reality. With one hand pointing to the heavens and the other to the earth, the Magician channels divine wisdom into material form. This card embodies mastery over the four elements and the ability to use available resources skillfully. The Magician reminds us that we possess all the tools needed to create our desired reality through focused will and action.",
+        "The Magician upright themes: manifestation, resourcefulness, power, inspired action, skill, concentration, willpower, transformation"
+      ]
+    },
+    {
+      "card_id": 3,
+      "is_reversed": false,
+      "card_data": {
+        "id": 3,
+        "name": "The Empress",
+        "name_ko": "여제",
+        "arcana_type": "major",
+        "number": 3,
+        "deep_meaning": "The Empress embodies abundance, nurturing, and the creative force of nature. She represents the fertile ground from which all life springs forth - both literal and metaphorical creation. This card celebrates sensuality, beauty, and the natural world's abundance. The Empress encourages us to connect with our senses, nurture ourselves and others, and recognize that we are part of nature's endless creative cycle. She reminds us that creativity flows when we are aligned with our natural rhythms.",
+        "deep_meaning_ko": "여제는 풍요, 양육, 그리고 자연의 창조력을 구현합니다. 그녀는 모든 생명이 솟아나는 비옥한 땅을 나타내며, 문자 그대로의 창조와 은유적인 창조를 모두 포함합니다. 이 카드는 관능, 아름다움, 그리고 자연 세계의 풍요로움을 기념합니다. 여제는 우리가 감각과 연결하고, 자신과 타인을 양육하며, 우리가 자연의 끝없는 창조 순환의 일부임을 인식하도록 격려합니다. 그녀는 우리가 자연의 리듬과 일치할 때 창의성이 흐른다는 것을 상기시킵니다.",
+        "symbolism": {
+          "venus_symbol": "love, beauty, and feminine power",
+          "crown_of_stars": "connection to divine and celestial wisdom",
+          "wheat_field": "abundance, harvest, and fertility",
+          "flowing_water": "emotions, intuition, and life force",
+          "cushions": "comfort, luxury, and sensual pleasure",
+          "trees": "growth, stability, and connection to nature",
+          "pregnant_figure": "creation, gestation of ideas, and nurturing"
+        },
+        "upright_themes": [
+          "abundance",
+          "nurturing",
+          "fertility",
+          "creativity",
+          "beauty",
+          "nature",
+          "sensuality",
+          "motherhood"
+        ],
+        "reversed_themes": [
+          "creative block",
+          "dependence",
+          "neglecting self-care",
+          "lack of growth",
+          "overindulgence",
+          "smothering"
+        ],
+        "life_lessons": "Nurture yourself as lovingly as you nurture others. Abundance flows when you honor your natural rhythms and creative impulses. True creation requires both action and patient gestation.",
+        "related_cards": [
+          4,
+          6,
+          21
+        ],
+        "astrological_association": "Venus",
+        "element": "Earth",
+        "numerology": "3 - The number of creativity, expression, growth, and manifestation"
+      },
+      "relevant_snippets": [
+        "The Empress (여제): The Empress embodies abundance, nurturing, and the creative force of nature. She represents the fertile ground from which all life springs forth - both literal and metaphorical creation. This card celebrates sensuality, beauty, and the natural world's abundance. The Empress encourages us to connect with our senses, nurture ourselves and others, and recognize that we are part of nature's endless creative cycle. She reminds us that creativity flows when we are aligned with our natural rhythms.",
+        "The Empress symbolism: venus_symbol: love, beauty, and feminine power; crown_of_stars: connection to divine and celestial wisdom; wheat_field: abundance, harvest, and fertility; flowing_water: emotions, intuition, and life force; cushions: comfort, luxury, and sensual pleasure; trees: growth, stability, and connection to nature; pregnant_figure: creation, gestation of ideas, and nurturing"
+      ]
+    }
+  ],
+  "spread_context": {
+    "spread_data": {
+      "id": "three_card_past_present_future",
+      "name": "Three Card: Past, Present, Future",
+      "name_ko": "쓰리카드: 과거-현재-미래",
+      "description": "This classic three-card spread reveals the temporal flow of a situation, showing how past influences shape the present and how current actions affect future outcomes.",
+      "description_ko": "이 고전적인 세 카드 스프레드는 상황의 시간적 흐름을 드러내며, 과거의 영향이 현재를 형성하는 방법과 현재의 행동이 미래의 결과에 어떻게 영향을 미치는지 보여줍니다.",
+      "positions": [
+        {
+          "position": "past",
+          "meaning": "Past influences, foundations, or lessons that shape the current situation. This may represent recent events or long-standing patterns.",
+          "meaning_ko": "현재 상황을 형성하는 과거의 영향, 토대 또는 교훈. 최근 사건이나 오랫동안 지속된 패턴을 나타낼 수 있습니다."
+        },
+        {
+          "position": "present",
+          "meaning": "Current energies, challenges, or opportunities. The central focus of the reading showing what is actively at play now.",
+          "meaning_ko": "현재의 에너지, 도전 또는 기회. 지금 적극적으로 작용하고 있는 것을 보여주는 리딩의 중심 초점."
+        },
+        {
+          "position": "future",
+          "meaning": "Likely outcome or trajectory if current path continues. This represents potential rather than fixed fate and can be influenced by choices.",
+          "meaning_ko": "현재 경로가 계속될 경우 예상되는 결과 또는 방향. 이것은 고정된 운명이 아닌 잠재력을 나타내며 선택에 의해 영향을 받을 수 있습니다."
+        }
+      ],
+      "interpretation_guide": "Analyze the narrative arc from past to future. Look for themes connecting the cards. Pay attention to how the past card's energy flows into the present, and how present choices influence the future outcome. Consider elemental flows between cards (does fire lead to earth for manifestation?). Notice if cards are predominantly major or minor arcana, indicating fate versus free will.",
+      "interpretation_guide_ko": "과거에서 미래로의 이야기 흐름을 분석하세요. 카드를 연결하는 주제를 찾으세요. 과거 카드의 에너지가 현재로 흐르는 방식과 현재의 선택이 미래 결과에 어떻게 영향을 미치는지 주의하세요. 카드 간의 원소 흐름을 고려하세요 (불이 땅으로 이어져 현현이 되는가?). 카드가 주로 메이저 아르카나인지 마이너 아르카나인지 확인하여 운명 대 자유 의지를 나타냅니다.",
+      "relationship_analysis": "Consider how the past card sets the stage for the present, and how current actions influence the future outcome. Look for cause-and-effect relationships. Identify whether the trajectory is ascending (improvement) or needs course correction.",
+      "best_for": [
+        "understanding situation timelines",
+        "seeing cause and effect",
+        "decision-making guidance",
+        "tracking progress",
+        "understanding patterns",
+        "relationship dynamics"
+      ],
+      "timing": "Past: recent weeks to months, Present: current moment, Future: coming weeks to months",
+      "difficulty": "beginner to intermediate"
+    },
+    "relevant_contexts": [],
+    "sources": []
+  },
+  "combination_context": {
+    "combinations": [
+      {
+        "card_ids": [
+          0,
+          1
+        ],
+        "cards": [
+          "The Fool",
+          "The Magician"
+        ],
+        "meaning": "New beginnings met with skillful manifestation. The combination suggests taking inspired action with all tools at your disposal. Raw potential channeled through focused will.",
+        "meaning_ko": "능숙한 현현과 만나는 새로운 시작. 이 조합은 모든 도구를 활용하여 영감을 받은 행동을 취하는 것을 암시합니다. 집중된 의지를 통해 전달되는 원초적 잠재력."
+      },
+      {
+        "card_ids": [
+          0,
+          8
+        ],
+        "cards": [
+          "The Fool",
+          "Strength"
+        ],
+        "meaning": "Courageous new beginnings. This combination suggests taking bold steps with inner confidence and gentle determination. Adventure requires both innocence and courage.",
+        "meaning_ko": "용기 있는 새로운 시작. 이 조합은 내적 자신감과 부드러운 결단력으로 대담한 발걸음을 내딛는 것을 암시합니다. 모험은 순수함과 용기를 모두 필요로 합니다."
+      },
+      {
+        "card_ids": [
+          0,
+          13
+        ],
+        "cards": [
+          "The Fool",
+          "Death"
+        ],
+        "meaning": "Radical transformation and rebirth. Letting go of the old to embrace entirely new possibilities. The courage to step into the unknown leads to profound change.",
+        "meaning_ko": "급진적인 변화와 재탄생. 완전히 새로운 가능성을 받아들이기 위해 낡은 것을 버립니다. 미지의 세계로 나아가는 용기가 심오한 변화로 이어집니다."
+      },
+      {
+        "card_ids": [
+          1,
+          2
+        ],
+        "cards": [
+          "The Magician",
+          "The High Priestess"
+        ],
+        "meaning": "Conscious creation balanced with intuitive wisdom. Manifestation guided by inner knowing. The perfect blend of action and receptivity.",
+        "meaning_ko": "의식적 창조와 직관적 지혜의 균형. 내면의 앎에 의해 안내되는 현현. 행동과 수용성의 완벽한 조화."
+      },
+      {
+        "card_ids": [
+          1,
+          3
+        ],
+        "cards": [
+          "The Magician",
+          "The Empress"
+        ],
+        "meaning": "Creative manifestation in full bloom. Bringing ideas into abundant, tangible form. Skill combined with natural fertility produces remarkable results.",
+        "meaning_ko": "완전히 꽃피는 창의적 현현. 아이디어를 풍부하고 구체적인 형태로 가져옵니다. 기술과 자연적 풍요로움이 결합되어 놀라운 결과를 낳습니다."
+      },
+      {
+        "card_ids": [
+          3,
+          4
+        ],
+        "cards": [
+          "The Empress",
+          "The Emperor"
+        ],
+        "meaning": "Divine feminine and masculine in balance. Nurturing creativity structured by discipline. The perfect partnership of abundance and order.",
+        "meaning_ko": "균형 잡힌 신성한 여성성과 남성성. 규율로 구조화된 양육 창의성. 풍요와 질서의 완벽한 파트너십."
+      },
+      {
+        "card_ids": [
+          0,
+          22
+        ],
+        "cards": [
+          "The Fool",
+          "Ace of Wands"
+        ],
+        "meaning": "Pure potential meets inspired action. A powerful surge of creative energy for new ventures. Leap of faith backed by divine inspiration.",
+        "meaning_ko": "순수한 잠재력이 영감을 받은 행동과 만납니다. 새로운 모험을 위한 강력한 창조적 에너지의 급증. 신성한 영감이 뒷받침하는 믿음의 도약."
+      }
+    ],
+    "relevant_contexts": [],
+    "sources": []
+  },
+  "category_context": {
+    "category_data": {
+      "category": "career",
+      "name_ko": "직업",
+      "interpretation_focus": [
+        "Professional growth and advancement opportunities",
+        "Workplace dynamics and relationships with colleagues",
+        "Career path decisions and vocational calling",
+        "Skills development and expertise building",
+        "Work-life balance and professional fulfillment",
+        "Leadership opportunities and responsibilities",
+        "Financial rewards from work"
+      ],
+      "interpretation_focus_ko": [
+        "전문적 성장과 승진 기회",
+        "직장 역학 및 동료와의 관계",
+        "경력 경로 결정 및 직업적 소명",
+        "기술 개발 및 전문성 구축",
+        "일과 삶의 균형 및 전문적 성취",
+        "리더십 기회 및 책임",
+        "일로부터의 재정적 보상"
+      ],
+      "card_specific_meanings": {
+        "0": {
+          "context": "Career",
+          "upright": "Starting a new job or career path, entrepreneurial ventures, taking professional risks, career change with unknown outcome, following your passion without guarantee",
+          "upright_ko": "새로운 직업이나 경력 경로 시작, 기업가적 모험, 전문적 위험 감수, 알 수 없는 결과를 가진 경력 변경, 보장 없이 열정 따르기",
+          "reversed": "Impulsive career decisions, lack of planning, unprepared for new role, naive about professional challenges, fear of taking career risks",
+          "reversed_ko": "충동적인 경력 결정, 계획 부족, 새로운 역할에 준비되지 않음, 전문적 도전에 대한 순진함, 경력 위험 감수에 대한 두려움"
+        },
+        "1": {
+          "context": "Career",
+          "upright": "Using all your skills effectively, resourcefulness at work, taking initiative, manifesting career goals, entrepreneurial success, mastery of your craft",
+          "upright_ko": "모든 기술을 효과적으로 사용, 직장에서의 재치, 주도권 잡기, 경력 목표 실현, 기업가적 성공, 기술의 숙달",
+          "reversed": "Unused talents, scattered efforts, manipulation in workplace, poor communication, lack of focus on career goals",
+          "reversed_ko": "사용되지 않은 재능, 분산된 노력, 직장에서의 조작, 의사소통 부족, 경력 목표에 대한 집중력 부족"
+        },
+        "2": {
+          "context": "Career",
+          "upright": "Following intuition in career decisions, behind-the-scenes work, research roles, need for more information before deciding, trusting your professional instincts",
+          "upright_ko": "경력 결정에서 직관 따르기, 무대 뒤 작업, 연구 역할, 결정 전 더 많은 정보 필요, 전문적 본능 신뢰",
+          "reversed": "Ignoring your gut feelings about job, information being withheld, office secrets, disconnection from workplace intuition",
+          "reversed_ko": "직업에 대한 직감 무시, 정보 숨김, 사무실 비밀, 직장 직관과의 단절"
+        },
+        "3": {
+          "context": "Career",
+          "upright": "Creative careers flourishing, nurturing work environment, abundance of opportunities, fertility of ideas, creative projects coming to fruition",
+          "upright_ko": "창의적 경력 번영, 양육적 작업 환경, 풍부한 기회, 아이디어의 풍요로움, 창의적 프로젝트의 결실",
+          "reversed": "Creative blocks at work, lack of growth, unfulfilling career, neglecting career development, dependencies at work",
+          "reversed_ko": "직장에서의 창의적 막힘, 성장 부족, 충족되지 않는 경력, 경력 개발 무시, 직장에서의 의존성"
+        },
+        "4": {
+          "context": "Career",
+          "upright": "Leadership role, establishing structure and systems, authority position, strategic planning, building solid career foundation, discipline paying off",
+          "upright_ko": "리더십 역할, 구조 및 시스템 확립, 권위 있는 위치, 전략적 계획, 견고한 경력 기반 구축, 규율의 보상",
+          "reversed": "Rigid management, abuse of authority, lack of structure, avoiding responsibility, power struggles at work",
+          "reversed_ko": "경직된 관리, 권위 남용, 구조 부족, 책임 회피, 직장에서의 권력 투쟁"
+        },
+        "22": {
+          "context": "Career",
+          "upright": "New career opportunity, burst of creative energy at work, entrepreneurial inspiration, exciting project beginning, career passion ignited",
+          "upright_ko": "새로운 경력 기회, 직장에서의 창조적 에너지 폭발, 기업가적 영감, 흥미로운 프로젝트 시작, 경력 열정 점화",
+          "reversed": "Delayed projects, lack of motivation at work, missed opportunities, creative blocks, false career starts",
+          "reversed_ko": "지연된 프로젝트, 직장에서의 동기 부족, 놓친 기회, 창의적 막힘, 거짓 경력 시작"
+        },
+        "36": {
+          "context": "Career",
+          "upright": "Successful partnership or collaboration, harmonious work relationships, balanced team dynamics, networking connections, beneficial business alliance",
+          "upright_ko": "성공적인 파트너십 또는 협업, 조화로운 업무 관계, 균형 잡힌 팀 역학, 네트워킹 연결, 유익한 비즈니스 동맹",
+          "reversed": "Partnership problems, workplace conflicts, imbalanced collaboration, broken business agreements, disconnection from team",
+          "reversed_ko": "파트너십 문제, 직장 갈등, 불균형한 협업, 깨진 비즈니스 협정, 팀과의 단절"
+        }
+      }
+    },
+    "card_meanings": {
+      "0": {
+        "context": "Career",
+        "upright": "Starting a new job or career path, entrepreneurial ventures, taking professional risks, career change with unknown outcome, following your passion without guarantee",
+        "upright_ko": "새로운 직업이나 경력 경로 시작, 기업가적 모험, 전문적 위험 감수, 알 수 없는 결과를 가진 경력 변경, 보장 없이 열정 따르기",
+        "reversed": "Impulsive career decisions, lack of planning, unprepared for new role, naive about professional challenges, fear of taking career risks",
+        "reversed_ko": "충동적인 경력 결정, 계획 부족, 새로운 역할에 준비되지 않음, 전문적 도전에 대한 순진함, 경력 위험 감수에 대한 두려움"
+      },
+      "1": {
+        "context": "Career",
+        "upright": "Using all your skills effectively, resourcefulness at work, taking initiative, manifesting career goals, entrepreneurial success, mastery of your craft",
+        "upright_ko": "모든 기술을 효과적으로 사용, 직장에서의 재치, 주도권 잡기, 경력 목표 실현, 기업가적 성공, 기술의 숙달",
+        "reversed": "Unused talents, scattered efforts, manipulation in workplace, poor communication, lack of focus on career goals",
+        "reversed_ko": "사용되지 않은 재능, 분산된 노력, 직장에서의 조작, 의사소통 부족, 경력 목표에 대한 집중력 부족"
+      },
+      "3": {
+        "context": "Career",
+        "upright": "Creative careers flourishing, nurturing work environment, abundance of opportunities, fertility of ideas, creative projects coming to fruition",
+        "upright_ko": "창의적 경력 번영, 양육적 작업 환경, 풍부한 기회, 아이디어의 풍요로움, 창의적 프로젝트의 결실",
+        "reversed": "Creative blocks at work, lack of growth, unfulfilling career, neglecting career development, dependencies at work",
+        "reversed_ko": "직장에서의 창의적 막힘, 성장 부족, 충족되지 않는 경력, 경력 개발 무시, 직장에서의 의존성"
+      }
+    },
+    "relevant_contexts": []
+  },
+  "general_insights": [
+    "Ace of Wands (완드의 에이스): The Ace of Wands represents a burst of creative energy, inspiration, and the spark of new initiatives. This card signifies the pure potential of the fire element - passion, enthusiasm, and the drive to take action. It heralds new opportunities, particularly in creative, spiritual, or entrepreneurial ventures. The Ace of Wands encourages you to seize the moment, trust your inspiration, and take the first bold step toward manifesting your vision.",
+    "Ace of Wands upright themes: inspiration, new opportunities, growth, potential, creative spark, enthusiasm, bold ventures, spiritual awakening",
+    "Three Card: Past, Present, Future interpretation: Analyze the narrative arc from past to future. Look for themes connecting the cards. Pay attention to how the past card's energy flows into the present, and how present choices influence the future outcome. Consider elemental flows between cards (does fire lead to earth for manifestation?). Notice if cards are predominantly major or minor arcana, indicating fate versus free will."
+  ],
+  "metadata": {
+    "language": "en",
+    "question": "What is the trajectory of my career?",
+    "spread_type": "three_card_past_present_future",
+    "category": "career",
+    "num_cards": 3
+  }
+}

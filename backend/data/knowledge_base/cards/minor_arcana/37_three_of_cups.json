@@ -1,0 +1,39 @@
+{
+  "id": 37,
+  "name": "Three of Cups",
+  "name_ko": "컵의 3",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "three",
+  "deep_meaning": "The Three of Cups represents celebration, friendship, and joyful community. Three women raise their cups in a toast, surrounded by abundance and festivity. This card embodies the happiness found in meaningful connections, the joy of shared success, and the healing power of sisterhood and brotherhood. It speaks to creative collaboration, emotional support, and the magic that happens when kindred spirits come together. The Three of Cups reminds us that joy multiplies when shared, that true friendship is one of life's greatest treasures, and that celebration strengthens bonds and nourishes the soul.",
+  "deep_meaning_ko": "컵의 3은 축하, 우정, 그리고 즐거운 공동체를 나타냅니다. 세 여성이 풍요와 축제에 둘러싸여 잔을 들어 건배합니다. 이 카드는 의미 있는 연결에서 찾는 행복, 공유된 성공의 기쁨, 그리고 자매애와 형제애의 치유력을 구현합니다. 창조적 협력, 감정적 지원, 그리고 동류 영혼이 함께할 때 일어나는 마법에 대해 말합니다. 컵의 3은 기쁨이 공유될 때 배가되고, 진정한 우정이 인생의 가장 큰 보물 중 하나이며, 축하가 유대를 강화하고 영혼을 키운다는 것을 상기시킵니다.",
+  "symbolism": {
+    "three_women": "friendship, sisterhood, and collaboration",
+    "raised_cups": "celebration and toasting to success",
+    "flowers_and_fruit": "abundance and fertility",
+    "dance": "joy, movement, and harmony",
+    "circle_formation": "equality and unity"
+  },
+  "upright_themes": [
+    "celebration",
+    "friendship",
+    "community",
+    "gathering",
+    "joy",
+    "creativity",
+    "collaboration",
+    "sisterhood"
+  ],
+  "reversed_themes": [
+    "overindulgence",
+    "gossip",
+    "isolation",
+    "third wheel",
+    "lack of support",
+    "broken friendships"
+  ],
+  "life_lessons": "Celebrate life with those who matter. True friendship multiplies joy and divides sorrow. Community and connection nourish the soul.",
+  "related_cards": [3, 6, 19, 24],
+  "element": "Water",
+  "numerology": "3 - Growth, celebration, and creative expression in relationships"
+}

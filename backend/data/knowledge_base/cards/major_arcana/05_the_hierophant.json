@@ -1,0 +1,40 @@
+{
+  "id": 5,
+  "name": "The Hierophant",
+  "name_ko": "교황",
+  "arcana_type": "major",
+  "number": 5,
+  "deep_meaning": "The Hierophant represents tradition, spiritual wisdom, and the bridge between divine knowledge and earthly understanding. As a spiritual teacher and keeper of sacred knowledge, the Hierophant embodies conventional values, established institutions, and time-honored practices. This card speaks to the importance of mentorship, education, and learning from those who have walked the path before us. The Hierophant reminds us that wisdom passed down through generations holds power, yet also encourages us to find our own relationship with spiritual truth.",
+  "deep_meaning_ko": "교황은 전통, 영적 지혜, 그리고 신성한 지식과 세속적 이해 사이의 다리를 나타냅니다. 영적 교사이자 신성한 지식의 수호자로서, 교황은 전통적 가치, 확립된 제도, 그리고 시간이 검증한 관행을 구현합니다. 이 카드는 멘토십, 교육, 그리고 우리보다 먼저 길을 걸은 사람들로부터 배우는 것의 중요성을 말합니다. 교황은 세대를 통해 전해진 지혜가 힘을 지니고 있음을 상기시키지만, 동시에 영적 진리와의 자신만의 관계를 찾도록 격려합니다.",
+  "symbolism": {
+    "papal_cross": "spiritual authority and divine connection",
+    "two_pillars": "balance between mercy and severity, law and liberty",
+    "crossed_keys": "keys to heaven, unlocking spiritual mysteries",
+    "two_acolytes": "passing down knowledge, teacher and students",
+    "raised_hand": "blessing and benediction",
+    "triple_crown": "mastery of physical, emotional, and spiritual realms"
+  },
+  "upright_themes": [
+    "tradition",
+    "spiritual wisdom",
+    "conformity",
+    "education",
+    "belief systems",
+    "institutions",
+    "mentorship",
+    "conventional values"
+  ],
+  "reversed_themes": [
+    "rebellion",
+    "unconventional beliefs",
+    "freedom from tradition",
+    "challenging authority",
+    "personal beliefs",
+    "rigidity"
+  ],
+  "life_lessons": "Honor tradition while remaining open to your own spiritual truth. Sometimes the old ways provide valuable guidance, yet ultimately you must forge your own path to understanding.",
+  "related_cards": [2, 4, 9, 10],
+  "astrological_association": "Taurus",
+  "element": "Earth",
+  "numerology": "5 - The number of change, freedom, and breaking from convention while honoring what came before"
+}

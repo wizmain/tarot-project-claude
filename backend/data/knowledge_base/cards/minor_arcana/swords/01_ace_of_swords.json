@@ -1,0 +1,35 @@
+{
+  "id": 50,
+  "name": "Ace of Swords",
+  "name_ko": "검의 에이스",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "ace",
+  "number": 1,
+  "deep_meaning": "The Ace of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of new beginnings, opportunities, potential. As an Ace, this card represents the pure, undiluted potential of swords. It's a gift from the universe, an opportunity to begin something new in the realm of thoughts, communication, conflict, intellect.",
+  "deep_meaning_ko": "검의 에이스는 thoughts, communication, conflict, intellect의 에너지를 나타냅니다.",
+  "symbolism": {
+    "swords": "Air element energy",
+    "ace": "new beginnings, opportunities, potential"
+  },
+  "upright_themes": [
+    "thoughts",
+    "new beginnings",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked thoughts",
+    "resistance to new beginnings",
+    "delays"
+  ],
+  "upright_extended": "The Ace of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of new beginnings, opportunities, potential. As an Ace, this card represents the pure, undiluted potential of swords. It's a gift from the universe, an opportunity to begin something new in the realm of thoughts, communication, conflict, intellect.",
+  "reversed_extended": "When reversed, Ace of Swords suggests challenges or blockages in thoughts, communication, conflict, intellect. The natural flow is interrupted.",
+  "element": "Air",
+  "numerology": "Number 1: new beginnings, opportunities, potential",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Air energy of swords manifesting in my life?",
+    "What does this card teach me about thoughts, communication, conflict, intellect?"
+  ]
+}

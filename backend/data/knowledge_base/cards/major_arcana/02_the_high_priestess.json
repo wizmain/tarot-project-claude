@@ -1,0 +1,41 @@
+{
+  "id": 2,
+  "name": "The High Priestess",
+  "name_ko": "여사제",
+  "arcana_type": "major",
+  "number": 2,
+  "deep_meaning": "The High Priestess represents intuition, sacred knowledge, and the mysteries of the subconscious mind. Seated between two pillars marking the threshold between the conscious and unconscious realms, she guards the secrets of deeper wisdom. This card invites us to look beyond surface appearances and trust our inner knowing. The High Priestess teaches that not all knowledge can be found in books - some truths can only be discovered through stillness, reflection, and connection to the divine feminine within.",
+  "deep_meaning_ko": "여사제는 직관, 신성한 지식, 그리고 무의식의 신비를 나타냅니다. 의식과 무의식 영역 사이의 문턱을 표시하는 두 기둥 사이에 앉아 있는 그녀는 더 깊은 지혜의 비밀을 지킵니다. 이 카드는 우리에게 표면적인 겉모습을 넘어서 내면의 앎을 신뢰하도록 초대합니다. 여사제는 모든 지식이 책에서 발견될 수 있는 것은 아니며, 어떤 진실은 고요함, 성찰, 그리고 내면의 신성한 여성성과의 연결을 통해서만 발견될 수 있음을 가르칩니다.",
+  "symbolism": {
+    "pillars": "duality, balance between opposites (masculine/feminine, light/dark)",
+    "veil": "mysteries hidden from ordinary perception",
+    "crescent_moon": "intuition, cycles, and divine feminine energy",
+    "scroll_torah": "sacred wisdom and esoteric knowledge",
+    "pomegranates": "fertility, abundance, and the divine feminine",
+    "cross": "balance of material and spiritual",
+    "blue_robe": "knowledge, calm waters of the subconscious"
+  },
+  "upright_themes": [
+    "intuition",
+    "sacred knowledge",
+    "inner voice",
+    "mysteries",
+    "subconscious mind",
+    "silence",
+    "patience",
+    "divine feminine"
+  ],
+  "reversed_themes": [
+    "secrets",
+    "disconnection from intuition",
+    "ignored inner voice",
+    "superficiality",
+    "repressed feelings",
+    "lack of introspection"
+  ],
+  "life_lessons": "Trust your intuition - it speaks the language of your soul. Not everything needs to be acted upon immediately; sometimes wisdom requires patience and quiet contemplation. The answers you seek lie within.",
+  "related_cards": [7, 11, 18],
+  "astrological_association": "Moon",
+  "element": "Water",
+  "numerology": "2 - The number of duality, balance, partnership, and receptivity"
+}

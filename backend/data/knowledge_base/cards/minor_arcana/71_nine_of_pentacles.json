@@ -1,0 +1,40 @@
+{
+  "id": 71,
+  "name": "Nine of Pentacles",
+  "name_ko": "펜타클의 9",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "nine",
+  "deep_meaning": "The Nine of Pentacles represents self-sufficiency, luxury, and the rewards of discipline. An elegant figure stands in a lush garden surrounded by ripening grapes with a falcon on their hand, nine pentacles adorning the vines. This card embodies financial independence achieved through hard work, the pleasure of refinement and beauty, and the satisfaction of self-reliance. It speaks to enjoying the fruits of your labor, creating beauty and comfort, and the confidence that comes from knowing you've earned what you have. The Nine of Pentacles reminds us that true luxury is self-created, that independence brings deep satisfaction, and that material success is sweetest when earned through discipline and grace.",
+  "deep_meaning_ko": "펜타클의 9는 자급자족, 사치, 그리고 규율의 보상을 나타냅니다. 우아한 인물이 무르익는 포도에 둘러싸인 무성한 정원에 서 있고 손에 매를 들고 있으며, 아홉 개의 펜타클이 덩굴을 장식합니다. 이 카드는 노력으로 달성한 재정적 독립성, 세련됨과 아름다움의 즐거움, 그리고 자립의 만족을 구현합니다. 노동의 열매를 즐기고, 아름다움과 편안함을 창조하며, 가진 것을 벌었다는 것을 아는 것에서 오는 자신감에 대해 말합니다. 펜타클의 9는 진정한 사치가 자기 창조되고, 독립성이 깊은 만족을 가져오며, 물질적 성공이 규율과 우아함을 통해 얻어졌을 때 가장 달콤하다는 것을 상기시킵니다.",
+  "symbolism": {
+    "elegant_figure": "refinement and self-possession",
+    "lush_garden": "abundance and cultivation",
+    "falcon": "discipline and trained mastery",
+    "nine_pentacles": "material success earned",
+    "grapes": "luxury and fruition",
+    "solitude": "self-sufficiency and independence"
+  },
+  "upright_themes": [
+    "independence",
+    "luxury",
+    "self-sufficiency",
+    "financial security",
+    "refinement",
+    "discipline",
+    "success",
+    "enjoying rewards"
+  ],
+  "reversed_themes": [
+    "financial dependence",
+    "superficiality",
+    "materialism",
+    "overwork",
+    "loneliness",
+    "lack of discipline"
+  ],
+  "life_lessons": "True luxury is self-created through discipline. Independence brings deep satisfaction. Enjoy the fruits of your labor with grace and gratitude.",
+  "related_cards": [3, 8, 19, 43],
+  "element": "Earth",
+  "numerology": "9 - Self-sufficiency, earned abundance, material completion"
+}

@@ -50,6 +50,7 @@ from src.ai.cache import (
 from src.ai.providers import (
     OpenAIProvider,
     ClaudeProvider,
+    GeminiProvider,
 )
 
 __all__ = [
@@ -79,4 +80,5 @@ __all__ = [
     # Concrete providers
     "OpenAIProvider",
     "ClaudeProvider",
+    "GeminiProvider",
 ]

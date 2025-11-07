@@ -1,0 +1,40 @@
+{
+  "id": 61,
+  "name": "Queen of Swords",
+  "name_ko": "소드의 여왕",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "queen",
+  "deep_meaning": "The Queen of Swords represents clear thinking, honest communication, and the wisdom born of experience. She sits upon her throne with sword upright and hand extended, her face marked by experience yet clear-eyed. This card embodies intellectual independence, the ability to think objectively despite emotions, and the power of truth spoken with clarity and precision. The Queen of Swords has known loss but emerged stronger, using pain to develop discernment. She reminds us that clarity is compassion, that truth serves even when it hurts, and that real wisdom combines intellect with understanding of human nature.",
+  "deep_meaning_ko": "소드의 여왕은 명확한 사고, 정직한 소통, 그리고 경험에서 태어난 지혜를 나타냅니다. 그녀는 검을 곧게 세우고 손을 내밀며 왕좌에 앉아 있으며, 얼굴은 경험으로 표시되어 있지만 눈은 맑습니다. 이 카드는 지적 독립성, 감정에도 불구하고 객관적으로 생각하는 능력, 그리고 명료함과 정밀함으로 말해진 진실의 힘을 구현합니다. 소드의 여왕은 상실을 알지만 더 강하게 나왔으며, 고통을 사용하여 분별력을 발전시켰습니다. 그녀는 명료함이 연민이고, 진실이 상처를 줄 때조차 도움이 되며, 진정한 지혜가 지성과 인간 본성의 이해를 결합한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "upright_sword": "truth, clarity, and judgment",
+    "extended_hand": "openness balanced with boundaries",
+    "clouds": "thoughts and mental clarity",
+    "stern_expression": "wisdom through experience",
+    "bird": "thoughts and communication",
+    "butterflies": "transformation through truth"
+  },
+  "upright_themes": [
+    "clear thinking",
+    "independence",
+    "honest communication",
+    "objectivity",
+    "perceptiveness",
+    "direct",
+    "experienced wisdom",
+    "boundaries"
+  ],
+  "reversed_themes": [
+    "coldness",
+    "cruelty",
+    "bitterness",
+    "harsh judgment",
+    "lack of empathy",
+    "overly critical"
+  ],
+  "life_lessons": "Think clearly and speak honestly. Boundaries are acts of self-respect. Experience, especially painful, develops wisdom. Clarity serves love.",
+  "related_cards": [2, 8, 11, 18],
+  "element": "Air",
+  "numerology": "Queen - Mastery of thought, clear wisdom born of experience"
+}

@@ -52,14 +52,20 @@ class Settings(BaseSettings):
     # AI Providers
     OPENAI_API_KEY: Optional[str] = None
     ANTHROPIC_API_KEY: Optional[str] = None
+    GEMINI_API_KEY: Optional[str] = None
 
     # AI Settings
-    DEFAULT_AI_PROVIDER: str = "claude"  # openai, claude
-    OPENAI_MODEL: str = "gpt-4o-mini"
-    ANTHROPIC_MODEL: str = "claude-3-haiku-20240307"
-    AI_PROVIDER_PRIORITY: str = "claude,openai"
-    AI_PROVIDER_TIMEOUT: int = 60  # seconds per provider
-    AI_REQUEST_TIMEOUT: int = 180  # seconds total request timeout
+    DEFAULT_AI_PROVIDER: str = "openai"  # openai, anthropic, gemini
+    OPENAI_MODEL: str = "gpt-4o-mini"  # Fast and cost-efficient: $0.15/$0.6 per 1M tokens
+    ANTHROPIC_MODEL: str = "claude-3-5-sonnet-20241022"  # High quality fallback
+    GEMINI_MODEL: str = "gemini-2.0-flash-exp"  # Free during preview, very fast
+    AI_PROVIDER_PRIORITY: str = "openai,anthropic,gemini"
+    AI_PROVIDER_TIMEOUT: int = 30  # seconds per provider (reduced from 60s for faster responses)
+    AI_REQUEST_TIMEOUT: int = 90  # seconds total request timeout (reduced from 180s)
+
+    # Prompt Settings
+    PROMPT_LANGUAGE: str = "en"  # en | ko - Language for LLM prompts (English is more token-efficient)
+    RESPONSE_LANGUAGE: str = "ko"  # Language for LLM responses
 
     # Email Configuration (for Custom JWT Provider)
     SMTP_HOST: str = "smtp.gmail.com"

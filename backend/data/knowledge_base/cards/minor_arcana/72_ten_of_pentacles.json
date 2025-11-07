@@ -1,0 +1,39 @@
+{
+  "id": 72,
+  "name": "Ten of Pentacles",
+  "name_ko": "펜타클의 10",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "ten",
+  "deep_meaning": "The Ten of Pentacles represents lasting wealth, family legacy, and material completion. An elder sits at a grand archway with family members, children, and dogs, as ten pentacles are arranged in the pattern of the Tree of Life. This card embodies generational wealth, the security of established foundations, and the fulfillment that comes from creating lasting prosperity for those you love. It speaks to inheritance - both material and spiritual, family business, and the satisfaction of building something that outlasts you. The Ten of Pentacles reminds us that true wealth includes family and tradition, that the greatest legacy is what we build for future generations, and that material success is most meaningful when shared.",
+  "deep_meaning_ko": "펜타클의 10은 지속적인 부, 가족 유산, 그리고 물질적 완성을 나타냅니다. 노인이 가족 구성원, 아이들, 그리고 개들과 함께 웅장한 아치 길에 앉아 있고, 열 개의 펜타클이 생명의 나무 패턴으로 배열되어 있습니다. 이 카드는 세대 간 부, 확립된 기초의 안전, 그리고 사랑하는 사람들을 위한 지속적인 번영을 창조하는 것에서 오는 충족을 구현합니다. 물질적이고 영적인 유산, 가족 사업, 그리고 자신보다 오래 지속되는 것을 구축하는 만족에 대해 말합니다. 펜타클의 10은 진정한 부가 가족과 전통을 포함하고, 가장 큰 유산이 미래 세대를 위해 구축하는 것이며, 물질적 성공이 공유될 때 가장 의미가 있다는 것을 상기시킵니다.",
+  "symbolism": {
+    "elder": "wisdom and established wealth",
+    "family_gathering": "generational prosperity",
+    "tree_of_life_pattern": "spiritual and material harmony",
+    "grand_archway": "established foundation",
+    "dogs": "loyalty and family bonds",
+    "children": "future generations"
+  },
+  "upright_themes": [
+    "wealth",
+    "legacy",
+    "inheritance",
+    "family",
+    "tradition",
+    "long-term success",
+    "security",
+    "established foundation"
+  ],
+  "reversed_themes": [
+    "family disputes",
+    "financial loss",
+    "instability",
+    "broken traditions",
+    "inheritance issues"
+  ],
+  "life_lessons": "Build wealth that benefits future generations. True legacy includes family, values, and traditions. Material success is most meaningful when shared with loved ones.",
+  "related_cards": [3, 4, 10, 44],
+  "element": "Earth",
+  "numerology": "10 - Complete material fulfillment, generational wealth and legacy"
+}

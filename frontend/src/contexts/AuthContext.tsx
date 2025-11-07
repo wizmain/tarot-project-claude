@@ -21,6 +21,7 @@ interface AuthContextType {
   user: AuthUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  accessToken: string | null;
   login: (email: string, password: string) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
   signup: (email: string, password: string, displayName?: string) => Promise<void>;
@@ -38,6 +39,7 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const authProvider = getAuthProvider();
@@ -63,7 +65,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     // Listen to auth state changes
     const unsubscribe = authProvider.onAuthStateChanged(async (user) => {
+      console.log('[AuthContext] onAuthStateChanged fired', {
+        hasUser: !!user,
+        userId: user?.id,
+        timestamp: new Date().toISOString(),
+      });
+
       setUser(user);
+
+      // Fetch access token when user is authenticated
+      if (user) {
+        const token = await authProvider.getAuthToken();
+        console.log('[AuthContext] Got new token', {
+          tokenLength: token?.length,
+          timestamp: new Date().toISOString(),
+        });
+        setAccessToken(token);
+
+        // Store token in localStorage for persistence
+        if (token) {
+          localStorage.setItem('accessToken', token);
+        }
+      } else {
+        console.log('[AuthContext] User logged out or token expired');
+        setAccessToken(null);
+        localStorage.removeItem('accessToken');
+      }
+
       setIsLoading(false);
     });
 
@@ -81,6 +109,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsLoading(true);
       const user = await authProvider.signIn({ email, password });
       setUser(user);
+
+      // Fetch and store access token
+      const token = await authProvider.getAuthToken();
+      setAccessToken(token);
+
+      // Store token in localStorage
+      if (token) {
+        localStorage.setItem('accessToken', token);
+      }
 
       // Redirect to home page after successful login
       router.push('/');
@@ -104,6 +141,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsLoading(true);
       const user = await authProvider.signUp({ email, password, displayName });
       setUser(user);
+
+      // Fetch and store access token
+      const token = await authProvider.getAuthToken();
+      setAccessToken(token);
+
+      // Store token in localStorage
+      if (token) {
+        localStorage.setItem('accessToken', token);
+      }
 
       // Redirect to home page after successful signup
       router.push('/');
@@ -142,6 +188,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const user = await firebaseProvider.signInWithGoogle();
       setUser(user);
 
+      // Fetch and store access token
+      const token = await authProvider.getAuthToken();
+      setAccessToken(token);
+
+      // Store token in localStorage
+      if (token) {
+        localStorage.setItem('accessToken', token);
+      }
+
       // Redirect to home page after successful login
       router.push('/');
     } catch (error) {
@@ -164,6 +219,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
       const user = await firebaseProvider.signInWithGoogle();
       setUser(user);
+
+      // Fetch and store access token
+      const token = await authProvider.getAuthToken();
+      setAccessToken(token);
+
+      // Store token in localStorage
+      if (token) {
+        localStorage.setItem('accessToken', token);
+      }
 
       // Redirect to home page after successful signup
       router.push('/');
@@ -191,6 +255,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     user,
     isLoading,
     isAuthenticated: !!user,
+    accessToken,
     login,
     loginWithGoogle,
     signup,

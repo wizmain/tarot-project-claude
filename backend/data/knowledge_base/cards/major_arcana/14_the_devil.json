@@ -1,0 +1,40 @@
+{
+  "id": 14,
+  "name": "The Devil",
+  "name_ko": "악마",
+  "arcana_type": "major",
+  "rank": "The Devil",
+  "number": 14,
+  "deep_meaning": "The Devil represents bondage, materialism, and the shadow self. But look closely - the chains around the necks of the human figures are loose enough to remove. This card teaches that we are often prisoners of our own making, bound by unhealthy attachments, addictions, or limiting beliefs. The Devil is not an external force but our own shadow - the parts of ourselves we deny or repress. Freedom comes from acknowledging these aspects and recognizing that we have the power to release ourselves from self-imposed limitations.",
+  "deep_meaning_ko": "악마는 bondage을/를 상징합니다.",
+  "symbolism": {
+    "inverted_pentagram": "material over spiritual",
+    "loose_chains": "self-imposed bondage",
+    "horns": "animal nature",
+    "torch": "false light of materialism",
+    "man_and_woman": "humanity in bondage"
+  },
+  "upright_themes": [
+    "bondage",
+    "addiction",
+    "materialism",
+    "playfulness",
+    "sexuality"
+  ],
+  "reversed_themes": [
+    "releasing limitations",
+    "detachment",
+    "breaking free"
+  ],
+  "upright_extended": "The Devil represents bondage, materialism, and the shadow self. But look closely - the chains around the necks of the human figures are loose enough to remove. This card teaches that we are often prisoners of our own making, bound by unhealthy attachments, addictions, or limiting beliefs. The Devil is not an external force but our own shadow - the parts of ourselves we deny or repress. Freedom comes from acknowledging these aspects and recognizing that we have the power to release ourselves from self-imposed limitations.",
+  "reversed_extended": "역방향에서 The Devil는 releasing limitations, detachment, breaking free을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Capricorn",
+  "element": "Earth",
+  "numerology": "Number 14 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The Devil?",
+    "What does The Devil teach me about my current situation?"
+  ]
+}

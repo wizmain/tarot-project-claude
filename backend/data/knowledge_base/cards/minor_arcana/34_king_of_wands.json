@@ -1,0 +1,40 @@
+{
+  "id": 34,
+  "name": "King of Wands",
+  "name_ko": "완드의 왕",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "king",
+  "deep_meaning": "The King of Wands represents visionary leadership, entrepreneurial spirit, and bold command. He sits confidently on his throne, wand in hand, surrounded by salamanders - symbols of transformation through fire. This card embodies the leader who inspires through action, who takes calculated risks, and who transforms vision into reality through sheer force of will and charisma. The King of Wands is decisive, ambitious, and natural at leadership - he reminds us that true authority comes from integrity, that bold vision requires courage to execute, and that the best leaders ignite passion in others while maintaining clear direction.",
+  "deep_meaning_ko": "완드의 왕은 비전 있는 리더십, 기업가 정신, 그리고 대담한 지휘를 나타냅니다. 그는 완드를 손에 들고 왕좌에 자신감 있게 앉아 있으며, 불을 통한 변화의 상징인 도롱뇽에 둘러싸여 있습니다. 이 카드는 행동을 통해 영감을 주는 리더, 계산된 위험을 감수하는 리더, 그리고 순수한 의지와 카리스마의 힘으로 비전을 현실로 변화시키는 리더를 구현합니다. 완드의 왕은 결단력 있고, 야심 차며, 리더십에 타고난 재능이 있습니다 - 그는 진정한 권위가 성실함에서 나오고, 대담한 비전은 실행할 용기를 필요로 하며, 최고의 리더는 명확한 방향을 유지하면서 다른 사람들에게 열정을 불붙인다는 것을 상기시킵니다.",
+  "symbolism": {
+    "throne": "established authority and leadership",
+    "salamanders": "transformation and mastery of fire",
+    "wand": "creative power and command",
+    "orange_robe": "passion, energy, and action",
+    "crown": "authority earned through vision and courage",
+    "confident_gaze": "clarity of purpose and direction"
+  },
+  "upright_themes": [
+    "leadership",
+    "vision",
+    "entrepreneur",
+    "boldness",
+    "charisma",
+    "inspiration",
+    "honor",
+    "determination"
+  ],
+  "reversed_themes": [
+    "domineering",
+    "ruthless",
+    "impulsive",
+    "vicious",
+    "forceful",
+    "lack of direction"
+  ],
+  "life_lessons": "Lead with vision and inspire others to greatness. Transform bold ideas into reality through decisive action. Balance passion with wisdom and honor.",
+  "related_cards": [1, 4, 7, 21],
+  "element": "Fire",
+  "numerology": "King - Mastery of fire element, mature masculine creative power"
+}

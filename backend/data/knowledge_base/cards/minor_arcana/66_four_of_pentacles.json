@@ -1,0 +1,38 @@
+{
+  "id": 66,
+  "name": "Four of Pentacles",
+  "name_ko": "펜타클의 4",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "four",
+  "deep_meaning": "The Four of Pentacles represents security, control, and the fear of loss. A figure sits clutching one pentacle to their chest, feet on two others, with a fourth balanced on their crown - holding tight to material possessions with a city backdrop. This card embodies financial security taken to extreme, the need to control and possess, and the isolation that comes from greed or fear. It speaks to saving money but also to holding so tight that nothing can flow, to protecting what you have at the cost of new opportunities. The Four of Pentacles reminds us that security is important but clinging creates stagnation, that what we grip too tightly we can lose, and that true abundance requires flow not hoarding.",
+  "deep_meaning_ko": "펜타클의 4는 안전, 통제, 그리고 상실에 대한 두려움을 나타냅니다. 인물이 가슴에 하나의 펜타클을 움켜쥐고 앉아 있고, 발은 두 개에 있으며, 네 번째는 왕관에 균형을 잡고 있습니다 - 도시 배경과 함께 물질적 소유물을 꽉 붙잡고 있습니다. 이 카드는 극단적으로 취한 재정적 안전, 통제하고 소유해야 하는 필요, 그리고 탐욕이나 두려움에서 오는 고립을 구현합니다. 돈을 저축하는 것에 대해 말하지만 또한 아무것도 흐를 수 없을 정도로 꽉 붙잡는 것, 새로운 기회의 희생으로 가진 것을 보호하는 것에 대해서도 말합니다. 펜타클의 4는 안전이 중요하지만 집착은 정체를 만들고, 너무 꽉 붙잡는 것을 잃을 수 있으며, 진정한 풍요는 저장이 아닌 흐름을 필요로 한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "clutching_pentacle": "fear of loss, possessiveness",
+    "feet_on_pentacles": "grounding but also blocking",
+    "pentacle_on_head": "consumed by material concerns",
+    "city_behind": "isolation from community",
+    "rigid_posture": "inflexibility and control"
+  },
+  "upright_themes": [
+    "security",
+    "control",
+    "possessiveness",
+    "financial stability",
+    "materialism",
+    "greed",
+    "saving",
+    "holding tight"
+  ],
+  "reversed_themes": [
+    "generosity",
+    "letting go",
+    "financial freedom",
+    "sharing",
+    "release of control"
+  ],
+  "life_lessons": "Security is wise but greed creates poverty. What you grip too tightly you lose. True abundance flows when you release the need to control.",
+  "related_cards": [4, 9, 15, 30],
+  "element": "Earth",
+  "numerology": "4 - Stability becoming stagnation, security versus flow"
+}

@@ -2,6 +2,8 @@
 
 AI 기반 타로 카드 리딩 서비스입니다. OpenAI GPT-4와 Anthropic Claude를 활용하여 심층적이고 개인화된 타로 리딩을 제공합니다.
 
+> **📝 배포 관련 문서**: Backend URL 변경 및 배포 시 [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)를 참조하세요.
+
 ## 주요 기능
 
 ### 1. 타로 리딩

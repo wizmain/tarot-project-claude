@@ -1,0 +1,35 @@
+{
+  "id": 32,
+  "name": "Page of Wands",
+  "name_ko": "완드의 페이지",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "page",
+  "number": 11,
+  "deep_meaning": "The Page of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in action, ambition, creativity, passion, willpower. Youthful energy and enthusiasm.",
+  "deep_meaning_ko": "완드의 페이지는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "page": "new ideas, enthusiasm, messages"
+  },
+  "upright_themes": [
+    "action",
+    "new ideas",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to new ideas",
+    "delays"
+  ],
+  "upright_extended": "The Page of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in action, ambition, creativity, passion, willpower. Youthful energy and enthusiasm.",
+  "reversed_extended": "When reversed, Page of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 11: new ideas, enthusiasm, messages",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

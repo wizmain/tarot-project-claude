@@ -1,0 +1,39 @@
+{
+  "id": 48,
+  "name": "King of Cups",
+  "name_ko": "컵의 왕",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "king",
+  "deep_meaning": "The King of Cups represents emotional mastery, calm wisdom, and balanced leadership. He sits on his throne amid churning waters, holding his cup steady with complete composure. This card embodies the person who has mastered their emotions without suppressing them, who leads with empathy while maintaining authority, and who remains calm in emotional storms. The King of Cups is diplomatic, compassionate, and emotionally intelligent - he reminds us that true power includes emotional awareness, that feeling deeply and thinking clearly are not opposites, and that the highest form of emotional maturity is remaining balanced while honoring all feelings.",
+  "deep_meaning_ko": "컵의 왕은 감정적 숙달, 차분한 지혜, 그리고 균형 잡힌 리더십을 나타냅니다. 그는 거친 물 한가운데 왕좌에 앉아 완벽한 침착함으로 컵을 안정적으로 들고 있습니다. 이 카드는 감정을 억압하지 않고 숙달한 사람, 권위를 유지하면서 공감으로 이끄는 사람, 그리고 감정의 폭풍 속에서 침착함을 유지하는 사람을 구현합니다. 컵의 왕은 외교적이고, 연민이 있으며, 감정적으로 지능적입니다 - 그는 진정한 힘이 감정적 인식을 포함하고, 깊이 느끼는 것과 명확하게 생각하는 것이 반대가 아니며, 감정적 성숙의 최고 형태는 모든 감정을 존중하면서 균형을 유지하는 것임을 상기시킵니다.",
+  "symbolism": {
+    "calm_amid_chaos": "emotional mastery and stability",
+    "cup_held_steady": "control without suppression",
+    "throne_on_water": "emotional authority and wisdom",
+    "fish_amulet": "creativity and unconscious wisdom",
+    "ship": "emotional journey navigated successfully"
+  },
+  "upright_themes": [
+    "emotional balance",
+    "compassion",
+    "diplomacy",
+    "wisdom",
+    "calmness",
+    "tolerance",
+    "emotional maturity",
+    "advisor"
+  ],
+  "reversed_themes": [
+    "emotional manipulation",
+    "moodiness",
+    "coldness",
+    "repressed emotions",
+    "overwhelmed",
+    "volatility"
+  ],
+  "life_lessons": "Master your emotions without denying them. Lead with both heart and mind. True strength is remaining calm while honoring all feelings.",
+  "related_cards": [2, 4, 11, 14],
+  "element": "Water",
+  "numerology": "King - Mastery of emotions, balanced wisdom of the heart"
+}

@@ -1,0 +1,42 @@
+{
+  "id": 8,
+  "name": "The Hermit",
+  "name_ko": "은둔자",
+  "arcana_type": "major",
+  "rank": "The Hermit",
+  "number": 8,
+  "deep_meaning": "The Hermit represents introspection, solitude, and inner wisdom. Standing alone on a mountaintop with only a lantern to light the way, he symbolizes the journey inward to find truth. This is a time for withdrawal from the external world to focus on spiritual understanding and self-discovery. The Hermit teaches that sometimes we must step back from the noise of daily life to hear our inner voice. His light is both a beacon for others and illumination for his own path, suggesting that wisdom gained in solitude can eventually guide others.",
+  "deep_meaning_ko": "은둔자는 introspection을/를 상징합니다.",
+  "symbolism": {
+    "lantern": "inner light and wisdom",
+    "staff": "authority and support",
+    "mountain": "spiritual achievement",
+    "gray_cloak": "invisibility and neutrality",
+    "six-pointed_star": "the seal of Solomon, divine wisdom"
+  },
+  "upright_themes": [
+    "introspection",
+    "solitude",
+    "wisdom",
+    "soul-searching",
+    "inner guidance"
+  ],
+  "reversed_themes": [
+    "isolation",
+    "loneliness",
+    "withdrawal",
+    "paranoia",
+    "refusal to seek help"
+  ],
+  "upright_extended": "The Hermit represents introspection, solitude, and inner wisdom. Standing alone on a mountaintop with only a lantern to light the way, he symbolizes the journey inward to find truth. This is a time for withdrawal from the external world to focus on spiritual understanding and self-discovery. The Hermit teaches that sometimes we must step back from the noise of daily life to hear our inner voice. His light is both a beacon for others and illumination for his own path, suggesting that wisdom gained in solitude can eventually guide others.",
+  "reversed_extended": "역방향에서 The Hermit는 isolation, loneliness, withdrawal을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Virgo",
+  "element": "Earth",
+  "numerology": "Number 8 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The Hermit?",
+    "What does The Hermit teach me about my current situation?"
+  ]
+}

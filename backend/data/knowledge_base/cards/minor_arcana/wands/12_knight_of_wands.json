@@ -1,0 +1,35 @@
+{
+  "id": 33,
+  "name": "Knight of Wands",
+  "name_ko": "완드의 나이트",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "knight",
+  "number": 12,
+  "deep_meaning": "The Knight of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of swift action, courage, pursuit. The Knight takes action, pursuing action, ambition, creativity, passion, willpower with determination and speed.",
+  "deep_meaning_ko": "완드의 나이트는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "knight": "swift action, courage, pursuit"
+  },
+  "upright_themes": [
+    "action",
+    "swift action",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to swift action",
+    "delays"
+  ],
+  "upright_extended": "The Knight of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of swift action, courage, pursuit. The Knight takes action, pursuing action, ambition, creativity, passion, willpower with determination and speed.",
+  "reversed_extended": "When reversed, Knight of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 12: swift action, courage, pursuit",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

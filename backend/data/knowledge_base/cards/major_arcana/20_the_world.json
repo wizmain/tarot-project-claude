@@ -1,0 +1,39 @@
+{
+  "id": 20,
+  "name": "The World",
+  "name_ko": "세계",
+  "arcana_type": "major",
+  "rank": "The World",
+  "number": 20,
+  "deep_meaning": "The World represents completion, achievement, and cosmic consciousness. A dancer moves within a cosmic wreath, surrounded by the four elements, symbolizing perfect harmony and the successful conclusion of a journey. This is the final card of the Major Arcana - the Fool has traveled the entire journey and arrived at enlightenment. The World teaches that every ending is also a new beginning, and that completion of one cycle prepares us for the next. It speaks to fulfillment, integration, and the joy of knowing you have accomplished what you set out to do.",
+  "deep_meaning_ko": "세계는 completion을/를 상징합니다.",
+  "symbolism": {
+    "dancing_figure": "cosmic consciousness and celebration",
+    "wreath": "completion and victory",
+    "four_creatures": "four elements in balance",
+    "two_wands": "balance and achievement",
+    "purple_cloth": "wisdom and luxury"
+  },
+  "upright_themes": [
+    "completion",
+    "accomplishment",
+    "travel",
+    "cosmic awareness"
+  ],
+  "reversed_themes": [
+    "incompletion",
+    "lack of closure",
+    "short-cuts"
+  ],
+  "upright_extended": "The World represents completion, achievement, and cosmic consciousness. A dancer moves within a cosmic wreath, surrounded by the four elements, symbolizing perfect harmony and the successful conclusion of a journey. This is the final card of the Major Arcana - the Fool has traveled the entire journey and arrived at enlightenment. The World teaches that every ending is also a new beginning, and that completion of one cycle prepares us for the next. It speaks to fulfillment, integration, and the joy of knowing you have accomplished what you set out to do.",
+  "reversed_extended": "역방향에서 The World는 incompletion, lack of closure, short-cuts을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Saturn",
+  "element": "Earth",
+  "numerology": "Number 20 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The World?",
+    "What does The World teach me about my current situation?"
+  ]
+}

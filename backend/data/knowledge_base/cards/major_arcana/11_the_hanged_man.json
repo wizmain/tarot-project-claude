@@ -1,0 +1,41 @@
+{
+  "id": 11,
+  "name": "The Hanged Man",
+  "name_ko": "매달린 남자",
+  "arcana_type": "major",
+  "rank": "The Hanged Man",
+  "number": 11,
+  "deep_meaning": "The Hanged Man represents surrender, new perspectives, and enlightenment through sacrifice. Hanging upside down from a tree, he appears calm and even serene, suggesting voluntary suspension and a different way of seeing the world. This card teaches that sometimes we must let go of control and allow events to unfold. The sacrifice here is not suffering but rather releasing old patterns to gain wisdom. By suspending action and accepting a period of waiting, we often gain insights that would never come through force or struggle.",
+  "deep_meaning_ko": "매달린 남자는 surrender을/를 상징합니다.",
+  "symbolism": {
+    "upside_down_position": "new perspective",
+    "halo": "spiritual enlightenment",
+    "serene_expression": "peace in surrender",
+    "one_leg_crossed": "the number 4, material stability",
+    "living_tree": "growth continues even in suspension"
+  },
+  "upright_themes": [
+    "surrender",
+    "letting go",
+    "new perspective",
+    "enlightenment",
+    "patience"
+  ],
+  "reversed_themes": [
+    "stalling",
+    "resistance",
+    "indecision",
+    "missed opportunities"
+  ],
+  "upright_extended": "The Hanged Man represents surrender, new perspectives, and enlightenment through sacrifice. Hanging upside down from a tree, he appears calm and even serene, suggesting voluntary suspension and a different way of seeing the world. This card teaches that sometimes we must let go of control and allow events to unfold. The sacrifice here is not suffering but rather releasing old patterns to gain wisdom. By suspending action and accepting a period of waiting, we often gain insights that would never come through force or struggle.",
+  "reversed_extended": "역방향에서 The Hanged Man는 stalling, resistance, indecision을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Neptune",
+  "element": "Water",
+  "numerology": "Number 11 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The Hanged Man?",
+    "What does The Hanged Man teach me about my current situation?"
+  ]
+}

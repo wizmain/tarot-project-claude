@@ -1,0 +1,40 @@
+{
+  "id": 16,
+  "name": "The Star",
+  "name_ko": "별",
+  "arcana_type": "major",
+  "rank": "The Star",
+  "number": 16,
+  "deep_meaning": "The Star represents hope, renewal, and spiritual guidance. After the chaos of The Tower, The Star brings healing and serenity. A woman kneels by water, pouring it onto land and into the pool, symbolizing the flow of spiritual nourishment and the connection between conscious and unconscious. The stars above represent divine guidance and the promise that we are never truly lost. This card teaches that even in our darkest moments, hope remains. It speaks to faith, inspiration, and the calm certainty that everything will work out as it should.",
+  "deep_meaning_ko": "별는 hope을/를 상징합니다.",
+  "symbolism": {
+    "naked_woman": "vulnerability and truth",
+    "two_vessels": "conscious and unconscious mind",
+    "pool": "the universal subconscious",
+    "eight-pointed_star": "cosmic order and hope",
+    "bird": "the sacred ibis, thought and spirituality"
+  },
+  "upright_themes": [
+    "hope",
+    "faith",
+    "renewal",
+    "inspiration",
+    "serenity"
+  ],
+  "reversed_themes": [
+    "despair",
+    "lack of faith",
+    "disconnection"
+  ],
+  "upright_extended": "The Star represents hope, renewal, and spiritual guidance. After the chaos of The Tower, The Star brings healing and serenity. A woman kneels by water, pouring it onto land and into the pool, symbolizing the flow of spiritual nourishment and the connection between conscious and unconscious. The stars above represent divine guidance and the promise that we are never truly lost. This card teaches that even in our darkest moments, hope remains. It speaks to faith, inspiration, and the calm certainty that everything will work out as it should.",
+  "reversed_extended": "역방향에서 The Star는 despair, lack of faith, disconnection을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Aquarius",
+  "element": "Air",
+  "numerology": "Number 16 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The Star?",
+    "What does The Star teach me about my current situation?"
+  ]
+}

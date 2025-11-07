@@ -1,0 +1,39 @@
+{
+  "id": 54,
+  "name": "Six of Swords",
+  "name_ko": "소드의 6",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "six",
+  "deep_meaning": "The Six of Swords represents transition, moving forward, and passage from turbulent waters to calmer shores. A ferryman guides a boat carrying a figure and child with six swords standing upright, moving from rough waters toward smoother seas. This card embodies the journey away from difficulty, the healing power of distance, and the hope of better times ahead. It speaks to necessary transitions, escaping troubling situations, and the mental shift from turmoil to peace. The Six of Swords reminds us that moving forward is possible, that troubled times don't last forever, and that sometimes the best solution is changing our location or perspective.",
+  "deep_meaning_ko": "소드의 6은 전환, 앞으로 나아가는 것, 그리고 격동의 물에서 더 잔잔한 해안으로의 통과를 나타냅니다. 뱃사공이 인물과 아이를 태운 보트를 안내하며 여섯 개의 검이 곧게 서 있고, 거친 물에서 더 부드러운 바다로 이동합니다. 이 카드는 어려움에서 벗어나는 여정, 거리의 치유력, 그리고 더 나은 시간의 희망을 구현합니다. 필요한 전환, 문제가 있는 상황에서 벗어나는 것, 그리고 혼란에서 평화로의 정신적 변화에 대해 말합니다. 소드의 6은 앞으로 나아가는 것이 가능하고, 어려운 시기가 영원히 지속되지 않으며, 때로는 최선의 해결책이 위치나 관점을 바꾸는 것임을 상기시킵니다.",
+  "symbolism": {
+    "boat": "transition and passage",
+    "calm_ahead": "hope for better times",
+    "rough_behind": "troubles left behind",
+    "ferryman": "guide through transition",
+    "standing_swords": "taking troubles with us but managing them",
+    "cloaked_figures": "grief and transition"
+  },
+  "upright_themes": [
+    "transition",
+    "moving forward",
+    "leaving behind",
+    "travel",
+    "change of scene",
+    "recovery",
+    "passage",
+    "calmer waters"
+  ],
+  "reversed_themes": [
+    "stuck in place",
+    "resisting change",
+    "unable to move on",
+    "delayed journey",
+    "unfinished business"
+  ],
+  "life_lessons": "Sometimes healing requires distance. Moving forward doesn't mean forgetting - it means not being controlled by the past. Better times lie ahead.",
+  "related_cards": [8, 13, 18, 20],
+  "element": "Air",
+  "numerology": "6 - Transition, moving toward harmony and healing"
+}

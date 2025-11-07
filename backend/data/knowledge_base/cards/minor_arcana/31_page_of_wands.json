@@ -1,0 +1,40 @@
+{
+  "id": 31,
+  "name": "Page of Wands",
+  "name_ko": "완드의 페이지",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "page",
+  "deep_meaning": "The Page of Wands represents enthusiasm, exploration, and the spark of new creative ventures. A young figure holds a wand with wonder and excitement, ready to embark on adventures. This card embodies youthful energy, curiosity, and the fearless pursuit of passion. It signals the beginning of creative projects, the arrival of inspiring news, or the emergence of entrepreneurial spirit. The Page of Wands reminds us to embrace beginner's mind, to explore with enthusiasm, and to follow inspiration wherever it leads with childlike wonder and courage.",
+  "deep_meaning_ko": "완드의 페이지는 열정, 탐험, 그리고 새로운 창조적 모험의 불씨를 나타냅니다. 젊은 인물이 경이로움과 흥분으로 완드를 들고 모험을 시작할 준비가 되어 있습니다. 이 카드는 젊은 에너지, 호기심, 그리고 열정의 두려움 없는 추구를 구현합니다. 창조적 프로젝트의 시작, 영감을 주는 소식의 도착, 또는 기업가 정신의 출현을 알립니다. 완드의 페이지는 초심자의 마음을 받아들이고, 열정으로 탐험하며, 어린아이 같은 경이로움과 용기로 영감이 이끄는 곳이면 어디든 따라가도록 상기시킵니다.",
+  "symbolism": {
+    "young_figure": "enthusiasm, inexperience, and potential",
+    "wand_held_upright": "inspiration and passion",
+    "salamanders": "transformation and fire element",
+    "desert_landscape": "new territory to explore",
+    "bright_clothing": "optimism and energy",
+    "contemplative_stance": "considering possibilities"
+  },
+  "upright_themes": [
+    "enthusiasm",
+    "exploration",
+    "discovery",
+    "inspiration",
+    "good news",
+    "free spirit",
+    "creativity",
+    "new ideas"
+  ],
+  "reversed_themes": [
+    "lack of direction",
+    "setbacks",
+    "hasty decisions",
+    "immaturity",
+    "bad news",
+    "lack of follow-through"
+  ],
+  "life_lessons": "Embrace new adventures with enthusiasm. Follow your inspiration without overthinking. Every expert was once a beginner - start with passion and learn as you go.",
+  "related_cards": [0, 1, 22, 28],
+  "element": "Fire",
+  "numerology": "Page - Messenger of fire, new beginnings in creative realm"
+}

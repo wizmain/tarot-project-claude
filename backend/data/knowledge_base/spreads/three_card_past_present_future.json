@@ -1,0 +1,37 @@
+{
+  "id": "three_card_past_present_future",
+  "name": "Three Card: Past, Present, Future",
+  "name_ko": "쓰리카드: 과거-현재-미래",
+  "description": "This classic three-card spread reveals the temporal flow of a situation, showing how past influences shape the present and how current actions affect future outcomes.",
+  "description_ko": "이 고전적인 세 카드 스프레드는 상황의 시간적 흐름을 드러내며, 과거의 영향이 현재를 형성하는 방법과 현재의 행동이 미래의 결과에 어떻게 영향을 미치는지 보여줍니다.",
+  "positions": [
+    {
+      "position": "past",
+      "meaning": "Past influences, foundations, or lessons that shape the current situation. This may represent recent events or long-standing patterns.",
+      "meaning_ko": "현재 상황을 형성하는 과거의 영향, 토대 또는 교훈. 최근 사건이나 오랫동안 지속된 패턴을 나타낼 수 있습니다."
+    },
+    {
+      "position": "present",
+      "meaning": "Current energies, challenges, or opportunities. The central focus of the reading showing what is actively at play now.",
+      "meaning_ko": "현재의 에너지, 도전 또는 기회. 지금 적극적으로 작용하고 있는 것을 보여주는 리딩의 중심 초점."
+    },
+    {
+      "position": "future",
+      "meaning": "Likely outcome or trajectory if current path continues. This represents potential rather than fixed fate and can be influenced by choices.",
+      "meaning_ko": "현재 경로가 계속될 경우 예상되는 결과 또는 방향. 이것은 고정된 운명이 아닌 잠재력을 나타내며 선택에 의해 영향을 받을 수 있습니다."
+    }
+  ],
+  "interpretation_guide": "Analyze the narrative arc from past to future. Look for themes connecting the cards. Pay attention to how the past card's energy flows into the present, and how present choices influence the future outcome. Consider elemental flows between cards (does fire lead to earth for manifestation?). Notice if cards are predominantly major or minor arcana, indicating fate versus free will.",
+  "interpretation_guide_ko": "과거에서 미래로의 이야기 흐름을 분석하세요. 카드를 연결하는 주제를 찾으세요. 과거 카드의 에너지가 현재로 흐르는 방식과 현재의 선택이 미래 결과에 어떻게 영향을 미치는지 주의하세요. 카드 간의 원소 흐름을 고려하세요 (불이 땅으로 이어져 현현이 되는가?). 카드가 주로 메이저 아르카나인지 마이너 아르카나인지 확인하여 운명 대 자유 의지를 나타냅니다.",
+  "relationship_analysis": "Consider how the past card sets the stage for the present, and how current actions influence the future outcome. Look for cause-and-effect relationships. Identify whether the trajectory is ascending (improvement) or needs course correction.",
+  "best_for": [
+    "understanding situation timelines",
+    "seeing cause and effect",
+    "decision-making guidance",
+    "tracking progress",
+    "understanding patterns",
+    "relationship dynamics"
+  ],
+  "timing": "Past: recent weeks to months, Present: current moment, Future: coming weeks to months",
+  "difficulty": "beginner to intermediate"
+}

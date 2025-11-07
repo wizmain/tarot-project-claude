@@ -1,0 +1,39 @@
+{
+  "id": 33,
+  "name": "Queen of Wands",
+  "name_ko": "완드의 여왕",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "queen",
+  "deep_meaning": "The Queen of Wands represents confidence, charisma, and passionate determination. She sits upon her throne with a sunflower in hand, a black cat at her feet, exuding warmth and natural authority. This card embodies the person who knows their worth, pursues their vision with infectious enthusiasm, and inspires others through authentic self-expression. The Queen of Wands is creative, courageous, and fiercely independent - she reminds us that true leadership comes from self-assurance, that passion coupled with focus creates magic, and that we shine brightest when fully ourselves.",
+  "deep_meaning_ko": "완드의 여왕은 자신감, 카리스마, 그리고 열정적 결단을 나타냅니다. 그녀는 해바라기를 손에 들고, 발 아래 검은 고양이와 함께 왕좌에 앉아 따뜻함과 자연스러운 권위를 발산합니다. 이 카드는 자신의 가치를 아는 사람, 전염성 있는 열정으로 비전을 추구하는 사람, 그리고 진정한 자기 표현을 통해 다른 사람들에게 영감을 주는 사람을 구현합니다. 완드의 여왕은 창의적이고, 용감하며, 매우 독립적입니다 - 그녀는 진정한 리더십이 자신감에서 나오고, 집중과 결합된 열정이 마법을 만들며, 완전히 자신일 때 가장 밝게 빛난다는 것을 상기시킵니다.",
+  "symbolism": {
+    "sunflower": "joy, vitality, and turning toward light",
+    "black_cat": "intuition, independence, and mystical power",
+    "throne_with_lions": "strength, courage, and natural authority",
+    "wand_in_hand": "creative power and leadership",
+    "confident_posture": "self-assurance and charisma"
+  },
+  "upright_themes": [
+    "confidence",
+    "independence",
+    "determination",
+    "charisma",
+    "vibrancy",
+    "passion",
+    "leadership",
+    "courage"
+  ],
+  "reversed_themes": [
+    "insecurity",
+    "jealousy",
+    "temperamental",
+    "demanding",
+    "overbearing",
+    "low self-esteem"
+  ],
+  "life_lessons": "Own your power and express yourself authentically. Confidence is magnetic. Lead with passion, warmth, and unwavering self-belief.",
+  "related_cards": [3, 8, 11, 19],
+  "element": "Fire",
+  "numerology": "Queen - Mastery of fire energy, confident feminine power"
+}

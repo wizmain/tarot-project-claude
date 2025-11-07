@@ -1,0 +1,40 @@
+{
+  "id": 76,
+  "name": "King of Pentacles",
+  "name_ko": "펜타클의 왕",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "king",
+  "deep_meaning": "The King of Pentacles represents mastery of the material world, business acumen, and the highest expression of earthly success. He sits confidently on a throne adorned with bull's heads and grapes, holding a pentacle in one hand and a scepter in the other, surrounded by abundance. This card embodies the successful entrepreneur, the person who has built lasting wealth through wisdom and hard work, and the leader who creates prosperity for others. The King of Pentacles is reliable, wealthy, and generous - he reminds us that true success includes creating value for others, that material mastery requires both vision and practical skill, and that the greatest leaders use their resources to benefit their communities.",
+  "deep_meaning_ko": "펜타클의 왕은 물질 세계의 숙달, 사업 통찰력, 그리고 세속적 성공의 최고 표현을 나타냅니다. 그는 황소 머리와 포도로 장식된 왕좌에 자신감 있게 앉아 한 손에 펜타클을, 다른 손에 홀을 들고 풍요에 둘러싸여 있습니다. 이 카드는 성공한 기업가, 지혜와 노력으로 지속적인 부를 구축한 사람, 그리고 다른 사람들을 위한 번영을 창조하는 리더를 구현합니다. 펜타클의 왕은 신뢰할 수 있고, 부유하며, 관대합니다 - 그는 진정한 성공이 다른 사람들을 위한 가치 창출을 포함하고, 물질적 숙달이 비전과 실용적 기술을 모두 필요로 하며, 가장 위대한 리더는 자원을 사용하여 공동체에 이익을 준다는 것을 상기시킵니다.",
+  "symbolism": {
+    "throne_with_bulls": "strength, stability, and Taurus",
+    "pentacle_in_hand": "mastery of material wealth",
+    "grapes_and_abundance": "prosperity and fruition",
+    "castle_behind": "empire built through effort",
+    "robe_with_grapes": "success and luxury earned",
+    "confident_posture": "security and authority"
+  },
+  "upright_themes": [
+    "wealth",
+    "business success",
+    "leadership",
+    "security",
+    "discipline",
+    "abundance",
+    "provider",
+    "enterprise"
+  ],
+  "reversed_themes": [
+    "greed",
+    "materialism",
+    "corruption",
+    "failure",
+    "financial loss",
+    "stubbornness"
+  ],
+  "life_lessons": "Build lasting wealth through wisdom and discipline. True success creates value for others. Leadership means using resources to benefit your community.",
+  "related_cards": [3, 4, 10, 21],
+  "element": "Earth",
+  "numerology": "King - Mastery of material world, highest expression of earthly success"
+}

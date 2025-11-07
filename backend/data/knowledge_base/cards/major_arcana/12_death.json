@@ -1,0 +1,40 @@
+{
+  "id": 12,
+  "name": "Death",
+  "name_ko": "죽음",
+  "arcana_type": "major",
+  "rank": "Death",
+  "number": 12,
+  "deep_meaning": "Death represents transformation, endings, and new beginnings. Despite its fearsome appearance, this card rarely signifies physical death. Instead, it speaks to profound change - the death of old ways, relationships, or beliefs to make room for new growth. Like autumn leaves falling to nourish spring flowers, Death teaches that endings are necessary for renewal. Resistance to this change causes suffering; acceptance brings liberation. This is one of the most misunderstood but ultimately hopeful cards in the deck.",
+  "deep_meaning_ko": "죽음는 transformation을/를 상징합니다.",
+  "symbolism": {
+    "skeleton": "what remains after transformation",
+    "black_armor": "invincibility of death/change",
+    "white_horse": "purity of the transformative force",
+    "rising_sun": "rebirth and new beginnings",
+    "fallen_king": "death comes to all regardless of status"
+  },
+  "upright_themes": [
+    "transformation",
+    "endings",
+    "transition",
+    "letting go",
+    "new beginnings"
+  ],
+  "reversed_themes": [
+    "resistance to change",
+    "stagnation",
+    "fear of endings"
+  ],
+  "upright_extended": "Death represents transformation, endings, and new beginnings. Despite its fearsome appearance, this card rarely signifies physical death. Instead, it speaks to profound change - the death of old ways, relationships, or beliefs to make room for new growth. Like autumn leaves falling to nourish spring flowers, Death teaches that endings are necessary for renewal. Resistance to this change causes suffering; acceptance brings liberation. This is one of the most misunderstood but ultimately hopeful cards in the deck.",
+  "reversed_extended": "역방향에서 Death는 resistance to change, stagnation, fear of endings을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Scorpio",
+  "element": "Water",
+  "numerology": "Number 12 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of Death?",
+    "What does Death teach me about my current situation?"
+  ]
+}

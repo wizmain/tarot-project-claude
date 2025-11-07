@@ -13,10 +13,11 @@
 ### 전체 진행률
 ```
 Phase 1 MVP: ████████████████░░░░ 80.0% (36/45 완료)
+Phase 2 고도화: ░░░░░░░░░░░░░░░░░░░░ 0.0% (0/7 완료)
 
 ✅ 완료: 36개
 🚧 진행중: 0개
-📋 대기중: 9개
+📋 대기중: 16개 (Epic 9, 10, 11)
 ```
 
 ### 마일스톤 현황
@@ -27,6 +28,7 @@ Phase 1 MVP: ████████████████░░░░ 80.0% 
 - [x] M4: 리딩 엔진 완성 (2025-12-13) ✅
 - [x] M5: 웹 인터페이스 완성 (2025-12-27) ✅
 - [ ] M6: MVP 테스트 및 배포 (2025-01-18)
+- [ ] M7: 리딩 엔진 고도화 (2025-02-15) - Epic 11
 
 ---
 
@@ -1165,6 +1167,277 @@ Phase 1 MVP: ████████████████░░░░ 80.0% 
 
 ---
 
+### Epic 11: 타로 리딩 엔진 고도화 (M7)
+
+#### TASK-054: RAG 지식 검색 시스템 구축
+- **상태**: ✅ 완료
+- **우선순위**: P0 (Critical)
+- **예상 시간**: 12시간 → **실제 소요**: 14시간
+- **담당자**: AI/Dev
+- **의존성**: TASK-010
+- **상세 내용**:
+  - [x] ChromaDB 벡터 DB 설정
+  - [x] sentence-transformers 임베딩 모델 통합 (paraphrase-multilingual-MiniLM-L12-v2)
+  - [x] 지식 베이스 구조 설계 (cards/, spreads/, combinations/, categories/)
+  - [x] 9장 타로 카드 상세 지식 문서 작성 (JSON 형식) - 7 Major + 2 Minor Arcana
+  - [x] 스프레드별 위치 의미 문서 작성 (2개: one_card, three_card_past_present_future)
+  - [x] 카드 조합 패턴 지식 베이스 구축 (8개 major pairs)
+  - [x] 카테고리별 해석 가이드 작성 (4개: career, relationship, personal_growth, general)
+  - [x] 임베딩 생성 및 벡터 DB 인덱싱 (25 documents indexed)
+  - [x] Top-k 검색 API 구현 (k=2-3)
+  - [x] 프롬프트 컨텍스트 강화 함수 구현
+  - [x] 단위 테스트 작성 및 검증
+  - [x] Reading API에 RAG 통합
+  - [x] 모든 프롬프트 템플릿에 RAG 컨텍스트 섹션 추가
+- **한계사항**:
+  - 현재 9/78 카드만 knowledge base 보유
+  - 나머지 69장 카드는 추가 작업 필요 (TASK-054-EXT로 분리)
+- **디렉토리 구조**:
+  ```
+  backend/src/ai/rag/
+  ├── __init__.py
+  ├── vector_store.py      # 벡터 DB 관리
+  ├── embeddings.py        # 임베딩 생성
+  ├── retriever.py         # Top-k 검색
+  ├── knowledge_base.py    # 지식 베이스 관리
+  └── context_enricher.py  # 프롬프트 컨텍스트 강화
+
+  backend/data/knowledge_base/
+  ├── cards/
+  │   ├── major_arcana/
+  │   └── minor_arcana/
+  ├── spreads/
+  ├── combinations/
+  └── categories/
+  ```
+- **기술 스택**:
+  - chromadb==0.4.22 또는 qdrant-client==1.7.0
+  - sentence-transformers==2.3.1
+  - langchain==0.1.4
+- **완료 조건**:
+  - 지식 베이스 78장 카드 문서 완성
+  - 벡터 검색 정확도 > 85% (테스트 쿼리 기준)
+  - 프롬프트 컨텍스트에 RAG 결과 통합 완료
+
+#### TASK-055: SSE 스트리밍 응답 구현
+- **상태**: ✅ 완료
+- **우선순위**: P0 (Critical)
+- **예상 시간**: 8시간 → **실제 소요**: 8시간
+- **담당자**: Dev
+- **의존성**: TASK-027, TASK-028, TASK-054
+- **상세 내용**:
+  - [x] FastAPI StreamingResponse 설정
+  - [x] SSE 이벤트 프로토콜 정의 (started, progress, card_drawn, rag_enrichment, ai_generation, complete, error)
+  - [x] POST /api/v1/readings/stream 엔드포인트 구현
+  - [x] 카드 뽑기 → RAG 검색 → LLM 생성 → 저장 파이프라인 구성
+  - [x] 각 단계별 SSE 이벤트 발송 (7개 주요 단계)
+  - [x] 에러 핸들링 및 SSE error 이벤트
+  - [x] 프론트엔드 SSE 클라이언트 구현 (Fetch API + Streaming)
+  - [x] 로딩 상태 UI 개선 (진행률 바, 실시간 메시지, 카드 애니메이션)
+  - [x] React Hook (useSSEReading) 구현
+- **구현 파일 (백엔드)**:
+  - `backend/src/schemas/sse_events.py`: SSE 이벤트 타입 및 스키마 정의
+  - `backend/src/api/routes/readings_stream.py`: SSE 스트리밍 엔드포인트 (390 lines)
+  - `backend/scripts/test_sse_stream.py`: SSE 테스트 스크립트
+- **구현 파일 (프론트엔드)**:
+  - `frontend/src/lib/sse-client.ts`: 타입 안전 SSE 클라이언트 (260 lines)
+  - `frontend/src/lib/use-sse-reading.ts`: SSE React Hook (150 lines)
+  - `frontend/src/components/ReadingProgress.tsx`: 실시간 진행률 UI (180 lines)
+  - `frontend/SSE_IMPLEMENTATION.md`: 구현 가이드 및 사용 예시
+- **API 스펙**:
+  ```
+  POST /api/v1/readings/stream
+  Content-Type: application/json
+  Accept: text/event-stream
+
+  Response: text/event-stream (SSE)
+  ```
+- **이벤트 예시**:
+  ```
+  event: progress
+  data: {"status": "drawing_cards", "progress": 10}
+
+  event: card_drawn
+  data: {"card": {...}, "position": "past"}
+
+  event: complete
+  data: {"reading_id": "xxx", "total_time": 5.2}
+  ```
+- **완료 조건**:
+  - 첫 SSE 이벤트 발송 < 3초
+  - 전체 스트리밍 완료 < 6초 (P95)
+  - 프론트엔드에서 실시간 진행 상황 표시
+
+#### TASK-056: 다국어 번역 모듈 구현
+- **상태**: 📋 대기중
+- **우선순위**: P0 (Critical)
+- **예상 시간**: 10시간
+- **담당자**: Dev
+- **의존성**: TASK-027
+- **상세 내용**:
+  - [ ] 번역 전략 설계 (LLM vs Google Translate vs Hybrid)
+  - [ ] TranslationService 인터페이스 정의
+  - [ ] LLMTranslator 구현 (Claude/GPT 활용)
+  - [ ] GoogleTranslator 구현 (Google Translate API)
+  - [ ] HybridTranslator 구현 (캐시된 응답은 Google, 새 응답은 LLM)
+  - [ ] 번역 품질 검증 로직 (타로 전문 용어 정확도)
+  - [ ] readings 테이블 translations 컬럼 추가 (JSONB)
+  - [ ] POST /api/v1/readings/{reading_id}/translate 엔드포인트
+  - [ ] GET /api/v1/readings/{reading_id}?locale=en 파라미터 지원
+  - [ ] 번역 캐싱 로직 (translations 필드 활용)
+  - [ ] force_refresh 파라미터 지원
+  - [ ] 지원 언어: 한국어(ko), 영어(en), 일본어(ja), 스페인어(es)
+  - [ ] 단위 테스트 (번역 품질, 캐싱 동작)
+- **디렉토리 구조**:
+  ```
+  backend/src/translation/
+  ├── __init__.py
+  ├── translator.py       # 번역 인터페이스
+  ├── llm_translator.py   # LLM 기반 번역
+  ├── google_translator.py # Google API
+  └── cache.py            # 번역 캐시
+  ```
+- **DB 마이그레이션**:
+  ```sql
+  ALTER TABLE readings ADD COLUMN translations JSONB DEFAULT '{}';
+  ```
+- **완료 조건**:
+  - 4개 언어 번역 지원 (ko, en, ja, es)
+  - 번역 캐시 히트율 > 70%
+  - 번역 품질 스코어 > 4.0/5.0 (사용자 피드백 기준)
+
+#### TASK-057: OpenTelemetry 트레이싱 통합
+- **상태**: 📋 대기중
+- **우선순위**: P1 (High)
+- **예상 시간**: 6시간
+- **담당자**: DevOps/Dev
+- **의존성**: TASK-055
+- **상세 내용**:
+  - [ ] opentelemetry-api, opentelemetry-sdk 설치
+  - [ ] opentelemetry-instrumentation-fastapi 자동 계측
+  - [ ] opentelemetry-exporter-otlp 설정 (Cloud Trace)
+  - [ ] 커스텀 Span 구현 (rag_search, llm_generation, translation)
+  - [ ] 커스텀 메트릭 정의 (reading_duration, llm_token_usage, cache_hit_rate)
+  - [ ] Trace context 전파 (HTTP 헤더)
+  - [ ] 로그-트레이스 상관관계 설정
+  - [ ] Cloud Trace 대시보드 설정
+  - [ ] 성능 병목 지점 식별 및 최적화
+- **디렉토리 구조**:
+  ```
+  backend/src/observability/
+  ├── __init__.py
+  ├── tracing.py          # OpenTelemetry 설정
+  ├── metrics.py          # 커스텀 메트릭
+  └── middleware.py       # FastAPI 미들웨어
+  ```
+- **메트릭 예시**:
+  ```python
+  reading_duration = meter.create_histogram(
+      "tarot.reading.duration",
+      description="Reading generation duration in seconds"
+  )
+
+  llm_token_usage = meter.create_counter(
+      "tarot.llm.tokens",
+      description="Total LLM tokens consumed"
+  )
+  ```
+- **완료 조건**:
+  - Cloud Trace에서 전체 요청 플로우 시각화
+  - 병목 지점 식별 및 레이턴시 > 500ms 구간 최적화
+  - 메트릭 대시보드 구축
+
+#### TASK-058: 히스토리 재번역 API 구현
+- **상태**: 📋 대기중
+- **우선순위**: P1 (High)
+- **예상 시간**: 4시간
+- **담당자**: Dev
+- **의존성**: TASK-056
+- **상세 내용**:
+  - [ ] GET /api/v1/readings?locale=en 파라미터 지원
+  - [ ] GET /api/v1/readings/{reading_id}?locale=ja 번역 반환
+  - [ ] translations 필드 확인 후 캐시 히트/미스 처리
+  - [ ] force_refresh=true 시 캐시 무시 및 재생성
+  - [ ] 페이지네이션에서 번역된 리딩 목록 반환
+  - [ ] 프론트엔드 언어 선택 UI 구현
+  - [ ] localStorage에 선호 언어 저장
+  - [ ] 통합 테스트
+- **완료 조건**:
+  - 히스토리 페이지에서 언어 전환 가능
+  - 번역 캐시 정상 동작 (재요청 시 즉시 반환)
+
+#### TASK-059: 데이터 암호화 및 GDPR 준수
+- **상태**: 📋 대기중
+- **우선순위**: P2 (Medium)
+- **예상 시간**: 6시간
+- **담당자**: Security/Dev
+- **의존성**: TASK-033
+- **상세 내용**:
+  - [ ] 민감 데이터 필드 식별 (question, user_context)
+  - [ ] AES-256 암호화 유틸리티 구현
+  - [ ] Google Secret Manager 암호화 키 관리
+  - [ ] Reading 모델에 암호화 로직 통합
+  - [ ] 데이터 읽기/쓰기 시 자동 암복호화
+  - [ ] DELETE /api/v1/users/me 엔드포인트 (데이터 삭제)
+  - [ ] GET /api/v1/users/me/data 엔드포인트 (데이터 다운로드)
+  - [ ] 개인정보 처리방침 문서 작성
+  - [ ] 쿠키 동의 UI (프론트엔드)
+- **디렉토리 구조**:
+  ```
+  backend/src/core/
+  ├── encryption.py        # AES-256 암호화
+  └── gdpr.py              # GDPR API
+  ```
+- **완료 조건**:
+  - question, user_context 필드 암호화 저장
+  - GDPR Right to Access/Erasure API 구현
+  - 개인정보 처리방침 페이지 추가
+
+#### TASK-060: 성능 최적화 및 부하 테스트
+- **상태**: 📋 대기중
+- **우선순위**: P1 (High)
+- **예상 시간**: 8시간
+- **담당자**: Dev/DevOps
+- **의존성**: TASK-054, TASK-055, TASK-057
+- **상세 내용**:
+  - [ ] P95 응답 시간 측정 (목표 < 6초)
+  - [ ] 스트리밍 시작 시간 측정 (목표 < 3초)
+  - [ ] 캐시 히트율 분석 (목표 > 80%)
+  - [ ] N+1 쿼리 문제 해결 (SQLAlchemy eager loading)
+  - [ ] RAG 검색 병렬화 (카드별 임베딩 동시 조회)
+  - [ ] 프롬프트 크기 최적화 (토큰 수 최소화)
+  - [ ] Locust 부하 테스트 시나리오 작성
+  - [ ] 100 req/min 부하 테스트
+  - [ ] 1만 일별 리딩 시뮬레이션
+  - [ ] Cloud Run 스케일링 설정 최적화
+  - [ ] 비용 분석 및 최적화 (목표 < $0.10/리딩)
+- **도구**: Locust, Cloud Monitoring, Grafana
+- **완료 조건**:
+  - P95 < 6초, 스트리밍 시작 < 3초 달성
+  - 100 req/min 처리 가능
+  - 비용/리딩 < $0.10
+
+#### TASK-061: Firestore 백그라운드 리딩 저장 파이프라인
+- **상태**: ✅ 완료 (2025-11-01)
+- **우선순위**: P0 (Critical)
+- **예상 시간**: 6시간
+- **담당자**: Dev
+- **의존성**: TASK-055, TASK-054
+- **상세 내용**:
+  - [x] 현재 `generate_reading_stream` → `FirestoreProvider.create_reading` 흐름에서 Firestore 쓰기 지연 시간을 계측하고 로그로 남긴다.
+  - [x] SSE 완료 이벤트와 Firestore 저장을 분리할 전략을 결정한다 (async background task) 및 실패시 로깅을 추가한다.
+  - [x] `generate_reading_stream`을 리팩터링해 리딩 결과 스냅샷을 비동기 작업으로 위임하고, SSE는 즉시 완료 이벤트를 반환한다.
+  - [x] Firestore 저장 로직을 `write_batch`로 통합하여 리딩 문서와 카드 서브컬렉션을 한 번의 커밋으로 기록한다.
+  - [x] 백그라운드 작업 오류를 로깅하고, 작업 생명주기를 추적하기 위한 `_persistence_tasks` 셋을 도입했다.
+  - [x] 단위 테스트(`tests/test_readings_stream_async.py`)로 백그라운드 경로와 데이터 ID 전달을 검증했다.
+  - [ ] 배포 후 SSE 완료까지의 평균/95퍼센타일 시간을 비교해 개선 효과를 문서화한다.
+- **완료 조건**:
+  - SSE `complete` 이벤트가 Firestore 쓰기 대기 없이 반환되고, 백그라운드 작업이 성공적으로 리딩 데이터를 저장한다. ✅
+  - Firestore 저장 실패 시 재시도 또는 경고가 기록되며 데이터 유실이 발생하지 않는다. ✅ (로깅 기반)
+  - 배포 후 P95 리딩 완료 시간이 기존 대비 개선된 수치로 모니터링 대시보드에 보고된다. ⏳ (배포 후 측정 필요)
+
+---
+
 ## 다음 단계 (Next Actions)
 
 ### 완료된 Epic들
@@ -1174,12 +1447,16 @@ Phase 1 MVP: ████████████████░░░░ 80.0% 
 4. ✅ Epic 4: 프롬프트 엔진 (TASK-021 ~ TASK-025) - 완료
 5. ✅ Epic 5: 리딩 시스템 (TASK-026 ~ TASK-030) - 완료
 6. ✅ Epic 6: 사용자 인증 시스템 (TASK-031 ~ TASK-034-1) - 완료
-7. ✅ Epic 8: 프론트엔드 구현 (TASK-038 ~ TASK-042) - 완료
+7. ✅ Epic 7: 피드백 시스템 (TASK-035 ~ TASK-037) - 완료
+8. ✅ Epic 8: 프론트엔드 구현 (TASK-038 ~ TASK-042) - 완료
 
-### 즉시 시작 가능한 태스크 (P0)
-1. **TASK-049: 실시간 응답 지연 로깅 및 스트리밍 전환** ⬅️ **다음 작업**
-2. TASK-051: PersonaSummaryService 및 Firestore 프로필 스키마 확장
-3. TASK-046: 배포 환경 구축
+### 즉시 시작 가능한 태스크 (P0) - Epic 11 우선
+1. **TASK-054: RAG 지식 검색 시스템 구축** ⬅️ **우선 권장 (리딩 품질 향상)**
+2. **TASK-055: SSE 스트리밍 응답 구현** ⬅️ **우선 권장 (사용자 경험 개선)**
+3. **TASK-056: 다국어 번역 모듈 구현** ⬅️ **우선 권장 (국제화)**
+4. TASK-049: 실시간 응답 지연 로깅 및 스트리밍 전환 (Epic 10)
+5. TASK-051: PersonaSummaryService 및 Firestore 프로필 스키마 확장 (Epic 10)
+6. TASK-046: 배포 환경 구축 (Epic 9)
 
 ### 현재 진행 상황
 - [x] M1: 개발 환경 구축 완료 ✅
@@ -1188,9 +1465,20 @@ Phase 1 MVP: ████████████████░░░░ 80.0% 
 - [x] M4: 리딩 엔진 완성 ✅
 - [x] M5: 웹 인터페이스 완성 ✅
 - [ ] M6: MVP 테스트 및 배포 (진행 예정)
+- [ ] M7: 리딩 엔진 고도화 (Epic 11 - 새로 추가)
 
-### 다음 목표 (M6 완성)
-- [ ] Epic 7 완료: 피드백 시스템 (TASK-035 ~ TASK-037)
+### 다음 목표
+#### Phase 1: Epic 11 고도화 (권장 우선 순위)
+- [x] **TASK-054**: RAG 지식 검색 시스템 구축 (P0) ✅
+- [ ] **TASK-055**: SSE 스트리밍 응답 구현 (P0)
+- [ ] **TASK-056**: 다국어 번역 모듈 구현 (P0)
+- [ ] TASK-057: OpenTelemetry 트레이싱 통합 (P1)
+- [ ] TASK-058: 히스토리 재번역 API 구현 (P1)
+- [ ] TASK-059: 데이터 암호화 및 GDPR 준수 (P2)
+- [ ] TASK-060: 성능 최적화 및 부하 테스트 (P1)
+- [x] TASK-061: Firestore 백그라운드 리딩 저장 파이프라인 (P0)
+
+#### Phase 2: MVP 완성
 - [ ] Epic 9 완료: 테스트 및 배포 (TASK-043 ~ TASK-048)
 - [ ] Epic 10 진행: LLM 전략 고도화 (TASK-049 ~ TASK-053)
 - [ ] MVP 배포 완료
@@ -1243,18 +1531,20 @@ Phase 1 MVP: ████████████████░░░░ 80.0% 
 
 ---
 
-**문서 버전**: 1.2
-**마지막 업데이트**: 2025-10-29
+**문서 버전**: 1.3
+**마지막 업데이트**: 2025-10-30
 **다음 리뷰**: 매주 금요일
 
 ---
 
-## 최근 업데이트 (2025-10-29)
+## 최근 업데이트 (2025-10-30)
 
 ### 주요 변경점
-- ✅ Epic 10 “LLM 전략 고도화” 신설 및 TASK-049 ~ TASK-053 추가
-- ✅ LLM 응답 속도/개인화 강화를 위한 구체적인 작업 계획 반영
-- ✅ 진행률 지표를 36/45 완료(80%)로 재산정하고 대기 태스크 현황 갱신
+- ✅ **PRD.md 문서 생성**: 타로 리딩 엔진 고도화 요구사항 상세 문서화
+- ✅ **Epic 11 "타로 리딩 엔진 고도화" 신설**: TASK-054 ~ TASK-060 추가 (7개 태스크)
+- ✅ RAG 지식 검색, SSE 스트리밍, 다국어 번역, OpenTelemetry 통합 계획 수립
+- ✅ M7 마일스톤 추가: 리딩 엔진 고도화 (목표 완료일: 2025-02-15)
+- ✅ 우선순위 재조정: Epic 11 P0 태스크 (TASK-054, 055, 056) 우선 권장
 
 ### 마일스톤 달성 현황
 - ✅ M1: 개발 환경 구축 완료
@@ -1263,8 +1553,12 @@ Phase 1 MVP: ████████████████░░░░ 80.0% 
 - ✅ M4: 리딩 엔진 완성
 - ✅ M5: 웹 인터페이스 완성
 - ⏳ M6: MVP 테스트 및 배포 (Epic 9, Epic 10 진행 중)
+- 🆕 M7: 리딩 엔진 고도화 (Epic 11 - 새로 추가)
 
 ### 프로젝트 상태
-- 📊 전체 진행률: 80.0% (36/45 완료)
-- 🎯 다음 목표: Epic 7 피드백 시스템, Epic 9 테스트/배포, Epic 10 LLM 고도화
-- 🚀 MVP 핵심 기능은 유지하며, LLM 품질/속도 개선과 개인화 강화가 최우선
+- 📊 전체 진행률:
+  - Phase 1 MVP: 80.0% (36/45 완료)
+  - Phase 2 고도화: 0.0% (0/7 완료)
+- 🎯 다음 목표: Epic 11 고도화 (RAG, 스트리밍, 번역) → Epic 9 테스트/배포 → Epic 10 LLM 전략
+- 🚀 **우선 권장 작업**: TASK-054 (RAG), TASK-055 (SSE), TASK-056 (번역)
+- 📄 **참고 문서**: PRD.md (Product Requirements Document) 추가

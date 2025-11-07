@@ -1,0 +1,35 @@
+{
+  "id": 74,
+  "name": "Page of Pentacles",
+  "name_ko": "펜타클의 페이지",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "page",
+  "number": 11,
+  "deep_meaning": "The Page of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in material, money, career, physical world. Youthful energy and enthusiasm.",
+  "deep_meaning_ko": "펜타클의 페이지는 material, money, career, physical world의 에너지를 나타냅니다.",
+  "symbolism": {
+    "pentacles": "Earth element energy",
+    "page": "new ideas, enthusiasm, messages"
+  },
+  "upright_themes": [
+    "material",
+    "new ideas",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked material",
+    "resistance to new ideas",
+    "delays"
+  ],
+  "upright_extended": "The Page of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in material, money, career, physical world. Youthful energy and enthusiasm.",
+  "reversed_extended": "When reversed, Page of Pentacles suggests challenges or blockages in material, money, career, physical world. The natural flow is interrupted.",
+  "element": "Earth",
+  "numerology": "Number 11: new ideas, enthusiasm, messages",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Earth energy of pentacles manifesting in my life?",
+    "What does this card teach me about material, money, career, physical world?"
+  ]
+}

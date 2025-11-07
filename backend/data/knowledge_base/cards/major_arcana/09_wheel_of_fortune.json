@@ -1,0 +1,41 @@
+{
+  "id": 9,
+  "name": "Wheel of Fortune",
+  "name_ko": "운명의 수레바퀴",
+  "arcana_type": "major",
+  "rank": "Wheel of Fortune",
+  "number": 9,
+  "deep_meaning": "The Wheel of Fortune represents cycles, destiny, and turning points. Life moves in cycles of good and bad fortune, and this card reminds us that change is the only constant. What goes up must come down, and what falls will rise again. The wheel teaches acceptance of life's natural rhythms and the understanding that we are part of something greater than ourselves. It speaks to karma, fate, and the interconnectedness of all things. When this card appears, significant change is afoot - embrace it rather than resist it.",
+  "deep_meaning_ko": "운명의 수레바퀴는 change을/를 상징합니다.",
+  "symbolism": {
+    "wheel": "cycles and destiny",
+    "sphinx": "riddles and mysteries",
+    "snake": "descent and material nature",
+    "anubis": "rise and divine nature",
+    "four_creatures": "the four fixed signs and evangelists",
+    "hebrew_letters": "YHVH, the name of God"
+  },
+  "upright_themes": [
+    "change",
+    "cycles",
+    "destiny",
+    "turning point",
+    "good fortune"
+  ],
+  "reversed_themes": [
+    "bad luck",
+    "resistance to change",
+    "breaking cycles"
+  ],
+  "upright_extended": "The Wheel of Fortune represents cycles, destiny, and turning points. Life moves in cycles of good and bad fortune, and this card reminds us that change is the only constant. What goes up must come down, and what falls will rise again. The wheel teaches acceptance of life's natural rhythms and the understanding that we are part of something greater than ourselves. It speaks to karma, fate, and the interconnectedness of all things. When this card appears, significant change is afoot - embrace it rather than resist it.",
+  "reversed_extended": "역방향에서 Wheel of Fortune는 bad luck, resistance to change, breaking cycles을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Jupiter",
+  "element": "Fire",
+  "numerology": "Number 9 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of Wheel of Fortune?",
+    "What does Wheel of Fortune teach me about my current situation?"
+  ]
+}

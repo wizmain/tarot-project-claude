@@ -1,0 +1,35 @@
+{
+  "id": 28,
+  "name": "Seven of Wands",
+  "name_ko": "완드의 7",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "seven",
+  "number": 7,
+  "deep_meaning": "The Seven of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of assessment, reflection, perseverance. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "완드의 7는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "seven": "assessment, reflection, perseverance"
+  },
+  "upright_themes": [
+    "action",
+    "assessment",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to assessment",
+    "delays"
+  ],
+  "upright_extended": "The Seven of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of assessment, reflection, perseverance. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Seven of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 7: assessment, reflection, perseverance",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

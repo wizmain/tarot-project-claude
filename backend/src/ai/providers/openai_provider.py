@@ -59,17 +59,64 @@ class OpenAIProvider(AIProvider):
         )
     """
 
-    # Model pricing (per 1K tokens) - as of 2024
+    # Model pricing (per 1K tokens) - Updated 2025
+    # Source: https://openai.com/api/pricing/
     MODEL_PRICING = {
-        "gpt-4": {"input": 0.03, "output": 0.06},
+        # GPT-5 Series (Latest - Oct 2025)
+        "gpt-5": {"input": 0.02, "output": 0.08},  # Estimated
+        "gpt-5-2025-08-07": {"input": 0.02, "output": 0.08},
+        "gpt-5-pro": {"input": 0.04, "output": 0.16},  # Estimated
+        "gpt-5-pro-2025-10-06": {"input": 0.04, "output": 0.16},
+        "gpt-5-mini": {"input": 0.0003, "output": 0.0012},  # Estimated
+        "gpt-5-mini-2025-08-07": {"input": 0.0003, "output": 0.0012},
+        "gpt-5-nano": {"input": 0.0001, "output": 0.0004},  # Estimated
+        "gpt-5-nano-2025-08-07": {"input": 0.0001, "output": 0.0004},
+
+        # GPT-4.1 Series (Apr 2025)
+        "gpt-4.1": {"input": 0.015, "output": 0.06},  # Estimated
+        "gpt-4.1-2025-04-14": {"input": 0.015, "output": 0.06},
+        "gpt-4.1-mini": {"input": 0.0002, "output": 0.0008},  # Estimated
+        "gpt-4.1-mini-2025-04-14": {"input": 0.0002, "output": 0.0008},
+        "gpt-4.1-nano": {"input": 0.00008, "output": 0.00032},  # Estimated - most cost-efficient
+        "gpt-4.1-nano-2025-04-14": {"input": 0.00008, "output": 0.00032},
+
+        # GPT-4o Series
+        "gpt-4o": {"input": 0.0025, "output": 0.01},
+        "gpt-4o-mini": {"input": 0.00015, "output": 0.0006},
+        "gpt-4o-2024-11-20": {"input": 0.0025, "output": 0.01},
+        "gpt-4o-2024-08-06": {"input": 0.0025, "output": 0.01},
+        "gpt-4o-2024-05-13": {"input": 0.005, "output": 0.015},
+
+        # GPT-4 Turbo
         "gpt-4-turbo": {"input": 0.01, "output": 0.03},
         "gpt-4-turbo-preview": {"input": 0.01, "output": 0.03},
+        "gpt-4-turbo-2024-04-09": {"input": 0.01, "output": 0.03},
         "gpt-4-0125-preview": {"input": 0.01, "output": 0.03},
         "gpt-4-1106-preview": {"input": 0.01, "output": 0.03},
-        "gpt-4o-mini": {"input": 0.00015, "output": 0.0006},  # GPT-4o mini pricing
+
+        # GPT-4
+        "gpt-4": {"input": 0.03, "output": 0.06},
+        "gpt-4-0613": {"input": 0.03, "output": 0.06},
+
+        # O-series (Reasoning models)
+        "o1": {"input": 0.015, "output": 0.06},
+        "o1-2024-12-17": {"input": 0.015, "output": 0.06},
+        "o1-mini": {"input": 0.003, "output": 0.012},
+        "o1-mini-2024-09-12": {"input": 0.003, "output": 0.012},
+        "o1-pro": {"input": 0.06, "output": 0.24},  # Pro tier
+        "o1-pro-2025-03-19": {"input": 0.06, "output": 0.24},
+        "o3": {"input": 0.02, "output": 0.08},
+        "o3-2025-04-16": {"input": 0.02, "output": 0.08},
+        "o3-mini": {"input": 0.0011, "output": 0.0044},
+        "o3-mini-2025-01-31": {"input": 0.0011, "output": 0.0044},
+        "o4-mini": {"input": 0.001, "output": 0.004},
+        "o4-mini-2025-04-16": {"input": 0.001, "output": 0.004},
+
+        # GPT-3.5 Turbo
         "gpt-3.5-turbo": {"input": 0.0005, "output": 0.0015},
         "gpt-3.5-turbo-0125": {"input": 0.0005, "output": 0.0015},
         "gpt-3.5-turbo-1106": {"input": 0.001, "output": 0.002},
+        "gpt-3.5-turbo-instruct": {"input": 0.0015, "output": 0.002},
     }
 
     def __init__(
@@ -108,15 +155,69 @@ class OpenAIProvider(AIProvider):
 
     @property
     def available_models(self) -> List[str]:
+        """
+        Available chat completion models from OpenAI
+        Updated: 2025-10-31
+        Note: This is a reference list. Unknown models will be validated by OpenAI API.
+        """
         return [
-            "gpt-4",
+            # GPT-5 Series (Latest)
+            "gpt-5",
+            "gpt-5-pro",
+            "gpt-5-mini",
+            "gpt-5-nano",
+            "gpt-5-2025-08-07",
+            "gpt-5-mini-2025-08-07",
+            "gpt-5-nano-2025-08-07",
+
+            # GPT-4.1 Series
+            "gpt-4.1",
+            "gpt-4.1-mini",
+            "gpt-4.1-nano",
+            "gpt-4.1-2025-04-14",
+            "gpt-4.1-mini-2025-04-14",
+            "gpt-4.1-nano-2025-04-14",
+
+            # GPT-4o Series
+            "gpt-4o",
+            "gpt-4o-mini",
+            "chatgpt-4o-latest",
+            "gpt-4o-2024-11-20",
+            "gpt-4o-2024-08-06",
+            "gpt-4o-2024-05-13",
+            "gpt-4o-mini-2024-07-18",
+
+            # GPT-4 Turbo
             "gpt-4-turbo",
             "gpt-4-turbo-preview",
+            "gpt-4-turbo-2024-04-09",
             "gpt-4-0125-preview",
             "gpt-4-1106-preview",
+
+            # GPT-4
+            "gpt-4",
+            "gpt-4-0613",
+
+            # O-series (Reasoning models)
+            "o1",
+            "o1-mini",
+            "o1-2024-12-17",
+            "o1-mini-2024-09-12",
+            "o1-pro",
+            "o1-pro-2025-03-19",
+            "o3",
+            "o3-mini",
+            "o3-2025-04-16",
+            "o3-mini-2025-01-31",
+            "o4-mini",
+            "o4-mini-2025-04-16",
+
+            # GPT-3.5 Turbo
             "gpt-3.5-turbo",
             "gpt-3.5-turbo-0125",
             "gpt-3.5-turbo-1106",
+            "gpt-3.5-turbo-instruct",
+            "gpt-3.5-turbo-instruct-0914",
         ]
 
     async def generate(
@@ -246,6 +347,23 @@ class OpenAIProvider(AIProvider):
                 original_error=e
             )
 
+    def _validate_model(self, model: str) -> None:
+        """
+        Validate model - warn if unknown but let OpenAI API do the actual validation
+
+        This allows using new models without code changes while still providing
+        helpful warnings for potential typos.
+
+        Args:
+            model: Model identifier to validate
+        """
+        if model not in self.available_models:
+            logger.warning(
+                f"[OpenAI] Model '{model}' not in known list. "
+                f"Known models: {', '.join(self.available_models)}. "
+                f"Proceeding anyway - OpenAI API will validate."
+            )
+
     def estimate_cost(
         self,
         prompt_tokens: int,
@@ -277,6 +395,7 @@ class OpenAIProvider(AIProvider):
 
         if pricing is None:
             # Default to GPT-4 pricing if model not found
+            logger.warning(f"[OpenAI] Unknown model '{model}' for pricing. Using gpt-4 pricing as fallback.")
             pricing = self.MODEL_PRICING["gpt-4"]
 
         # Calculate cost (pricing is per 1K tokens)

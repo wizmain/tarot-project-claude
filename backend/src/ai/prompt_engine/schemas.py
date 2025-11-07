@@ -78,7 +78,7 @@ class CardInterpretation(BaseModel):
     class Config:
         """Pydantic 설정"""
         # JSON 스키마 생성 시 예시 포함
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "card_id": "major_0",
                 "position": "present",
@@ -128,7 +128,7 @@ class Advice(BaseModel):
 
     class Config:
         """Pydantic 설정"""
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "immediate_action": "오늘 당장 시작할 수 있는 작은 일을 하나 선택해보세요.",
                 "short_term": "앞으로 2주 동안은 새로운 경험에 열린 마음을 유지하세요.",
@@ -154,8 +154,8 @@ class ReadingResponse(BaseModel):
     )
     card_relationships: str = Field(
         ...,
-        description="카드들 간의 관계와 연결성 설명 (150-300자)",
-        min_length=20,
+        description="카드들 간의 관계와 연결성 설명 (150-300자, 원카드는 간단히)",
+        min_length=10,  # Reduced from 20 to allow shorter responses for one-card readings
         max_length=800
     )
     overall_reading: str = Field(
@@ -220,7 +220,7 @@ class ReadingResponse(BaseModel):
 
     class Config:
         """Pydantic 설정"""
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "cards": [
                     {

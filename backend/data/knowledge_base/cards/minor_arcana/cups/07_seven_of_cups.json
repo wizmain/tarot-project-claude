@@ -1,0 +1,35 @@
+{
+  "id": 42,
+  "name": "Seven of Cups",
+  "name_ko": "컵의 7",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "seven",
+  "number": 7,
+  "deep_meaning": "The Seven of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of assessment, reflection, perseverance. This numbered card shows the progression of cups energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "컵의 7는 emotions, relationships, feelings, intuition의 에너지를 나타냅니다.",
+  "symbolism": {
+    "cups": "Water element energy",
+    "seven": "assessment, reflection, perseverance"
+  },
+  "upright_themes": [
+    "emotions",
+    "assessment",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked emotions",
+    "resistance to assessment",
+    "delays"
+  ],
+  "upright_extended": "The Seven of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of assessment, reflection, perseverance. This numbered card shows the progression of cups energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Seven of Cups suggests challenges or blockages in emotions, relationships, feelings, intuition. The natural flow is interrupted.",
+  "element": "Water",
+  "numerology": "Number 7: assessment, reflection, perseverance",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Water energy of cups manifesting in my life?",
+    "What does this card teach me about emotions, relationships, feelings, intuition?"
+  ]
+}

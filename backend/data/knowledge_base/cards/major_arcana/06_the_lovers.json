@@ -1,0 +1,40 @@
+{
+  "id": 6,
+  "name": "The Lovers",
+  "name_ko": "연인",
+  "arcana_type": "major",
+  "number": 6,
+  "deep_meaning": "The Lovers card represents union, choice, and the profound connections that shape our lives. Beyond romantic love, this card speaks to the alignment of values, the harmony of opposites, and the crucial decisions we make about relationships and personal integrity. The presence of the divine figure suggests that true love and meaningful choices are guided by higher wisdom. The Lovers reminds us that every significant relationship and decision reveals who we are and who we aspire to become.",
+  "deep_meaning_ko": "연인 카드는 결합, 선택, 그리고 우리의 삶을 형성하는 깊은 연결을 나타냅니다. 낭만적 사랑을 넘어, 이 카드는 가치의 일치, 반대의 조화, 그리고 관계와 개인적 진실성에 대해 우리가 내리는 중요한 결정에 대해 말합니다. 신성한 인물의 존재는 진정한 사랑과 의미 있는 선택이 더 높은 지혜에 의해 안내됨을 시사합니다. 연인은 모든 중요한 관계와 결정이 우리가 누구이며 누가 되고 싶은지를 드러낸다는 것을 상기시킵니다.",
+  "symbolism": {
+    "angel_raphael": "divine blessing and healing through love",
+    "naked_figures": "vulnerability, innocence, and authenticity",
+    "tree_of_knowledge": "conscious choice and awareness",
+    "tree_of_life": "eternal connection and vitality",
+    "mountain": "challenges that love must overcome",
+    "serpent": "temptation and the shadow side of desire"
+  },
+  "upright_themes": [
+    "love",
+    "harmony",
+    "relationships",
+    "values alignment",
+    "choices",
+    "union",
+    "attraction",
+    "personal beliefs"
+  ],
+  "reversed_themes": [
+    "disharmony",
+    "misalignment of values",
+    "poor choices",
+    "inner conflict",
+    "broken relationships",
+    "self-love issues"
+  ],
+  "life_lessons": "Choose relationships that honor your truth and values. Every meaningful connection requires conscious choice, vulnerability, and the courage to be authentic.",
+  "related_cards": [2, 11, 14, 36],
+  "astrological_association": "Gemini",
+  "element": "Air",
+  "numerology": "6 - The number of harmony, balance, and responsible choice in relationships"
+}

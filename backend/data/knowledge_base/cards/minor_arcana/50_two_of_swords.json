@@ -1,0 +1,38 @@
+{
+  "id": 50,
+  "name": "Two of Swords",
+  "name_ko": "소드의 2",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "two",
+  "deep_meaning": "The Two of Swords represents difficult choices, stalemate, and the need to make decisions despite uncertainty. A blindfolded figure holds two crossed swords, balanced precariously on the edge of decision. This card embodies mental deadlock, the avoidance of difficult choices, and the uncomfortable state of being caught between two options. It speaks to the denial that delays decision-making and the false peace of indecision. The Two of Swords reminds us that refusing to choose is itself a choice, that eventually the blindfold must come off, and that clarity requires the courage to see and decide.",
+  "deep_meaning_ko": "소드의 2는 어려운 선택, 교착 상태, 그리고 불확실성에도 불구하고 결정을 내려야 하는 필요성을 나타냅니다. 눈가리개를 한 인물이 두 개의 교차된 검을 들고 결정의 가장자리에 아슬아슬하게 균형을 잡고 있습니다. 이 카드는 정신적 교착 상태, 어려운 선택의 회피, 그리고 두 옵션 사이에 갇힌 불편한 상태를 구현합니다. 결정을 지연시키는 부정과 우유부단의 거짓 평화에 대해 말합니다. 소드의 2는 선택을 거부하는 것 자체가 선택이고, 결국 눈가리개를 벗어야 하며, 명료함은 보고 결정할 용기를 필요로 한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "blindfold": "avoiding the truth, denial",
+    "crossed_swords": "blocked decisions, stalemate",
+    "balanced_pose": "precarious peace",
+    "water": "emotions being suppressed",
+    "crescent_moon": "intuition ignored"
+  },
+  "upright_themes": [
+    "difficult decisions",
+    "stalemate",
+    "avoidance",
+    "denial",
+    "blocked emotions",
+    "indecision",
+    "truce",
+    "impasse"
+  ],
+  "reversed_themes": [
+    "decision made",
+    "clarity",
+    "moving forward",
+    "overwhelmed by choices",
+    "information overload"
+  ],
+  "life_lessons": "Avoidance is not protection. Remove the blindfold and face truth. Indecision is still a choice - often the wrong one.",
+  "related_cards": [2, 11, 12, 18],
+  "element": "Air",
+  "numerology": "2 - Duality, stalemate, and difficult balance"
+}

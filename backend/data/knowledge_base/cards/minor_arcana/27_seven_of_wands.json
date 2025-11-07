@@ -1,0 +1,39 @@
+{
+  "id": 27,
+  "name": "Seven of Wands",
+  "name_ko": "완드의 7",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "seven",
+  "deep_meaning": "The Seven of Wands represents standing your ground, defending your position, and courage in the face of opposition. A figure stands on higher ground, fending off six wands from below with determined resolve. This card embodies the challenge of maintaining what you've achieved, the necessity of defending your beliefs, and the strength required to hold your position against competing forces. The Seven of Wands reminds us that success often invites challenge, and that sometimes we must fight to protect what we've built.",
+  "deep_meaning_ko": "완드의 7은 자신의 입장을 고수하고, 위치를 방어하며, 반대에 맞서는 용기를 나타냅니다. 인물이 높은 곳에 서서 결연한 결의로 아래에서 올라오는 여섯 개의 완드를 막아냅니다. 이 카드는 달성한 것을 유지하는 도전, 신념을 방어해야 하는 필요성, 그리고 경쟁하는 힘에 맞서 자신의 위치를 유지하는 데 필요한 힘을 구현합니다. 완드의 7은 성공이 종종 도전을 불러오며, 때로는 우리가 구축한 것을 보호하기 위해 싸워야 한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "high_ground": "advantage, perspective, and established position",
+    "defensive_stance": "protecting what you've earned",
+    "six_opposing_wands": "challenges and competitors",
+    "determination": "courage and resolve",
+    "mismatched_shoes": "rushed to defend, unprepared"
+  },
+  "upright_themes": [
+    "defense",
+    "perseverance",
+    "courage",
+    "standing firm",
+    "challenge",
+    "competition",
+    "determination",
+    "protection"
+  ],
+  "reversed_themes": [
+    "giving up",
+    "overwhelmed",
+    "exhaustion",
+    "surrender",
+    "losing ground",
+    "paranoia"
+  ],
+  "life_lessons": "Stand firm in your convictions. Success requires ongoing defense and effort. Have courage to protect what matters, but know when to choose your battles wisely.",
+  "related_cards": [7, 8, 9, 16],
+  "element": "Fire",
+  "numerology": "7 - Challenge, defense, and spiritual courage"
+}

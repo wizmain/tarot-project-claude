@@ -1,0 +1,38 @@
+{
+  "id": 67,
+  "name": "Five of Pentacles",
+  "name_ko": "펜타클의 5",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "five",
+  "deep_meaning": "The Five of Pentacles represents hardship, financial loss, and feeling left out in the cold. Two figures walk through snow past a lit church window displaying five pentacles, seemingly unaware of the sanctuary available to them. This card embodies material and spiritual poverty, the isolation of struggle, and the tendency to focus on lack rather than available help. It speaks to financial difficulties, health problems, or the feeling of being excluded. The Five of Pentacles reminds us that help is often closer than we think, that pride or despair can blind us to available resources, and that even in hardship, we need not walk alone if we're willing to ask for help.",
+  "deep_meaning_ko": "펜타클의 5는 고난, 재정적 손실, 그리고 추위에 남겨진 느낌을 나타냅니다. 두 인물이 다섯 개의 펜타클을 보여주는 밝은 교회 창문을 지나 눈 속을 걸어가지만, 그들에게 가능한 피난처를 인식하지 못하는 것처럼 보입니다. 이 카드는 물질적이고 영적인 빈곤, 투쟁의 고립, 그리고 가능한 도움보다 부족에 집중하는 경향을 구현합니다. 재정적 어려움, 건강 문제, 또는 배제된 느낌에 대해 말합니다. 펜타클의 5는 도움이 종종 우리가 생각하는 것보다 가까이 있고, 자존심이나 절망이 가능한 자원을 보지 못하게 할 수 있으며, 고난 속에서도 도움을 요청할 의향이 있다면 혼자 걸을 필요가 없다는 것을 상기시킵니다.",
+  "symbolism": {
+    "figures_in_snow": "hardship and struggle",
+    "lit_church": "available help and sanctuary",
+    "five_pentacles_in_window": "spiritual resources available",
+    "walking_past": "missing available help",
+    "injuries": "vulnerability and need"
+  },
+  "upright_themes": [
+    "financial loss",
+    "hardship",
+    "poverty",
+    "illness",
+    "isolation",
+    "insecurity",
+    "rejection",
+    "struggle"
+  ],
+  "reversed_themes": [
+    "recovery",
+    "improvement",
+    "accepting help",
+    "finding resources",
+    "spiritual poverty ending"
+  ],
+  "life_lessons": "Help is closer than you think. Don't let pride prevent you from asking for support. Even in hardship, you don't have to walk alone.",
+  "related_cards": [5, 9, 16, 39],
+  "element": "Earth",
+  "numerology": "5 - Loss, hardship, and the test of faith"
+}

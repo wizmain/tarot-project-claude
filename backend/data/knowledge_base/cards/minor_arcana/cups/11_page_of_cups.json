@@ -1,0 +1,35 @@
+{
+  "id": 46,
+  "name": "Page of Cups",
+  "name_ko": "컵의 페이지",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "page",
+  "number": 11,
+  "deep_meaning": "The Page of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in emotions, relationships, feelings, intuition. Youthful energy and enthusiasm.",
+  "deep_meaning_ko": "컵의 페이지는 emotions, relationships, feelings, intuition의 에너지를 나타냅니다.",
+  "symbolism": {
+    "cups": "Water element energy",
+    "page": "new ideas, enthusiasm, messages"
+  },
+  "upright_themes": [
+    "emotions",
+    "new ideas",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked emotions",
+    "resistance to new ideas",
+    "delays"
+  ],
+  "upright_extended": "The Page of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in emotions, relationships, feelings, intuition. Youthful energy and enthusiasm.",
+  "reversed_extended": "When reversed, Page of Cups suggests challenges or blockages in emotions, relationships, feelings, intuition. The natural flow is interrupted.",
+  "element": "Water",
+  "numerology": "Number 11: new ideas, enthusiasm, messages",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Water energy of cups manifesting in my life?",
+    "What does this card teach me about emotions, relationships, feelings, intuition?"
+  ]
+}

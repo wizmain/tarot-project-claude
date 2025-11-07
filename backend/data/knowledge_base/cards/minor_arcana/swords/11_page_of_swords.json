@@ -1,0 +1,35 @@
+{
+  "id": 60,
+  "name": "Page of Swords",
+  "name_ko": "검의 페이지",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "page",
+  "number": 11,
+  "deep_meaning": "The Page of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in thoughts, communication, conflict, intellect. Youthful energy and enthusiasm.",
+  "deep_meaning_ko": "검의 페이지는 thoughts, communication, conflict, intellect의 에너지를 나타냅니다.",
+  "symbolism": {
+    "swords": "Air element energy",
+    "page": "new ideas, enthusiasm, messages"
+  },
+  "upright_themes": [
+    "thoughts",
+    "new ideas",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked thoughts",
+    "resistance to new ideas",
+    "delays"
+  ],
+  "upright_extended": "The Page of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of new ideas, enthusiasm, messages. The Page brings messages and new learning in thoughts, communication, conflict, intellect. Youthful energy and enthusiasm.",
+  "reversed_extended": "When reversed, Page of Swords suggests challenges or blockages in thoughts, communication, conflict, intellect. The natural flow is interrupted.",
+  "element": "Air",
+  "numerology": "Number 11: new ideas, enthusiasm, messages",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Air energy of swords manifesting in my life?",
+    "What does this card teach me about thoughts, communication, conflict, intellect?"
+  ]
+}

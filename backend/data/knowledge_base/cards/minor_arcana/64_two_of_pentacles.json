@@ -1,0 +1,38 @@
+{
+  "id": 64,
+  "name": "Two of Pentacles",
+  "name_ko": "펜타클의 2",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "two",
+  "deep_meaning": "The Two of Pentacles represents balance, juggling priorities, and adaptability in material matters. A figure dances while juggling two pentacles connected by an infinity symbol, with ships riding waves in the background. This card embodies the dynamic balance required in managing multiple responsibilities, the flexibility needed to navigate changing circumstances, and the joy that can be found in adaptability. It speaks to work-life balance, financial juggling, and the constant adjustment required to keep everything in motion. The Two of Pentacles reminds us that balance is active not static, that flexibility is a strength, and that sometimes the dance of life requires us to stay light on our feet.",
+  "deep_meaning_ko": "펜타클의 2는 균형, 우선순위 저글링, 그리고 물질적 문제에서의 적응성을 나타냅니다. 인물이 무한대 기호로 연결된 두 개의 펜타클을 저글링하며 춤추고, 배경에서 배가 파도를 타고 있습니다. 이 카드는 여러 책임을 관리하는 데 필요한 역동적 균형, 변화하는 상황을 탐색하는 데 필요한 유연성, 그리고 적응성에서 찾을 수 있는 기쁨을 구현합니다. 일과 삶의 균형, 재정 저글링, 그리고 모든 것을 움직이게 하기 위해 필요한 지속적인 조정에 대해 말합니다. 펜타클의 2는 균형이 정적이 아닌 능동적이고, 유연성이 강점이며, 때로는 삶의 춤이 가벼운 발걸음을 유지하도록 요구한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "juggling_pentacles": "balancing multiple responsibilities",
+    "infinity_symbol": "endless flow and cycles",
+    "dancing_figure": "joy in flexibility",
+    "ships_on_waves": "ups and downs of fortune",
+    "movement": "active balance"
+  },
+  "upright_themes": [
+    "balance",
+    "juggling",
+    "adaptability",
+    "flexibility",
+    "multiple priorities",
+    "time management",
+    "ups and downs",
+    "change"
+  ],
+  "reversed_themes": [
+    "imbalance",
+    "overwhelmed",
+    "dropping balls",
+    "poor time management",
+    "financial stress"
+  ],
+  "life_lessons": "Balance is active, not static. Stay flexible as circumstances change. Find joy in the dance of managing life's demands.",
+  "related_cards": [2, 7, 14, 10],
+  "element": "Earth",
+  "numerology": "2 - Balance, duality, managing opposing forces"
+}

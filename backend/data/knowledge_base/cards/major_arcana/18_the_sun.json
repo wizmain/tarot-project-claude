@@ -1,0 +1,40 @@
+{
+  "id": 18,
+  "name": "The Sun",
+  "name_ko": "태양",
+  "arcana_type": "major",
+  "rank": "The Sun",
+  "number": 18,
+  "deep_meaning": "The Sun represents joy, success, and vitality. A child rides a white horse under a brilliant sun, embodying innocence, enthusiasm, and the pure joy of existence. After the confusion of The Moon, The Sun brings clarity, warmth, and certainty. Everything is illuminated; there are no shadows or hidden threats. This card teaches that life can be simple, joyful, and straightforward when we approach it with childlike wonder and authenticity. The Sun promises success, but more importantly, it speaks to the inner radiance that comes from being true to yourself.",
+  "deep_meaning_ko": "태양는 joy을/를 상징합니다.",
+  "symbolism": {
+    "sun": "consciousness and enlightenment",
+    "child": "innocence and authenticity",
+    "white_horse": "purity",
+    "sunflowers": "life following the light",
+    "nakedness": "nothing to hide, complete authenticity"
+  },
+  "upright_themes": [
+    "joy",
+    "success",
+    "vitality",
+    "confidence",
+    "clarity"
+  ],
+  "reversed_themes": [
+    "dimmed joy",
+    "temporary setbacks",
+    "delayed success"
+  ],
+  "upright_extended": "The Sun represents joy, success, and vitality. A child rides a white horse under a brilliant sun, embodying innocence, enthusiasm, and the pure joy of existence. After the confusion of The Moon, The Sun brings clarity, warmth, and certainty. Everything is illuminated; there are no shadows or hidden threats. This card teaches that life can be simple, joyful, and straightforward when we approach it with childlike wonder and authenticity. The Sun promises success, but more importantly, it speaks to the inner radiance that comes from being true to yourself.",
+  "reversed_extended": "역방향에서 The Sun는 dimmed joy, temporary setbacks, delayed success을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Sun",
+  "element": "Fire",
+  "numerology": "Number 18 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The Sun?",
+    "What does The Sun teach me about my current situation?"
+  ]
+}

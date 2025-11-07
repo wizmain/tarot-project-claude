@@ -22,7 +22,7 @@ class UserProfile(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict, description="추가 메타데이터")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "uid": "firebase_abc123",
                 "email": "user@example.com",
@@ -41,7 +41,7 @@ class AuthTokens(BaseModel):
     expires_in: int = Field(..., description="토큰 만료 시간(초)")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                 "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -59,7 +59,7 @@ class AuthResponse(BaseModel):
     provider: str = Field(..., description="인증 제공자")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "user": {
                     "uid": "firebase_abc123",

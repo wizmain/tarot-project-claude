@@ -1,0 +1,35 @@
+{
+  "id": 36,
+  "name": "Ace of Cups",
+  "name_ko": "컵의 에이스",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "ace",
+  "number": 1,
+  "deep_meaning": "The Ace of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of new beginnings, opportunities, potential. As an Ace, this card represents the pure, undiluted potential of cups. It's a gift from the universe, an opportunity to begin something new in the realm of emotions, relationships, feelings, intuition.",
+  "deep_meaning_ko": "컵의 에이스는 emotions, relationships, feelings, intuition의 에너지를 나타냅니다.",
+  "symbolism": {
+    "cups": "Water element energy",
+    "ace": "new beginnings, opportunities, potential"
+  },
+  "upright_themes": [
+    "emotions",
+    "new beginnings",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked emotions",
+    "resistance to new beginnings",
+    "delays"
+  ],
+  "upright_extended": "The Ace of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of new beginnings, opportunities, potential. As an Ace, this card represents the pure, undiluted potential of cups. It's a gift from the universe, an opportunity to begin something new in the realm of emotions, relationships, feelings, intuition.",
+  "reversed_extended": "When reversed, Ace of Cups suggests challenges or blockages in emotions, relationships, feelings, intuition. The natural flow is interrupted.",
+  "element": "Water",
+  "numerology": "Number 1: new beginnings, opportunities, potential",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Water energy of cups manifesting in my life?",
+    "What does this card teach me about emotions, relationships, feelings, intuition?"
+  ]
+}

@@ -308,6 +308,32 @@ class DatabaseProvider(ABC):
     async def create_llm_usage_log(self, log_data: Dict[str, Any]) -> LLMUsageLog:
         """LLM 사용 로그 생성"""
         pass
+    
+    async def create_llm_usage_logs_batch(
+        self, 
+        reading_id: str, 
+        logs_data: List[Dict[str, Any]]
+    ) -> List[LLMUsageLog]:
+        """
+        LLM 사용 로그 배치 생성 (Phase 3 Optimization)
+        
+        Default implementation calls create_llm_usage_log for each log.
+        Providers can override for better performance.
+        
+        Args:
+            reading_id: Reading ID
+            logs_data: List of log data dictionaries
+            
+        Returns:
+            List of created LLM usage logs
+        """
+        # Default: sequential creation (override for batch optimization)
+        results = []
+        for log_data in logs_data:
+            log_data['reading_id'] = reading_id
+            result = await self.create_llm_usage_log(log_data)
+            results.append(result)
+        return results
 
     @abstractmethod
     async def get_llm_usage_logs(self, reading_id: str) -> List[LLMUsageLog]:
@@ -376,6 +402,37 @@ class DatabaseProvider(ABC):
     @abstractmethod
     async def get_feedback_statistics_by_spread_type(self) -> List[Dict[str, Any]]:
         """스프레드 타입별 피드백 통계"""
+        pass
+
+    # ==================== Settings Operations ====================
+
+    @abstractmethod
+    async def get_app_settings(self) -> Optional[Dict[str, Any]]:
+        """애플리케이션 설정 조회"""
+        pass
+
+    @abstractmethod
+    async def update_app_settings(
+        self,
+        settings_data: Dict[str, Any],
+        updated_by: str
+    ) -> Dict[str, Any]:
+        """애플리케이션 설정 업데이트"""
+        pass
+
+    @abstractmethod
+    async def get_admin_emails(self) -> List[str]:
+        """관리자 이메일 목록 조회"""
+        pass
+
+    @abstractmethod
+    async def add_admin_email(self, email: str, updated_by: str) -> bool:
+        """관리자 이메일 추가"""
+        pass
+
+    @abstractmethod
+    async def remove_admin_email(self, email: str, updated_by: str) -> bool:
+        """관리자 이메일 제거"""
         pass
 
     # ==================== Connection Management ====================

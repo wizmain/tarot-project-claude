@@ -1,0 +1,40 @@
+{
+  "id": 41,
+  "name": "Seven of Cups",
+  "name_ko": "컵의 7",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "seven",
+  "deep_meaning": "The Seven of Cups represents choices, fantasies, and the challenge of discernment. A figure faces seven cups floating on clouds, each containing different visions - treasures, a wreath, a dragon, a castle, jewels, a snake, and a shrouded figure. This card embodies the overwhelming nature of unlimited options, the temptation of illusion over reality, and the need to distinguish between genuine opportunities and wishful thinking. The Seven of Cups reminds us that too many choices can paralyze, that not all glittering options are gold, and that clarity comes from grounding dreams in reality.",
+  "deep_meaning_ko": "컵의 7은 선택, 환상, 그리고 분별의 도전을 나타냅니다. 인물이 구름 위에 떠 있는 일곱 개의 컵을 마주하고 있으며, 각각 다른 비전을 담고 있습니다 - 보물, 화환, 용, 성, 보석, 뱀, 그리고 덮인 인물. 이 카드는 무제한 옵션의 압도적인 성격, 현실보다 환상의 유혹, 그리고 진정한 기회와 희망적 사고를 구별해야 하는 필요성을 구현합니다. 컵의 7은 너무 많은 선택이 마비시킬 수 있고, 모든 반짝이는 옵션이 금이 아니며, 명료함이 현실에 꿈을 접지시키는 것에서 나온다는 것을 상기시킵니다.",
+  "symbolism": {
+    "seven_cups": "multiple options and choices",
+    "clouds": "illusion, fantasy, and uncertainty",
+    "various_visions": "different desires and possibilities",
+    "silhouette": "unclear perspective and confusion",
+    "dragon": "fears and illusions",
+    "castle": "ambitions and dreams"
+  },
+  "upright_themes": [
+    "choices",
+    "illusion",
+    "fantasy",
+    "wishful thinking",
+    "options",
+    "imagination",
+    "confusion",
+    "opportunities"
+  ],
+  "reversed_themes": [
+    "clarity",
+    "determination",
+    "making decisions",
+    "reality check",
+    "focus",
+    "disillusionment"
+  ],
+  "life_lessons": "Not all opportunities are equal - discern carefully. Ground your dreams in reality. Too many options can be as limiting as too few.",
+  "related_cards": [0, 7, 18, 31],
+  "element": "Water",
+  "numerology": "7 - Choices, illusion, and the challenge of discernment"
+}

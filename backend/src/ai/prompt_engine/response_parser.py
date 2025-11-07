@@ -117,9 +117,43 @@ class ResponseParser:
             logger.debug("[ResponseParser] JSON 파싱 성공")
         except json.JSONDecodeError as e:
             logger.error(f"[ResponseParser] JSON 파싱 실패: {e}")
-            raise JSONExtractionError(
-                f"유효하지 않은 JSON 형식입니다: {e.msg} (line {e.lineno}, col {e.colno})"
+            logger.error(f"[ResponseParser] 문제가 있는 JSON (전체 {len(json_text)}자):\n{json_text}")
+
+            # Try to show context around the error
+            if e.pos:
+                start = max(0, e.pos - 150)
+                end = min(len(json_text), e.pos + 50)
+                error_pos = e.pos - start
+                context = json_text[start:end]
+                logger.error(f"[ResponseParser] 오류 위치 (pos={e.pos}, line={e.lineno}, col={e.colno}):")
+                logger.error(f"{context}")
+                logger.error(f"{' ' * error_pos}^ ERROR HERE")
+
+            # Check if JSON appears truncated
+            is_truncated = (
+                not json_text.rstrip().endswith('}') or
+                json_text.count('{') != json_text.count('}') or
+                json_text.count('[') != json_text.count(']') or
+                json_text.count('"') % 2 != 0
             )
+
+            if is_truncated:
+                error_msg = (
+                    f"JSON이 불완전합니다 (응답이 중간에 잘린 것으로 보임). "
+                    f"원인: {e.msg} (line {e.lineno}, col {e.colno}). "
+                    f"힌트: max_tokens 설정을 증가시키거나 프롬프트를 단순화하세요."
+                )
+            else:
+                error_msg = f"유효하지 않은 JSON 형식입니다: {e.msg} (line {e.lineno}, col {e.colno})"
+
+            raise JSONExtractionError(error_msg)
+
+        # 2.5. Workaround: Fix empty card_relationships for one-card readings
+        if isinstance(data.get("cards"), list) and len(data["cards"]) == 1:
+            card_rel = data.get("card_relationships", "")
+            if not card_rel or len(card_rel.strip()) < 10:
+                logger.warning("[ResponseParser] Empty/short card_relationships detected for one-card reading, using default")
+                data["card_relationships"] = "단일 카드 리딩으로, 카드의 에너지가 현재 상황에 집중되어 있습니다."
 
         # 3. Pydantic 검증
         try:
@@ -131,9 +165,69 @@ class ResponseParser:
             raise
 
     @staticmethod
+    def sanitize_json(json_text: str) -> str:
+        """
+        JSON 문자열을 정규화하여 파싱 가능하도록 만듭니다.
+
+        처리 내용:
+        - 이스케이프되지 않은 개행문자(\n)를 \\n으로 변환
+        - 이스케이프되지 않은 탭문자(\t)를 \\t으로 변환
+        - 이스케이프되지 않은 백슬래시를 적절히 처리
+
+        Args:
+            json_text: 정규화할 JSON 문자열
+
+        Returns:
+            str: 정규화된 JSON 문자열
+        """
+        # JSON 문자열 값 내부의 이스케이프되지 않은 개행문자 처리
+        # 이미 이스케이프된 개행문자(\\n)는 보존하면서, 실제 개행문자만 이스케이프
+
+        # 간단한 방법: Python의 json.dumps를 사용하여 문자열을 안전하게 처리
+        # 하지만 이미 JSON 형태이므로, 정규식으로 처리
+
+        import codecs
+
+        # 문자열 값 내부를 찾아서 처리하는 대신,
+        # 더 안전한 방법: 줄 단위로 처리하면서 문자열 값 내부의 개행을 이스케이프
+        lines = []
+        in_string = False
+        escape_next = False
+        current_line = ""
+
+        for char in json_text:
+            if escape_next:
+                current_line += char
+                escape_next = False
+                continue
+
+            if char == '\\':
+                current_line += char
+                escape_next = True
+                continue
+
+            if char == '"' and not escape_next:
+                in_string = not in_string
+                current_line += char
+                continue
+
+            # 문자열 내부의 개행문자를 이스케이프
+            if in_string and char in '\n\r\t':
+                if char == '\n':
+                    current_line += '\\n'
+                elif char == '\r':
+                    current_line += '\\r'
+                elif char == '\t':
+                    current_line += '\\t'
+            else:
+                current_line += char
+
+        return current_line
+
+    @staticmethod
     def extract_json(text: str) -> str:
         """
-        응답 텍스트에서 JSON 추출
+        응답 텍스트에서 JSON 추출 및 정규화
 
         다음 형식들을 처리합니다:
         - ```json ... ``` (Markdown 코드 블록)
@@ -144,7 +238,7 @@ class ResponseParser:
             text: AI 응답 원본 텍스트
 
         Returns:
-            str: 추출된 JSON 문자열
+            str: 추출되고 정규화된 JSON 문자열
 
         Raises:
             JSONExtractionError: JSON을 찾을 수 없는 경우
@@ -156,14 +250,16 @@ class ResponseParser:
         match = re.search(json_block_pattern, text, re.DOTALL | re.IGNORECASE)
         if match:
             logger.debug("[ResponseParser] Markdown json 코드 블록 발견")
-            return match.group(1).strip()
+            extracted = match.group(1).strip()
+            return ResponseParser.sanitize_json(extracted)
 
         # 패턴 2: ``` ... ``` 형식 (언어 지정 없음)
         code_block_pattern = r'```\s*\n(.*?)\n```'
         match = re.search(code_block_pattern, text, re.DOTALL)
         if match:
             logger.debug("[ResponseParser] Markdown 코드 블록 발견")
-            return match.group(1).strip()
+            extracted = match.group(1).strip()
+            return ResponseParser.sanitize_json(extracted)
 
         # 패턴 3: { ... } 형식 (순수 JSON)
         # 첫 번째 { 부터 마지막 } 까지 추출
@@ -172,7 +268,8 @@ class ResponseParser:
 
         if first_brace != -1 and last_brace != -1 and first_brace < last_brace:
             logger.debug("[ResponseParser] 순수 JSON 객체 발견")
-            return text[first_brace:last_brace + 1]
+            extracted = text[first_brace:last_brace + 1]
+            return ResponseParser.sanitize_json(extracted)
 
         # JSON을 찾을 수 없음
         logger.error(f"[ResponseParser] JSON을 찾을 수 없습니다. 응답 일부: {text[:200]}...")

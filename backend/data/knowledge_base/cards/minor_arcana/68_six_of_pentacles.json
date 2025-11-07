@@ -1,0 +1,38 @@
+{
+  "id": 68,
+  "name": "Six of Pentacles",
+  "name_ko": "펜타클의 6",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "six",
+  "deep_meaning": "The Six of Pentacles represents generosity, charity, and the balance of giving and receiving. A wealthy merchant holds scales in one hand while distributing coins to two kneeling figures, with six pentacles arranged around them. This card embodies the flow of resources, the power dynamics in giving, and the importance of both generosity and dignity. It speaks to charity, fair exchange, and the responsibility that comes with abundance. The Six of Pentacles reminds us that prosperity includes sharing, that giving and receiving must be balanced, and that true generosity honors the recipient's dignity while acknowledging our interdependence.",
+  "deep_meaning_ko": "펜타클의 6은 관대함, 자선, 그리고 주고받는 균형을 나타냅니다. 부유한 상인이 한 손에 저울을 들고 두 명의 무릎 꿇은 인물에게 동전을 나누어 주며, 여섯 개의 펜타클이 그들 주위에 배열되어 있습니다. 이 카드는 자원의 흐름, 주는 것에서의 권력 역학, 그리고 관대함과 존엄성 모두의 중요성을 구현합니다. 자선, 공정한 교환, 그리고 풍요와 함께 오는 책임에 대해 말합니다. 펜타클의 6은 번영이 나누는 것을 포함하고, 주고받는 것이 균형을 이루어야 하며, 진정한 관대함이 우리의 상호 의존성을 인정하면서 받는 사람의 존엄성을 존중한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "merchant_with_scales": "fair distribution and justice",
+    "giving_coins": "generosity and charity",
+    "kneeling_figures": "receiving with gratitude",
+    "balanced_scales": "fairness in exchange",
+    "six_pentacles": "abundance to share"
+  },
+  "upright_themes": [
+    "generosity",
+    "charity",
+    "giving",
+    "receiving",
+    "fairness",
+    "sharing wealth",
+    "material help",
+    "balance"
+  ],
+  "reversed_themes": [
+    "selfishness",
+    "debt",
+    "strings attached",
+    "inequality",
+    "unfair exchange"
+  ],
+  "life_lessons": "Share your abundance generously. Give with respect for the recipient's dignity. Balance giving and receiving - both are sacred.",
+  "related_cards": [3, 11, 14, 44],
+  "element": "Earth",
+  "numerology": "6 - Generosity, balanced exchange, harmony through sharing"
+}

@@ -1,0 +1,35 @@
+{
+  "id": 41,
+  "name": "Six of Cups",
+  "name_ko": "컵의 6",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "six",
+  "number": 6,
+  "deep_meaning": "The Six of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of harmony, communication, cooperation. This numbered card shows the progression of cups energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "컵의 6는 emotions, relationships, feelings, intuition의 에너지를 나타냅니다.",
+  "symbolism": {
+    "cups": "Water element energy",
+    "six": "harmony, communication, cooperation"
+  },
+  "upright_themes": [
+    "emotions",
+    "harmony",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked emotions",
+    "resistance to harmony",
+    "delays"
+  ],
+  "upright_extended": "The Six of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of harmony, communication, cooperation. This numbered card shows the progression of cups energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Six of Cups suggests challenges or blockages in emotions, relationships, feelings, intuition. The natural flow is interrupted.",
+  "element": "Water",
+  "numerology": "Number 6: harmony, communication, cooperation",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Water energy of cups manifesting in my life?",
+    "What does this card teach me about emotions, relationships, feelings, intuition?"
+  ]
+}

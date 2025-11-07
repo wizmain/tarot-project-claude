@@ -1,0 +1,73 @@
+{
+  "category": "career",
+  "name_ko": "직업",
+  "interpretation_focus": [
+    "Professional growth and advancement opportunities",
+    "Workplace dynamics and relationships with colleagues",
+    "Career path decisions and vocational calling",
+    "Skills development and expertise building",
+    "Work-life balance and professional fulfillment",
+    "Leadership opportunities and responsibilities",
+    "Financial rewards from work"
+  ],
+  "interpretation_focus_ko": [
+    "전문적 성장과 승진 기회",
+    "직장 역학 및 동료와의 관계",
+    "경력 경로 결정 및 직업적 소명",
+    "기술 개발 및 전문성 구축",
+    "일과 삶의 균형 및 전문적 성취",
+    "리더십 기회 및 책임",
+    "일로부터의 재정적 보상"
+  ],
+  "card_specific_meanings": {
+    "0": {
+      "context": "Career",
+      "upright": "Starting a new job or career path, entrepreneurial ventures, taking professional risks, career change with unknown outcome, following your passion without guarantee",
+      "upright_ko": "새로운 직업이나 경력 경로 시작, 기업가적 모험, 전문적 위험 감수, 알 수 없는 결과를 가진 경력 변경, 보장 없이 열정 따르기",
+      "reversed": "Impulsive career decisions, lack of planning, unprepared for new role, naive about professional challenges, fear of taking career risks",
+      "reversed_ko": "충동적인 경력 결정, 계획 부족, 새로운 역할에 준비되지 않음, 전문적 도전에 대한 순진함, 경력 위험 감수에 대한 두려움"
+    },
+    "1": {
+      "context": "Career",
+      "upright": "Using all your skills effectively, resourcefulness at work, taking initiative, manifesting career goals, entrepreneurial success, mastery of your craft",
+      "upright_ko": "모든 기술을 효과적으로 사용, 직장에서의 재치, 주도권 잡기, 경력 목표 실현, 기업가적 성공, 기술의 숙달",
+      "reversed": "Unused talents, scattered efforts, manipulation in workplace, poor communication, lack of focus on career goals",
+      "reversed_ko": "사용되지 않은 재능, 분산된 노력, 직장에서의 조작, 의사소통 부족, 경력 목표에 대한 집중력 부족"
+    },
+    "2": {
+      "context": "Career",
+      "upright": "Following intuition in career decisions, behind-the-scenes work, research roles, need for more information before deciding, trusting your professional instincts",
+      "upright_ko": "경력 결정에서 직관 따르기, 무대 뒤 작업, 연구 역할, 결정 전 더 많은 정보 필요, 전문적 본능 신뢰",
+      "reversed": "Ignoring your gut feelings about job, information being withheld, office secrets, disconnection from workplace intuition",
+      "reversed_ko": "직업에 대한 직감 무시, 정보 숨김, 사무실 비밀, 직장 직관과의 단절"
+    },
+    "3": {
+      "context": "Career",
+      "upright": "Creative careers flourishing, nurturing work environment, abundance of opportunities, fertility of ideas, creative projects coming to fruition",
+      "upright_ko": "창의적 경력 번영, 양육적 작업 환경, 풍부한 기회, 아이디어의 풍요로움, 창의적 프로젝트의 결실",
+      "reversed": "Creative blocks at work, lack of growth, unfulfilling career, neglecting career development, dependencies at work",
+      "reversed_ko": "직장에서의 창의적 막힘, 성장 부족, 충족되지 않는 경력, 경력 개발 무시, 직장에서의 의존성"
+    },
+    "4": {
+      "context": "Career",
+      "upright": "Leadership role, establishing structure and systems, authority position, strategic planning, building solid career foundation, discipline paying off",
+      "upright_ko": "리더십 역할, 구조 및 시스템 확립, 권위 있는 위치, 전략적 계획, 견고한 경력 기반 구축, 규율의 보상",
+      "reversed": "Rigid management, abuse of authority, lack of structure, avoiding responsibility, power struggles at work",
+      "reversed_ko": "경직된 관리, 권위 남용, 구조 부족, 책임 회피, 직장에서의 권력 투쟁"
+    },
+    "22": {
+      "context": "Career",
+      "upright": "New career opportunity, burst of creative energy at work, entrepreneurial inspiration, exciting project beginning, career passion ignited",
+      "upright_ko": "새로운 경력 기회, 직장에서의 창조적 에너지 폭발, 기업가적 영감, 흥미로운 프로젝트 시작, 경력 열정 점화",
+      "reversed": "Delayed projects, lack of motivation at work, missed opportunities, creative blocks, false career starts",
+      "reversed_ko": "지연된 프로젝트, 직장에서의 동기 부족, 놓친 기회, 창의적 막힘, 거짓 경력 시작"
+    },
+    "36": {
+      "context": "Career",
+      "upright": "Successful partnership or collaboration, harmonious work relationships, balanced team dynamics, networking connections, beneficial business alliance",
+      "upright_ko": "성공적인 파트너십 또는 협업, 조화로운 업무 관계, 균형 잡힌 팀 역학, 네트워킹 연결, 유익한 비즈니스 동맹",
+      "reversed": "Partnership problems, workplace conflicts, imbalanced collaboration, broken business agreements, disconnection from team",
+      "reversed_ko": "파트너십 문제, 직장 갈등, 불균형한 협업, 깨진 비즈니스 협정, 팀과의 단절"
+    }
+  }
+}

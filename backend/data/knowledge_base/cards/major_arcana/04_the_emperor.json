@@ -1,0 +1,41 @@
+{
+  "id": 4,
+  "name": "The Emperor",
+  "name_ko": "황제",
+  "arcana_type": "major",
+  "number": 4,
+  "deep_meaning": "The Emperor represents structure, authority, and the establishment of order through leadership and discipline. Seated on a stone throne adorned with ram heads, he embodies the masculine principle of action, logic, and worldly power. This card teaches the importance of creating solid foundations, setting boundaries, and taking responsibility for one's domain. The Emperor shows that true authority comes not from domination but from wisdom, experience, and the ability to provide stability and protection.",
+  "deep_meaning_ko": "황제는 구조, 권위, 그리고 리더십과 규율을 통한 질서의 확립을 나타냅니다. 숫양 머리로 장식된 돌 왕좌에 앉아 있는 그는 행동, 논리, 세속적 권력의 남성적 원리를 구현합니다. 이 카드는 견고한 기반을 만들고, 경계를 설정하며, 자신의 영역에 대한 책임을 지는 것의 중요성을 가르칩니다. 황제는 진정한 권위가 지배가 아니라 지혜, 경험, 그리고 안정과 보호를 제공하는 능력에서 나온다는 것을 보여줍니다.",
+  "symbolism": {
+    "stone_throne": "stability, permanence, and enduring power",
+    "ram_heads": "Aries energy, leadership, and determination",
+    "orb": "dominion and worldly power",
+    "scepter": "masculine authority and active leadership",
+    "armor": "protection and preparedness",
+    "red_robe": "passion, power, and warrior spirit",
+    "barren_mountains": "solid foundation and strategic thinking"
+  },
+  "upright_themes": [
+    "authority",
+    "structure",
+    "control",
+    "discipline",
+    "leadership",
+    "fatherhood",
+    "logic",
+    "stability"
+  ],
+  "reversed_themes": [
+    "tyranny",
+    "rigidity",
+    "domination",
+    "lack of discipline",
+    "abuse of power",
+    "inflexibility"
+  ],
+  "life_lessons": "True power lies in self-mastery and the ability to create order from chaos. Leadership requires both strength and wisdom. Set clear boundaries and take responsibility for the structures you create.",
+  "related_cards": [3, 5, 19],
+  "astrological_association": "Aries",
+  "element": "Fire",
+  "numerology": "4 - The number of structure, stability, foundation, and manifestation in the material world"
+}

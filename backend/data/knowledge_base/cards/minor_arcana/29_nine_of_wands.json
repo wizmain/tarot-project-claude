@@ -1,0 +1,39 @@
+{
+  "id": 29,
+  "name": "Nine of Wands",
+  "name_ko": "완드의 9",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "nine",
+  "deep_meaning": "The Nine of Wands represents resilience, perseverance, and the weariness that comes from prolonged struggle. A bandaged figure stands guard with eight wands behind them, ready to defend despite exhaustion. This card embodies the courage to continue when you're battle-worn, the determination to protect what you've fought for, and the strength found in experience. The Nine of Wands reminds us that the final stretch is often the hardest, that vigilance matters even when tired, and that past battles make us stronger for current challenges.",
+  "deep_meaning_ko": "완드의 9는 회복력, 인내, 그리고 장기간의 투쟁에서 오는 피로를 나타냅니다. 붕대를 감은 인물이 뒤에 여덟 개의 완드를 두고 경비를 서며, 지쳤음에도 방어할 준비가 되어 있습니다. 이 카드는 전투에 지쳤을 때 계속할 용기, 싸워서 얻은 것을 보호하려는 결단, 그리고 경험에서 찾는 힘을 구현합니다. 완드의 9는 마지막 단계가 종종 가장 어렵고, 피곤할 때도 경계가 중요하며, 과거의 전투가 현재의 도전을 위해 우리를 더 강하게 만든다는 것을 상기시킵니다.",
+  "symbolism": {
+    "bandaged_figure": "battle-worn but still standing",
+    "eight_wands_behind": "defense and previous victories",
+    "guarded_stance": "wariness and preparedness",
+    "high_ground": "advantage earned through experience",
+    "determined_expression": "resilience despite fatigue"
+  },
+  "upright_themes": [
+    "resilience",
+    "perseverance",
+    "determination",
+    "courage",
+    "last stand",
+    "boundaries",
+    "persistence",
+    "experience"
+  ],
+  "reversed_themes": [
+    "exhaustion",
+    "giving up",
+    "paranoia",
+    "inability to compromise",
+    "siege mentality",
+    "defensiveness"
+  ],
+  "life_lessons": "Your battles have made you stronger. Persist through the final challenges - you're closer than you think. Maintain boundaries while remaining open to resolution.",
+  "related_cards": [7, 8, 18, 27],
+  "element": "Fire",
+  "numerology": "9 - Near completion, wisdom through experience, final test"
+}

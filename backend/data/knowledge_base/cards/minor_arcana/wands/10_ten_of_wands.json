@@ -1,0 +1,35 @@
+{
+  "id": 31,
+  "name": "Ten of Wands",
+  "name_ko": "완드의 10",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "ten",
+  "number": 10,
+  "deep_meaning": "The Ten of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of completion, fulfillment, end of cycle. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "완드의 10는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "ten": "completion, fulfillment, end of cycle"
+  },
+  "upright_themes": [
+    "action",
+    "completion",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to completion",
+    "delays"
+  ],
+  "upright_extended": "The Ten of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of completion, fulfillment, end of cycle. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Ten of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 10: completion, fulfillment, end of cycle",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

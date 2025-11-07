@@ -1,0 +1,52 @@
+{
+  "combinations": [
+    {
+      "card_ids": [0, 1],
+      "cards": ["The Fool", "The Magician"],
+      "meaning": "New beginnings met with skillful manifestation. The combination suggests taking inspired action with all tools at your disposal. Raw potential channeled through focused will.",
+      "meaning_ko": "능숙한 현현과 만나는 새로운 시작. 이 조합은 모든 도구를 활용하여 영감을 받은 행동을 취하는 것을 암시합니다. 집중된 의지를 통해 전달되는 원초적 잠재력."
+    },
+    {
+      "card_ids": [0, 8],
+      "cards": ["The Fool", "Strength"],
+      "meaning": "Courageous new beginnings. This combination suggests taking bold steps with inner confidence and gentle determination. Adventure requires both innocence and courage.",
+      "meaning_ko": "용기 있는 새로운 시작. 이 조합은 내적 자신감과 부드러운 결단력으로 대담한 발걸음을 내딛는 것을 암시합니다. 모험은 순수함과 용기를 모두 필요로 합니다."
+    },
+    {
+      "card_ids": [0, 13],
+      "cards": ["The Fool", "Death"],
+      "meaning": "Radical transformation and rebirth. Letting go of the old to embrace entirely new possibilities. The courage to step into the unknown leads to profound change.",
+      "meaning_ko": "급진적인 변화와 재탄생. 완전히 새로운 가능성을 받아들이기 위해 낡은 것을 버립니다. 미지의 세계로 나아가는 용기가 심오한 변화로 이어집니다."
+    },
+    {
+      "card_ids": [1, 2],
+      "cards": ["The Magician", "The High Priestess"],
+      "meaning": "Conscious creation balanced with intuitive wisdom. Manifestation guided by inner knowing. The perfect blend of action and receptivity.",
+      "meaning_ko": "의식적 창조와 직관적 지혜의 균형. 내면의 앎에 의해 안내되는 현현. 행동과 수용성의 완벽한 조화."
+    },
+    {
+      "card_ids": [1, 3],
+      "cards": ["The Magician", "The Empress"],
+      "meaning": "Creative manifestation in full bloom. Bringing ideas into abundant, tangible form. Skill combined with natural fertility produces remarkable results.",
+      "meaning_ko": "완전히 꽃피는 창의적 현현. 아이디어를 풍부하고 구체적인 형태로 가져옵니다. 기술과 자연적 풍요로움이 결합되어 놀라운 결과를 낳습니다."
+    },
+    {
+      "card_ids": [3, 4],
+      "cards": ["The Empress", "The Emperor"],
+      "meaning": "Divine feminine and masculine in balance. Nurturing creativity structured by discipline. The perfect partnership of abundance and order.",
+      "meaning_ko": "균형 잡힌 신성한 여성성과 남성성. 규율로 구조화된 양육 창의성. 풍요와 질서의 완벽한 파트너십."
+    },
+    {
+      "card_ids": [2, 18],
+      "cards": ["The High Priestess", "The Moon"],
+      "meaning": "Deep intuitive knowing navigating through illusion. Trust your inner wisdom even when the path is unclear. Mysteries within mysteries.",
+      "meaning_ko": "환상을 헤쳐나가는 깊은 직관적 앎. 길이 불분명할 때도 내면의 지혜를 신뢰하세요. 신비 속의 신비."
+    },
+    {
+      "card_ids": [0, 22],
+      "cards": ["The Fool", "Ace of Wands"],
+      "meaning": "Pure potential meets inspired action. A powerful surge of creative energy for new ventures. Leap of faith backed by divine inspiration.",
+      "meaning_ko": "순수한 잠재력이 영감을 받은 행동과 만납니다. 새로운 모험을 위한 강력한 창조적 에너지의 급증. 신성한 영감이 뒷받침하는 믿음의 도약."
+    }
+  ]
+}

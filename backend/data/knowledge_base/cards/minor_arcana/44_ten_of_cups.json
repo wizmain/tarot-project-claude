@@ -1,0 +1,40 @@
+{
+  "id": 44,
+  "name": "Ten of Cups",
+  "name_ko": "컵의 10",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "ten",
+  "deep_meaning": "The Ten of Cups represents lasting happiness, family harmony, and emotional fulfillment in relationships. A couple stands with arms raised toward a rainbow of ten cups, while children play nearby and home beckons behind. This card embodies the ultimate emotional happiness - love, harmony, and the deep satisfaction of meaningful connections. It speaks to domestic bliss, aligned values in relationships, and the joy of creating a life filled with love. The Ten of Cups reminds us that true wealth is measured in love and connection, that harmonious relationships are life's greatest achievement, and that lasting happiness is built on authentic emotional bonds.",
+  "deep_meaning_ko": "컵의 10은 지속적인 행복, 가족 조화, 그리고 관계에서의 감정적 충족을 나타냅니다. 부부가 열 개의 컵으로 이루어진 무지개를 향해 팔을 들고 서 있고, 아이들이 근처에서 놀며 집이 뒤에서 손짓합니다. 이 카드는 궁극적인 감정적 행복을 구현합니다 - 사랑, 조화, 그리고 의미 있는 연결의 깊은 만족. 가정의 축복, 관계에서의 일치된 가치, 그리고 사랑으로 가득 찬 삶을 창조하는 기쁨에 대해 말합니다. 컵의 10은 진정한 부가 사랑과 연결로 측정되고, 조화로운 관계가 삶의 가장 큰 성취이며, 지속적인 행복이 진정한 감정적 유대 위에 구축된다는 것을 상기시킵니다.",
+  "symbolism": {
+    "rainbow_of_cups": "divine blessing and complete emotional fulfillment",
+    "family": "love, connection, and belonging",
+    "dancing_children": "joy and innocence",
+    "couple_embracing": "partnership and harmony",
+    "home": "security and foundation",
+    "raised_arms": "gratitude and celebration"
+  },
+  "upright_themes": [
+    "happiness",
+    "family harmony",
+    "emotional fulfillment",
+    "lasting love",
+    "peace",
+    "alignment",
+    "domestic bliss",
+    "contentment"
+  ],
+  "reversed_themes": [
+    "family discord",
+    "broken relationships",
+    "disconnection",
+    "misalignment",
+    "shattered dreams",
+    "lack of harmony"
+  ],
+  "life_lessons": "True happiness comes from love and meaningful connections. Family - chosen or blood - is life's greatest treasure. Create relationships based on authentic love and shared values.",
+  "related_cards": [3, 6, 21, 37],
+  "element": "Water",
+  "numerology": "10 - Perfect emotional fulfillment and completed cycle of love"
+}

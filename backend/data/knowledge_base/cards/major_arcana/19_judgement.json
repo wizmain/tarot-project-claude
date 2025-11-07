@@ -1,0 +1,39 @@
+{
+  "id": 19,
+  "name": "Judgement",
+  "name_ko": "심판",
+  "arcana_type": "major",
+  "rank": "Judgement",
+  "number": 19,
+  "deep_meaning": "Judgement represents rebirth, inner calling, and absolution. An angel blows a trumpet, calling souls to rise from their graves - a moment of reckoning and renewal. This card speaks to those times when we are called to a higher purpose or asked to evaluate our lives and choices. Judgement is about self-reflection, forgiveness, and the opportunity to leave the past behind. It's a spiritual awakening, a moment of clarity where we see ourselves and our path with perfect honesty. The card teaches that we are constantly given chances to begin anew.",
+  "deep_meaning_ko": "심판는 rebirth을/를 상징합니다.",
+  "symbolism": {
+    "angel": "divine calling",
+    "trumpet": "wake-up call",
+    "people_rising": "resurrection and renewal",
+    "mountains": "immovable truth",
+    "cross_on_flag": "balance of polarities"
+  },
+  "upright_themes": [
+    "rebirth",
+    "inner calling",
+    "absolution",
+    "evaluation"
+  ],
+  "reversed_themes": [
+    "self-doubt",
+    "self-criticism",
+    "inability to move forward"
+  ],
+  "upright_extended": "Judgement represents rebirth, inner calling, and absolution. An angel blows a trumpet, calling souls to rise from their graves - a moment of reckoning and renewal. This card speaks to those times when we are called to a higher purpose or asked to evaluate our lives and choices. Judgement is about self-reflection, forgiveness, and the opportunity to leave the past behind. It's a spiritual awakening, a moment of clarity where we see ourselves and our path with perfect honesty. The card teaches that we are constantly given chances to begin anew.",
+  "reversed_extended": "역방향에서 Judgement는 self-doubt, self-criticism, inability to move forward을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Pluto",
+  "element": "Fire",
+  "numerology": "Number 19 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of Judgement?",
+    "What does Judgement teach me about my current situation?"
+  ]
+}

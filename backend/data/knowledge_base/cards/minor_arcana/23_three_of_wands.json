@@ -1,0 +1,39 @@
+{
+  "id": 23,
+  "name": "Three of Wands",
+  "name_ko": "완드의 3",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "three",
+  "deep_meaning": "The Three of Wands represents expansion, foresight, and progress. Standing on a cliff overlooking the sea, the figure has planted their wands and now watches their ships sail toward distant horizons. This card signifies that initial efforts are bearing fruit, and it's time to think bigger and plan for long-term success. The Three of Wands encourages looking beyond immediate concerns to envision broader possibilities, exploring new territories, and preparing for the next phase of growth with confidence and strategic vision.",
+  "deep_meaning_ko": "완드의 3은 확장, 예지력, 그리고 진보를 나타냅니다. 바다가 내려다보이는 절벽에 서서, 인물은 완드를 심었고 이제 먼 지평선을 향해 항해하는 배를 바라봅니다. 이 카드는 초기 노력이 결실을 맺고 있으며, 더 크게 생각하고 장기적인 성공을 계획할 때임을 의미합니다. 완드의 3은 즉각적인 관심사를 넘어 더 넓은 가능성을 구상하고, 새로운 영역을 탐험하며, 자신감과 전략적 비전으로 성장의 다음 단계를 준비하도록 격려합니다.",
+  "symbolism": {
+    "three_wands": "foundation established, ready for expansion",
+    "ships": "ventures and opportunities on the horizon",
+    "sea": "commerce, exploration, and emotional undertakings",
+    "cliff": "elevated perspective and vision",
+    "distant_land": "future possibilities and unexplored territories",
+    "looking_ahead": "foresight and planning"
+  },
+  "upright_themes": [
+    "expansion",
+    "foresight",
+    "overseas opportunities",
+    "progress",
+    "planning",
+    "growth",
+    "vision",
+    "enterprise"
+  ],
+  "reversed_themes": [
+    "delays",
+    "lack of progress",
+    "obstacles to expansion",
+    "lack of foresight",
+    "playing it safe"
+  ],
+  "life_lessons": "Think beyond the immediate horizon. Your early efforts are working - now plan for sustainable growth. Expansion requires both vision and practical preparation.",
+  "related_cards": [1, 3, 7],
+  "element": "Fire",
+  "numerology": "3 - Growth, expansion, and creative expression"
+}

@@ -1,0 +1,39 @@
+{
+  "id": 43,
+  "name": "Nine of Cups",
+  "name_ko": "컵의 9",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "nine",
+  "deep_meaning": "The Nine of Cups represents contentment, emotional fulfillment, and wishes coming true. Often called the 'wish card,' it shows a satisfied figure seated before nine cups arranged in a beautiful arc. This card embodies the achievement of emotional satisfaction, the reward of hard work, and the deep contentment that comes from having what truly matters. The Nine of Cups reminds us that happiness is achievable, that our wishes can manifest, and that taking time to enjoy and appreciate our blessings magnifies their power. This is satisfaction earned and deeply felt.",
+  "deep_meaning_ko": "컵의 9는 만족, 감정적 충족, 그리고 소원 성취를 나타냅니다. 종종 '소원 카드'라고 불리며, 아름다운 호를 이루며 배열된 아홉 개의 컵 앞에 앉아 만족한 인물을 보여줍니다. 이 카드는 감정적 만족의 성취, 노력의 보상, 그리고 진정으로 중요한 것을 가지는 것에서 나오는 깊은 만족을 구현합니다. 컵의 9는 행복이 달성 가능하고, 소원이 실현될 수 있으며, 축복을 즐기고 감사하는 시간을 갖는 것이 그 힘을 증폭시킨다는 것을 상기시킵니다. 이것은 얻어진 만족이며 깊이 느껴집니다.",
+  "symbolism": {
+    "nine_cups": "emotional abundance and wishes fulfilled",
+    "satisfied_figure": "contentment and self-satisfaction",
+    "arms_crossed": "confidence and self-assurance",
+    "blue_background": "emotional stability and peace",
+    "arc_arrangement": "completeness and harmony"
+  },
+  "upright_themes": [
+    "wish fulfillment",
+    "contentment",
+    "satisfaction",
+    "emotional stability",
+    "happiness",
+    "gratitude",
+    "luxury",
+    "pleasure"
+  ],
+  "reversed_themes": [
+    "dissatisfaction",
+    "unfulfilled wishes",
+    "materialism",
+    "greed",
+    "smugness",
+    "superficial happiness"
+  ],
+  "life_lessons": "Savor your achievements and blessings. Gratitude magnifies happiness. True contentment comes from appreciating what you have.",
+  "related_cards": [3, 10, 19, 21],
+  "element": "Water",
+  "numerology": "9 - Fulfillment, wishes granted, and emotional completion"
+}

@@ -1,0 +1,35 @@
+{
+  "id": 77,
+  "name": "King of Pentacles",
+  "name_ko": "펜타클의 킹",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "king",
+  "number": 14,
+  "deep_meaning": "The King of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of mastery, control, leadership. The King represents full mastery and authoritative command of material, money, career, physical world.",
+  "deep_meaning_ko": "펜타클의 킹는 material, money, career, physical world의 에너지를 나타냅니다.",
+  "symbolism": {
+    "pentacles": "Earth element energy",
+    "king": "mastery, control, leadership"
+  },
+  "upright_themes": [
+    "material",
+    "mastery",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked material",
+    "resistance to mastery",
+    "delays"
+  ],
+  "upright_extended": "The King of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of mastery, control, leadership. The King represents full mastery and authoritative command of material, money, career, physical world.",
+  "reversed_extended": "When reversed, King of Pentacles suggests challenges or blockages in material, money, career, physical world. The natural flow is interrupted.",
+  "element": "Earth",
+  "numerology": "Number 14: mastery, control, leadership",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Earth energy of pentacles manifesting in my life?",
+    "What does this card teach me about material, money, career, physical world?"
+  ]
+}

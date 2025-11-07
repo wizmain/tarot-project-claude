@@ -33,13 +33,26 @@ export const getCurrentEnvironment = (): Environment => {
 
 /**
  * Environment-specific configurations
+ *
+ * IMPORTANT: Backend URL 변경 시 수정 필요
+ * 1. production.apiUrl을 새 Cloud Run URL로 업데이트
+ * 2. .env.production의 NEXT_PUBLIC_API_URL도 동일하게 업데이트
+ * 3. .env.local에 NEXT_PUBLIC_API_URL이 있다면 제거 (프로덕션 빌드 방해)
+ *
+ * 현재 Backend URL (2025-11-06): https://tarot-backend-414870328191.asia-northeast3.run.app
+ *
+ * URL 확인 방법:
+ * gcloud run services describe tarot-backend \
+ *   --region=asia-northeast3 \
+ *   --project=tarot-aacbf \
+ *   --format="value(status.url)"
  */
 const environmentConfigs: Record<Environment, Partial<EnvironmentConfig>> = {
   development: {
     apiUrl: 'http://localhost:8000',
   },
   production: {
-    apiUrl: 'https://tarot-backend-414870328191.asia-northeast3.run.app',
+    apiUrl: 'https://tarot-backend-414870328191.asia-northeast3.run.app',  // ← Backend URL 변경 시 여기 수정
   },
   test: {
     apiUrl: 'http://localhost:8000',

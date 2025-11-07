@@ -54,7 +54,7 @@ class UserCreate(UserBase):
     metadata: Optional[Dict[str, Any]] = Field(default_factory=dict, description="추가 메타데이터")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "email": "user@example.com",
                 "display_name": "홍길동",
@@ -82,7 +82,7 @@ class UserUpdate(BaseModel):
     metadata: Optional[Dict[str, Any]] = Field(None, description="추가 메타데이터")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "display_name": "김철수",
                 "photo_url": "https://example.com/new-photo.jpg",
@@ -135,7 +135,7 @@ class UserResponse(BaseModel):
             UUID: str,
             datetime: lambda v: v.isoformat()
         }
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "id": "123e4567-e89b-12d3-a456-426614174000",
                 "email": "user@example.com",
@@ -160,7 +160,7 @@ class UserWithStats(UserResponse):
 
     class Config:
         from_attributes = True
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "id": "123e4567-e89b-12d3-a456-426614174000",
                 "email": "user@example.com",
@@ -186,7 +186,7 @@ class LoginRequest(BaseModel):
     provider: Optional[str] = Field(None, description="특정 Provider 지정 (선택사항)")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "email": "user@example.com",
                 "password": "password123"
@@ -210,7 +210,7 @@ class SignUpRequest(BaseModel):
         return v
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "email": "newuser@example.com",
                 "password": "securePassword123!",
@@ -228,7 +228,7 @@ class TokenResponse(BaseModel):
     user: UserResponse = Field(..., description="사용자 정보")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                 "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -253,7 +253,7 @@ class PasswordResetRequest(BaseModel):
     email: EmailStr = Field(..., description="이메일 주소")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "email": "user@example.com"
             }
@@ -274,7 +274,7 @@ class PasswordResetConfirm(BaseModel):
         return v
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "reset_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                 "new_password": "newSecurePassword123!"

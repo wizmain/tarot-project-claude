@@ -1,0 +1,35 @@
+{
+  "id": 26,
+  "name": "Five of Wands",
+  "name_ko": "완드의 5",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "five",
+  "number": 5,
+  "deep_meaning": "The Five of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of conflict, change, challenge. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "완드의 5는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "five": "conflict, change, challenge"
+  },
+  "upright_themes": [
+    "action",
+    "conflict",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to conflict",
+    "delays"
+  ],
+  "upright_extended": "The Five of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of conflict, change, challenge. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Five of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 5: conflict, change, challenge",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

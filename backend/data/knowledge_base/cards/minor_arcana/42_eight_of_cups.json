@@ -1,0 +1,40 @@
+{
+  "id": 42,
+  "name": "Eight of Cups",
+  "name_ko": "컵의 8",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "eight",
+  "deep_meaning": "The Eight of Cups represents walking away, soul searching, and the courage to leave behind what no longer serves. A figure climbs toward mountains under moonlight, abandoning eight carefully stacked cups. This card embodies the difficult but necessary journey away from emotional situations that have become unfulfilling, the quest for deeper meaning, and the bravery required to seek something more authentic. The Eight of Cups reminds us that leaving is sometimes the most courageous choice, that outgrowing situations is natural, and that true fulfillment requires following your soul's calling even when the path ahead is uncertain.",
+  "deep_meaning_ko": "컵의 8은 떠나는 것, 영혼 탐구, 그리고 더 이상 도움이 되지 않는 것을 뒤로하는 용기를 나타냅니다. 인물이 달빛 아래 산을 향해 올라가며 신중하게 쌓인 여덟 개의 컵을 버립니다. 이 카드는 더 이상 충족되지 않는 감정적 상황에서 벗어나는 어렵지만 필요한 여정, 더 깊은 의미를 찾는 탐구, 그리고 더 진정한 것을 찾는 데 필요한 용기를 구현합니다. 컵의 8은 떠나는 것이 때로는 가장 용감한 선택이고, 상황을 넘어서는 것이 자연스러우며, 진정한 충족은 앞의 길이 불확실하더라도 영혼의 부름을 따르는 것을 필요로 한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "walking_away": "leaving behind what no longer serves",
+    "eight_cups": "emotional investment now abandoned",
+    "mountains": "higher purpose and spiritual quest",
+    "moon": "intuition guiding the journey",
+    "staff": "support for the journey",
+    "gap_in_cups": "something missing despite apparent fullness"
+  },
+  "upright_themes": [
+    "walking away",
+    "disillusionment",
+    "leaving behind",
+    "seeking truth",
+    "spiritual quest",
+    "abandonment",
+    "moving on",
+    "withdrawal"
+  ],
+  "reversed_themes": [
+    "fear of change",
+    "stagnation",
+    "accepting less",
+    "return",
+    "trying again",
+    "avoidance"
+  ],
+  "life_lessons": "Have courage to leave what no longer fulfills you. The quest for authenticity sometimes requires walking away. Trust your intuition about when it's time to move on.",
+  "related_cards": [9, 12, 18, 20],
+  "element": "Water",
+  "numerology": "8 - Leaving behind and seeking higher truth"
+}

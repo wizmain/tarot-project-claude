@@ -1,0 +1,35 @@
+{
+  "id": 23,
+  "name": "Two of Wands",
+  "name_ko": "완드의 2",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "two",
+  "number": 2,
+  "deep_meaning": "The Two of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of balance, partnership, duality. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "완드의 2는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "two": "balance, partnership, duality"
+  },
+  "upright_themes": [
+    "action",
+    "balance",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to balance",
+    "delays"
+  ],
+  "upright_extended": "The Two of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of balance, partnership, duality. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Two of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 2: balance, partnership, duality",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

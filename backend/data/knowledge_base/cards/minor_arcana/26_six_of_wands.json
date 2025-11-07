@@ -1,0 +1,40 @@
+{
+  "id": 26,
+  "name": "Six of Wands",
+  "name_ko": "완드의 6",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "six",
+  "deep_meaning": "The Six of Wands represents victory, recognition, and public success. A figure rides triumphantly through a crowd, wearing a laurel wreath and carrying a wand adorned with victory's crown. This card signifies achievement acknowledged by others, the sweet taste of success after struggle, and the confidence that comes from proven ability. The Six of Wands reminds us that hard-earned victories deserve celebration, that leadership comes with visibility, and that public recognition, while gratifying, should not define our self-worth.",
+  "deep_meaning_ko": "완드의 6은 승리, 인정, 그리고 공개적 성공을 나타냅니다. 인물이 월계관을 쓰고 승리의 왕관으로 장식된 완드를 들고 군중 사이를 승리의 행진으로 지나갑니다. 이 카드는 다른 사람들에게 인정받는 성취, 투쟁 후의 달콤한 성공의 맛, 그리고 입증된 능력에서 나오는 자신감을 의미합니다. 완드의 6은 힘들게 얻은 승리가 축하받을 가치가 있고, 리더십은 가시성을 동반하며, 공개적 인정이 만족스럽긴 하지만 우리의 자존감을 정의해서는 안 된다는 것을 상기시킵니다.",
+  "symbolism": {
+    "rider_on_horse": "elevation, leadership, and advancement",
+    "laurel_wreath": "victory, honor, and achievement",
+    "wand_with_wreath": "success publicly acknowledged",
+    "crowd": "public recognition and support",
+    "forward_movement": "progress and momentum",
+    "white_horse": "purity of success"
+  },
+  "upright_themes": [
+    "victory",
+    "success",
+    "recognition",
+    "achievement",
+    "praise",
+    "pride",
+    "leadership",
+    "triumph"
+  ],
+  "reversed_themes": [
+    "lack of recognition",
+    "ego",
+    "fall from grace",
+    "failure",
+    "arrogance",
+    "private success"
+  ],
+  "life_lessons": "Celebrate your victories but remain humble. Recognition is gratifying but not the goal. True success comes from within, though acknowledgment from others has value.",
+  "related_cards": [1, 7, 8, 19],
+  "element": "Fire",
+  "numerology": "6 - Victory, recognition, and harmonious success"
+}

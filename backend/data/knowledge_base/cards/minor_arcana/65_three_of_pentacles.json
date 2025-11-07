@@ -1,0 +1,38 @@
+{
+  "id": 65,
+  "name": "Three of Pentacles",
+  "name_ko": "펜타클의 3",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "three",
+  "deep_meaning": "The Three of Pentacles represents teamwork, collaboration, and skilled craftsmanship. A stonemason works with two architects inside a cathedral, each contributing their expertise to create something greater than any could alone. This card embodies the power of collaboration, the value of diverse skills working in harmony, and the satisfaction of work done with mastery. It speaks to learning from others, contributing expertise, and the achievement that comes from coordinated effort. The Three of Pentacles reminds us that great works require teamwork, that each person's skill matters, and that excellence comes from both individual mastery and collaborative spirit.",
+  "deep_meaning_ko": "펜타클의 3은 팀워크, 협력, 그리고 숙련된 장인정신을 나타냅니다. 석공이 대성당 안에서 두 명의 건축가와 함께 일하며, 각자가 혼자서는 할 수 없는 더 큰 것을 만들기 위해 전문 지식을 기여합니다. 이 카드는 협력의 힘, 조화롭게 작동하는 다양한 기술의 가치, 그리고 숙달로 수행된 작업의 만족을 구현합니다. 다른 사람들로부터 배우고, 전문 지식을 기여하며, 조율된 노력에서 나오는 성취에 대해 말합니다. 펜타클의 3은 위대한 작업이 팀워크를 필요로 하고, 각 사람의 기술이 중요하며, 탁월함이 개별 숙달과 협력 정신 모두에서 나온다는 것을 상기시킵니다.",
+  "symbolism": {
+    "stonemason": "skilled craftsmanship",
+    "architects": "planning and vision",
+    "cathedral": "collective achievement",
+    "three_pentacles": "combined efforts bearing fruit",
+    "collaboration": "synergy of different skills"
+  },
+  "upright_themes": [
+    "teamwork",
+    "collaboration",
+    "skill",
+    "craftsmanship",
+    "learning",
+    "implementation",
+    "building",
+    "competence"
+  ],
+  "reversed_themes": [
+    "lack of teamwork",
+    "poor collaboration",
+    "disharmony",
+    "lack of skill",
+    "working alone"
+  ],
+  "life_lessons": "Great achievements require teamwork. Value each person's contribution. Excellence combines individual skill with collaborative effort.",
+  "related_cards": [3, 4, 8, 37],
+  "element": "Earth",
+  "numerology": "3 - Growth through collaboration, creative teamwork"
+}

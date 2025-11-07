@@ -1,0 +1,41 @@
+{
+  "id": 32,
+  "name": "Knight of Wands",
+  "name_ko": "완드의 기사",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "knight",
+  "deep_meaning": "The Knight of Wands represents passion, adventure, and fearless action. A knight charges forward on a rearing horse, wand held high, ready to conquer new territories. This card embodies bold moves, confidence bordering on recklessness, and the thrill of the chase. It signals rapid progress, impulsive decisions, and the courage to leap without looking. The Knight of Wands reminds us that sometimes bold action is needed, that passion fuels achievement, but also warns that enthusiasm without planning can lead to burnout or scattered energy.",
+  "deep_meaning_ko": "완드의 기사는 열정, 모험, 그리고 두려움 없는 행동을 나타냅니다. 기사가 앞발을 든 말 위에서 완드를 높이 들고 새로운 영역을 정복할 준비가 되어 전진합니다. 이 카드는 대담한 움직임, 무모함에 가까운 자신감, 그리고 추격의 스릴을 구현합니다. 빠른 진전, 충동적인 결정, 그리고 보지 않고 뛰어드는 용기를 알립니다. 완드의 기사는 때로는 대담한 행동이 필요하고, 열정이 성취를 촉진하지만, 계획 없는 열정이 번아웃이나 분산된 에너지로 이어질 수 있다고 경고합니다.",
+  "symbolism": {
+    "rearing_horse": "passion, energy, and readiness to charge",
+    "knight_in_armor": "protection while pursuing passion",
+    "wand_held_high": "inspiration and confidence",
+    "salamanders": "transformative fire energy",
+    "forward_motion": "action and adventure",
+    "desert": "uncharted territory"
+  },
+  "upright_themes": [
+    "passion",
+    "adventure",
+    "impulsiveness",
+    "action",
+    "change",
+    "energy",
+    "fearlessness",
+    "confidence"
+  ],
+  "reversed_themes": [
+    "recklessness",
+    "haste",
+    "delays",
+    "frustration",
+    "arrogance",
+    "impatience",
+    "lack of direction"
+  ],
+  "life_lessons": "Act with passion but temper enthusiasm with wisdom. Boldness creates opportunity, but recklessness creates chaos. Channel your fire into focused action.",
+  "related_cards": [1, 7, 8, 28],
+  "element": "Fire",
+  "numerology": "Knight - Action and movement in the realm of fire and passion"
+}

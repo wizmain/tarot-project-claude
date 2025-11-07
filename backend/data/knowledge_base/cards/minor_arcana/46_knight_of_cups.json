@@ -1,0 +1,39 @@
+{
+  "id": 46,
+  "name": "Knight of Cups",
+  "name_ko": "컵의 기사",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "knight",
+  "deep_meaning": "The Knight of Cups represents romance, charm, and the pursuit of dreams. A knight rides gracefully on a white horse, holding a cup with gentle reverence. This card embodies the romantic ideal - following your heart, pursuing creative visions, and approaching life with emotional authenticity. It signals proposals, creative projects undertaken with passion, and the courage to follow feelings. The Knight of Cups reminds us that there's beauty in idealism, that following your heart takes courage, but also warns that romantic notions must eventually meet reality. This is emotion in motion, seeking its ideal.",
+  "deep_meaning_ko": "컵의 기사는 낭만, 매력, 그리고 꿈의 추구를 나타냅니다. 기사가 흰 말을 우아하게 타고 컵을 온화하게 경건하게 들고 있습니다. 이 카드는 낭만적 이상을 구현합니다 - 마음을 따르고, 창조적 비전을 추구하며, 감정적 진정성으로 삶에 접근하는 것. 제안, 열정으로 수행되는 창조적 프로젝트, 그리고 감정을 따르는 용기를 알립니다. 컵의 기사는 이상주의에 아름다움이 있고, 마음을 따르는 것은 용기를 필요로 하지만, 낭만적 관념이 결국 현실과 만나야 한다고 경고합니다. 이것은 이상을 찾는 움직임 속의 감정입니다.",
+  "symbolism": {
+    "white_horse": "purity of intention and spiritual quest",
+    "cup_held_carefully": "offering of love and emotion",
+    "winged_helmet": "imagination and elevated thoughts",
+    "flowing_river": "emotional depth and journey",
+    "graceful_movement": "elegance and refinement"
+  },
+  "upright_themes": [
+    "romance",
+    "charm",
+    "proposals",
+    "artistic pursuits",
+    "following the heart",
+    "idealism",
+    "sensitivity",
+    "emotional action"
+  ],
+  "reversed_themes": [
+    "moodiness",
+    "unrealistic",
+    "jealousy",
+    "overemotional",
+    "disappointment",
+    "unrequited love"
+  ],
+  "life_lessons": "Follow your heart but keep your feet on the ground. Romantic idealism has value, but must be balanced with reality. Express emotions with grace and authenticity.",
+  "related_cards": [2, 6, 14, 17],
+  "element": "Water",
+  "numerology": "Knight - Emotional action, pursuit of romantic ideals"
+}

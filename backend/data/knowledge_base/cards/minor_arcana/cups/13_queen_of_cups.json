@@ -1,0 +1,35 @@
+{
+  "id": 48,
+  "name": "Queen of Cups",
+  "name_ko": "컵의 퀸",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "queen",
+  "number": 13,
+  "deep_meaning": "The Queen of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of emotions, relationships, feelings, intuition through nurturing and intuitive wisdom.",
+  "deep_meaning_ko": "컵의 퀸는 emotions, relationships, feelings, intuition의 에너지를 나타냅니다.",
+  "symbolism": {
+    "cups": "Water element energy",
+    "queen": "nurturing, intuitive, caring authority"
+  },
+  "upright_themes": [
+    "emotions",
+    "nurturing",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked emotions",
+    "resistance to nurturing",
+    "delays"
+  ],
+  "upright_extended": "The Queen of Cups combines the Water element's focus on emotions, relationships, feelings, intuition with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of emotions, relationships, feelings, intuition through nurturing and intuitive wisdom.",
+  "reversed_extended": "When reversed, Queen of Cups suggests challenges or blockages in emotions, relationships, feelings, intuition. The natural flow is interrupted.",
+  "element": "Water",
+  "numerology": "Number 13: nurturing, intuitive, caring authority",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Water energy of cups manifesting in my life?",
+    "What does this card teach me about emotions, relationships, feelings, intuition?"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": 63,
+  "name": "Ace of Pentacles",
+  "name_ko": "펜타클의 에이스",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "ace",
+  "deep_meaning": "The Ace of Pentacles represents new material beginnings, opportunity, and the seed of prosperity. A hand emerges from clouds offering a golden pentacle above a lush garden with an open gate leading to mountains beyond. This card embodies tangible manifestation, new financial ventures, and the grounded potential of the physical world. It signals new jobs, business opportunities, or material gifts that can grow into lasting abundance. The Ace of Pentacles reminds us that opportunities for material success are divine gifts, that prosperity begins with a single seed carefully tended, and that earthly abundance and spiritual grace are not separate.",
+  "deep_meaning_ko": "펜타클의 에이스는 새로운 물질적 시작, 기회, 그리고 번영의 씨앗을 나타냅니다. 손이 구름에서 나와 멀리 산으로 이어지는 열린 문이 있는 무성한 정원 위에 황금 펜타클을 제공합니다. 이 카드는 유형적 실현, 새로운 재정 사업, 그리고 물리적 세계의 접지된 잠재력을 구현합니다. 새로운 직업, 비즈니스 기회, 또는 지속적인 풍요로 성장할 수 있는 물질적 선물을 알립니다. 펜타클의 에이스는 물질적 성공의 기회가 신성한 선물이고, 번영이 신중하게 가꿔진 하나의 씨앗으로 시작되며, 세속적 풍요와 영적 은총이 분리되지 않는다는 것을 상기시킵니다.",
+  "symbolism": {
+    "golden_pentacle": "material opportunity and prosperity",
+    "hand_from_cloud": "divine gift of material blessing",
+    "lush_garden": "fertility and growth potential",
+    "open_gate": "new path and opportunity",
+    "mountains": "goals achievable through effort",
+    "flowers": "beauty of material world"
+  },
+  "upright_themes": [
+    "new opportunity",
+    "prosperity",
+    "manifestation",
+    "abundance",
+    "material gift",
+    "new job",
+    "financial opportunity",
+    "grounded beginning"
+  ],
+  "reversed_themes": [
+    "lost opportunity",
+    "lack of planning",
+    "materialism",
+    "greed",
+    "poor financial decisions"
+  ],
+  "life_lessons": "Seize opportunities for material growth. Prosperity begins with small seeds tended carefully. The physical world offers spiritual lessons through material experience.",
+  "related_cards": [0, 1, 3, 21],
+  "element": "Earth",
+  "numerology": "1 - New material beginnings, seed of prosperity"
+}

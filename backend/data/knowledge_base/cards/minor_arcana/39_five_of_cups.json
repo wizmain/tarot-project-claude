@@ -1,0 +1,40 @@
+{
+  "id": 39,
+  "name": "Five of Cups",
+  "name_ko": "컵의 5",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "five",
+  "deep_meaning": "The Five of Cups represents loss, grief, and the challenge of moving forward after disappointment. A cloaked figure stares at three spilled cups, unaware of two cups still standing behind them. This card embodies the natural process of mourning what's lost, but also the danger of dwelling in sorrow while overlooking remaining blessings. It speaks to regret, emotional pain, and the choice between despair and hope. The Five of Cups reminds us that grief is necessary and valid, but that healing comes when we can acknowledge both loss and what remains, choosing eventually to turn around and see the cups still full.",
+  "deep_meaning_ko": "컵의 5는 상실, 슬픔, 그리고 실망 후 앞으로 나아가는 도전을 나타냅니다. 망토를 입은 인물이 엎질러진 세 개의 컵을 바라보며 뒤에 여전히 서 있는 두 개의 컵을 인식하지 못합니다. 이 카드는 잃어버린 것을 애도하는 자연스러운 과정을 구현하지만, 남아 있는 축복을 간과하면서 슬픔에 빠져 있는 위험도 있습니다. 후회, 감정적 고통, 그리고 절망과 희망 사이의 선택에 대해 말합니다. 컵의 5는 슬픔이 필요하고 타당하지만, 상실과 남아 있는 것을 모두 인정하고 결국 돌아서서 여전히 가득 찬 컵을 볼 수 있을 때 치유가 온다는 것을 상기시킵니다.",
+  "symbolism": {
+    "three_spilled_cups": "loss and disappointment",
+    "two_standing_cups": "what remains, hope",
+    "cloaked_figure": "grief and mourning",
+    "bridge": "path forward, transition",
+    "river": "flow of emotions",
+    "turned_away": "focus on loss rather than remaining blessings"
+  },
+  "upright_themes": [
+    "loss",
+    "grief",
+    "disappointment",
+    "regret",
+    "focusing on negative",
+    "sadness",
+    "emotional pain",
+    "mourning"
+  ],
+  "reversed_themes": [
+    "acceptance",
+    "moving on",
+    "finding peace",
+    "forgiveness",
+    "recovery",
+    "seeing the positive"
+  ],
+  "life_lessons": "Honor your grief but don't dwell in it forever. What remains can be enough. Choose eventually to turn around and see what's still possible.",
+  "related_cards": [13, 16, 18, 36],
+  "element": "Water",
+  "numerology": "5 - Loss, change, and the challenge of perspective"
+}

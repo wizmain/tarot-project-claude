@@ -1,0 +1,43 @@
+{
+  "id": 1,
+  "name": "The Magician",
+  "name_ko": "마법사",
+  "arcana_type": "major",
+  "number": 1,
+  "deep_meaning": "The Magician represents manifestation, resourcefulness, and the power to transform vision into reality. With one hand pointing to the heavens and the other to the earth, the Magician channels divine wisdom into material form. This card embodies mastery over the four elements and the ability to use available resources skillfully. The Magician reminds us that we possess all the tools needed to create our desired reality through focused will and action.",
+  "deep_meaning_ko": "마법사는 현현, 재치, 그리고 비전을 현실로 바꾸는 힘을 나타냅니다. 한 손은 하늘을, 다른 손은 땅을 가리키며, 마법사는 신성한 지혜를 물질적 형태로 전환합니다. 이 카드는 네 가지 원소에 대한 숙달과 사용 가능한 자원을 능숙하게 활용하는 능력을 구현합니다. 마법사는 우리가 집중된 의지와 행동을 통해 원하는 현실을 창조하는 데 필요한 모든 도구를 가지고 있음을 상기시킵니다.",
+  "symbolism": {
+    "infinity_symbol": "unlimited potential and connection to divine wisdom",
+    "wand": "will, inspiration, and active masculine energy",
+    "cup": "emotions, intuition, and the subconscious",
+    "sword": "intellect, communication, and mental clarity",
+    "pentacle": "manifestation, material world, and grounded action",
+    "red_roses": "passion and desire",
+    "white_lilies": "pure intention and spiritual awareness",
+    "ouroboros_belt": "eternal cycle and spiritual wholeness"
+  },
+  "upright_themes": [
+    "manifestation",
+    "resourcefulness",
+    "power",
+    "inspired action",
+    "skill",
+    "concentration",
+    "willpower",
+    "transformation"
+  ],
+  "reversed_themes": [
+    "manipulation",
+    "poor planning",
+    "untapped potential",
+    "scattered energy",
+    "deception",
+    "lack of focus",
+    "misuse of power"
+  ],
+  "life_lessons": "You have everything you need to succeed. Focus your intention, align your resources, and take deliberate action. As above, so below - what you conceive in mind can manifest in reality.",
+  "related_cards": [0, 8, 19, 21],
+  "astrological_association": "Mercury",
+  "element": "Air",
+  "numerology": "1 - The number of new beginnings, independence, and focused will"
+}

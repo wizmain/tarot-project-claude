@@ -1,0 +1,191 @@
+# Three Card Tarot Reading: Past-Present-Future
+
+## Querent's Question
+{{ question }}
+
+{% if category %}
+## Category
+{{ category }}
+{% endif %}
+
+{% if user_context %}
+## Additional Context
+{{ user_context }}
+{% endif %}
+
+## Selected Cards
+
+### Card 1: Past
+**{{ cards[0].name }}** ({{ cards[0].orientation }})
+
+**Meaning**: The origin or background of the current situation, elements that influenced the past
+
+- **Arcana**: {{ cards[0].arcana_type }}
+{% if cards[0].suit %}
+- **Suit**: {{ cards[0].suit }}
+{% endif %}
+- **Keywords**: {{ cards[0].keywords|join(', ') }}
+
+{% if cards[0].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[0].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[0].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 2: Present
+**{{ cards[1].name }}** ({{ cards[1].orientation }})
+
+**Meaning**: The current situation being faced, current energy and influences
+
+- **Arcana**: {{ cards[1].arcana_type }}
+{% if cards[1].suit %}
+- **Suit**: {{ cards[1].suit }}
+{% endif %}
+- **Keywords**: {{ cards[1].keywords|join(', ') }}
+
+{% if cards[1].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[1].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[1].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 3: Future
+**{{ cards[2].name }}** ({{ cards[2].orientation }})
+
+**Meaning**: Potential outcome if current direction is maintained, potential results
+
+- **Arcana**: {{ cards[2].arcana_type }}
+{% if cards[2].suit %}
+- **Suit**: {{ cards[2].suit }}
+{% endif %}
+- **Keywords**: {{ cards[2].keywords|join(', ') }}
+
+{% if cards[2].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[2].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[2].reversed_meaning }}
+{% endif %}
+
+{% if rag_context %}
+---
+
+## Deep Knowledge (Reference)
+
+The following is professional tarot knowledge about these cards and spread. Use this to provide deeper and more insightful interpretations:
+
+### Card Deep Meanings
+{% for card_ctx in rag_context.card_contexts %}
+**{{ card_ctx.name }}**
+- Deep Meaning: {{ card_ctx.deep_meaning }}
+{% if card_ctx.symbolism %}
+- Symbolism: {% for symbol, meaning in card_ctx.symbolism.items() %}{{ symbol }}({{ meaning }}){% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
+{% if card_ctx.upright_themes %}
+- Upright Themes: {{ card_ctx.upright_themes|join(', ') }}
+{% endif %}
+{% if card_ctx.reversed_themes %}
+- Reversed Themes: {{ card_ctx.reversed_themes|join(', ') }}
+{% endif %}
+{% endfor %}
+
+{% if rag_context.spread_context %}
+### Spread Interpretation Guide
+{{ rag_context.spread_context.interpretation_guide }}
+
+**Timeline Analysis**:
+{{ rag_context.spread_context.timeline_reading }}
+{% endif %}
+
+{% if rag_context.category_guidance %}
+### Category-Specific Guidance
+{{ rag_context.category_guidance }}
+{% endif %}
+
+{% if rag_context.combination_insights %}
+### Card Combination Insights
+{% for insight in rag_context.combination_insights %}
+- {{ insight }}
+{% endfor %}
+{% endif %}
+
+**Note on Interpretation**: The above deep knowledge is reference material to enhance your expertise. Don't mechanically list it; naturally integrate it into your interpretation based on the querent's question and situation.
+
+{% endif %}
+
+---
+
+## Reading Request
+You are a professional tarot reader skilled in psychological insight and storytelling.
+Provide an empathetic and insightful three-card reading based on the Past-Present-Future spread.
+
+### Reading Approach:
+1. **Past Card Analysis**: How has the past shaped the current situation? What lessons or patterns from the past are relevant?
+2. **Present Card Analysis**: What is the current state? What energies or challenges are at play right now?
+3. **Future Card Analysis**: What potential outcome awaits if the current path continues? What possibilities are emerging?
+4. **Timeline Integration**: How do these three cards tell a coherent story? What is the progression or evolution shown?
+5. **Actionable Guidance**: Based on this timeline, what can the querent do to influence or prepare for the future?
+
+### Key Principles:
+- The future is not fixed; it shows potential based on current trajectory
+- Focus on empowerment and growth
+- Highlight the connections and flow between the three time periods
+- Provide specific, actionable advice
+
+---
+
+**IMPORTANT**:
+- The response MUST be written entirely in KOREAN language
+- Use an empathetic and warm tone
+- Express possibilities and leave room for choice rather than definitive statements
+- Write naturally as a native Korean speaker would
+
+## JSON Output Format
+
+**REQUIRED**: Provide all responses ONLY in the following JSON format. Never include any other format or additional text.
+
+**JSON String Rules**:
+- All line breaks within string values MUST be escaped as `\n`
+- Do not use actual newline characters (Enter); use the string literal `\n`
+- Escape tabs as `\t` and quotes as `\"`
+- All strings must be written on a single line
+
+```json
+{
+  "cards": [
+    {
+      "card_id": "{{ cards[0].id }}",
+      "position": "past",
+      "interpretation": "Detailed interpretation of how this card relates to the past IN KOREAN (no actual newline characters, use \\n if needed)",
+      "key_message": "Core message of the past card IN KOREAN"
+    },
+    {
+      "card_id": "{{ cards[1].id }}",
+      "position": "present",
+      "interpretation": "Detailed interpretation of the current situation IN KOREAN (no actual newline characters, use \\n if needed)",
+      "key_message": "Core message of the present card IN KOREAN"
+    },
+    {
+      "card_id": "{{ cards[2].id }}",
+      "position": "future",
+      "interpretation": "Detailed interpretation of the potential future IN KOREAN (no actual newline characters, use \\n if needed)",
+      "key_message": "Core message of the future card IN KOREAN"
+    }
+  ],
+  "card_relationships": "How the three cards interact and tell a coherent story across the timeline IN KOREAN (minimum 150 characters)",
+  "overall_reading": "Comprehensive reading that weaves together past, present, and future into meaningful guidance IN KOREAN (minimum 250 characters, no actual newline characters inside string)",
+  "advice": {
+    "immediate_action": "What to do right now based on the reading IN KOREAN",
+    "short_term": "Focus areas for the next 2-3 weeks IN KOREAN",
+    "long_term": "What to prepare or develop in the coming months IN KOREAN",
+    "mindset": "Mindset or perspective to adopt IN KOREAN",
+    "cautions": "Things to be careful about or avoid IN KOREAN"
+  },
+  "summary": "One sentence summary of the three-card timeline reading IN KOREAN"
+}
+```
+
+**Once again emphasized**: Do not use actual Enter key for line breaks inside JSON string values. Write all text on one line or use the `\n` escape sequence if needed. All content must be in KOREAN language.

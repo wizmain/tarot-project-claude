@@ -1,0 +1,39 @@
+{
+  "id": 56,
+  "name": "Eight of Swords",
+  "name_ko": "소드의 8",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "eight",
+  "deep_meaning": "The Eight of Swords represents feeling trapped, limited thinking, and self-imposed restriction. A blindfolded and bound figure stands surrounded by eight swords stuck in the ground, yet the bonds are loose and the path is clear if only they could see it. This card embodies mental imprisonment, the victim mentality, and the illusion of powerlessness. It speaks to limiting beliefs that create invisible cages, fear that paralyzes, and the confusion between actual constraints and perceived ones. The Eight of Swords reminds us that most of our limitations are self-created, that removing the blindfold reveals options, and that freedom often requires only shifting perspective.",
+  "deep_meaning_ko": "소드의 8은 갇힌 느낌, 제한된 사고, 그리고 자기 부과 제한을 나타냅니다. 눈가리개를 하고 묶인 인물이 땅에 꽂힌 여덟 개의 검에 둘러싸여 서 있지만, 결박은 느슨하고 길은 명확합니다. 이 카드는 정신적 감금, 피해자 멘탈리티, 그리고 무력감의 환상을 구현합니다. 보이지 않는 우리를 만드는 제한적 믿음, 마비시키는 두려움, 그리고 실제 제약과 인식된 제약 사이의 혼란에 대해 말합니다. 소드의 8은 우리의 제한 대부분이 자기 창조되고, 눈가리개를 제거하면 옵션이 드러나며, 자유는 종종 관점을 바꾸는 것만을 필요로 한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "blindfold": "refusing to see the truth",
+    "loose_bonds": "self-imposed restrictions",
+    "swords_around": "mental barriers, not physical",
+    "clear_path": "freedom available if seen",
+    "castle": "safety within reach"
+  },
+  "upright_themes": [
+    "restriction",
+    "feeling trapped",
+    "limited thinking",
+    "powerlessness",
+    "victim mentality",
+    "isolation",
+    "fear",
+    "self-imposed limits"
+  ],
+  "reversed_themes": [
+    "freedom",
+    "release",
+    "new perspective",
+    "empowerment",
+    "taking control",
+    "seeing options"
+  ],
+  "life_lessons": "Most prisons are self-made. Remove the blindfold and see your options. Freedom requires changing perspective, not circumstances.",
+  "related_cards": [12, 15, 18, 50],
+  "element": "Air",
+  "numerology": "8 - Self-imposed restriction, illusion of powerlessness"
+}

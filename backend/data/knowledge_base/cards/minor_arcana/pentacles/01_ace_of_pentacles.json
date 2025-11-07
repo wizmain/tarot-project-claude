@@ -1,0 +1,35 @@
+{
+  "id": 64,
+  "name": "Ace of Pentacles",
+  "name_ko": "펜타클의 에이스",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "ace",
+  "number": 1,
+  "deep_meaning": "The Ace of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of new beginnings, opportunities, potential. As an Ace, this card represents the pure, undiluted potential of pentacles. It's a gift from the universe, an opportunity to begin something new in the realm of material, money, career, physical world.",
+  "deep_meaning_ko": "펜타클의 에이스는 material, money, career, physical world의 에너지를 나타냅니다.",
+  "symbolism": {
+    "pentacles": "Earth element energy",
+    "ace": "new beginnings, opportunities, potential"
+  },
+  "upright_themes": [
+    "material",
+    "new beginnings",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked material",
+    "resistance to new beginnings",
+    "delays"
+  ],
+  "upright_extended": "The Ace of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of new beginnings, opportunities, potential. As an Ace, this card represents the pure, undiluted potential of pentacles. It's a gift from the universe, an opportunity to begin something new in the realm of material, money, career, physical world.",
+  "reversed_extended": "When reversed, Ace of Pentacles suggests challenges or blockages in material, money, career, physical world. The natural flow is interrupted.",
+  "element": "Earth",
+  "numerology": "Number 1: new beginnings, opportunities, potential",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Earth energy of pentacles manifesting in my life?",
+    "What does this card teach me about material, money, career, physical world?"
+  ]
+}

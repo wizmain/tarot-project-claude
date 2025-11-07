@@ -1,0 +1,35 @@
+{
+  "id": 59,
+  "name": "Ten of Swords",
+  "name_ko": "검의 10",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "ten",
+  "number": 10,
+  "deep_meaning": "The Ten of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of completion, fulfillment, end of cycle. This numbered card shows the progression of swords energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "검의 10는 thoughts, communication, conflict, intellect의 에너지를 나타냅니다.",
+  "symbolism": {
+    "swords": "Air element energy",
+    "ten": "completion, fulfillment, end of cycle"
+  },
+  "upright_themes": [
+    "thoughts",
+    "completion",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked thoughts",
+    "resistance to completion",
+    "delays"
+  ],
+  "upright_extended": "The Ten of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of completion, fulfillment, end of cycle. This numbered card shows the progression of swords energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Ten of Swords suggests challenges or blockages in thoughts, communication, conflict, intellect. The natural flow is interrupted.",
+  "element": "Air",
+  "numerology": "Number 10: completion, fulfillment, end of cycle",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Air energy of swords manifesting in my life?",
+    "What does this card teach me about thoughts, communication, conflict, intellect?"
+  ]
+}

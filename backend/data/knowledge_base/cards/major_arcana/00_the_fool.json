@@ -1,0 +1,42 @@
+{
+  "id": 0,
+  "name": "The Fool",
+  "name_ko": "바보",
+  "arcana_type": "major",
+  "number": 0,
+  "deep_meaning": "The Fool represents new beginnings, spontaneity, and infinite possibilities. Standing at the edge of a cliff, the Fool embodies the courage to take leaps of faith without knowing the destination. This card symbolizes the pure potential that exists before any journey begins, untainted by experience or expectation. The Fool invites us to embrace uncertainty with childlike wonder and trust in the universe's guidance.",
+  "deep_meaning_ko": "바보 카드는 새로운 시작, 자발성, 무한한 가능성을 나타냅니다. 절벽 끝에 서 있는 바보는 목적지를 알지 못한 채 믿음의 도약을 할 용기를 상징합니다. 이 카드는 여행이 시작되기 전에 존재하는 순수한 잠재력을 상징하며, 경험이나 기대에 물들지 않은 상태를 나타냅니다. 바보는 우리에게 어린아이 같은 경이로움으로 불확실성을 받아들이고 우주의 안내를 신뢰하도록 초대합니다.",
+  "symbolism": {
+    "white_rose": "purity and innocence of intention",
+    "small_dog": "loyalty, protection, and instinctual wisdom",
+    "cliff": "the unknown, taking risks, and life's precipices",
+    "sun": "optimism, enlightenment, and divine guidance",
+    "knapsack": "potential and resources carried from past experiences",
+    "white_clothing": "spiritual purity and clean slate"
+  },
+  "upright_themes": [
+    "new beginnings",
+    "adventure",
+    "innocence",
+    "freedom",
+    "originality",
+    "spontaneity",
+    "unlimited potential",
+    "faith in the journey"
+  ],
+  "reversed_themes": [
+    "recklessness",
+    "naivety",
+    "poor judgment",
+    "folly",
+    "taking unnecessary risks",
+    "lack of planning",
+    "immaturity",
+    "fear of commitment"
+  ],
+  "life_lessons": "Embrace uncertainty as the gateway to growth. Sometimes not knowing is the first step to discovering. Trust your instincts and take that leap of faith, but balance spontaneity with mindfulness.",
+  "related_cards": [1, 8, 13, 19],
+  "astrological_association": "Uranus",
+  "element": "Air",
+  "numerology": "0 - The number of unlimited potential, the void before creation, and infinite possibilities"
+}

@@ -375,6 +375,55 @@ async def get_current_superuser(
     return current_user
 
 
+async def get_current_admin_user(
+    current_user: User = Depends(get_current_active_user)
+) -> User:
+    """
+    현재 관리자 사용자만 허용 (데이터베이스 설정 기반)
+
+    데이터베이스의 admin_emails 설정을 확인하여
+    현재 사용자가 관리자인지 검증합니다.
+
+    Args:
+        current_user: 현재 활성화된 사용자
+
+    Returns:
+        User: 관리자 사용자 객체
+
+    Raises:
+        HTTPException 403: 관리자가 아닌 사용자
+    """
+    from src.database.factory import get_database_provider
+    
+    try:
+        db_provider = get_database_provider()
+        admin_emails = await db_provider.get_admin_emails()
+        
+        # Check if user's email is in admin list
+        user_email = getattr(current_user, 'email', None)
+        
+        if not user_email or user_email not in admin_emails:
+            logger.warning(
+                f"[Auth] 관리자 권한 없음: user_id={current_user.id}, email={user_email}"
+            )
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="관리자 권한이 필요합니다. 관리자에게 문의하세요."
+            )
+        
+        logger.info(f"[Auth] 관리자 권한 확인 성공: email={user_email}")
+        return current_user
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"[Auth] 관리자 권한 확인 실패: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="권한 확인 중 오류가 발생했습니다"
+        )
+
+
 async def get_optional_current_user(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(
         HTTPBearer(auto_error=False)

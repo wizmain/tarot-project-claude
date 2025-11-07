@@ -1,0 +1,35 @@
+{
+  "id": 61,
+  "name": "Knight of Swords",
+  "name_ko": "검의 나이트",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "knight",
+  "number": 12,
+  "deep_meaning": "The Knight of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of swift action, courage, pursuit. The Knight takes action, pursuing thoughts, communication, conflict, intellect with determination and speed.",
+  "deep_meaning_ko": "검의 나이트는 thoughts, communication, conflict, intellect의 에너지를 나타냅니다.",
+  "symbolism": {
+    "swords": "Air element energy",
+    "knight": "swift action, courage, pursuit"
+  },
+  "upright_themes": [
+    "thoughts",
+    "swift action",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked thoughts",
+    "resistance to swift action",
+    "delays"
+  ],
+  "upright_extended": "The Knight of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of swift action, courage, pursuit. The Knight takes action, pursuing thoughts, communication, conflict, intellect with determination and speed.",
+  "reversed_extended": "When reversed, Knight of Swords suggests challenges or blockages in thoughts, communication, conflict, intellect. The natural flow is interrupted.",
+  "element": "Air",
+  "numerology": "Number 12: swift action, courage, pursuit",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Air energy of swords manifesting in my life?",
+    "What does this card teach me about thoughts, communication, conflict, intellect?"
+  ]
+}

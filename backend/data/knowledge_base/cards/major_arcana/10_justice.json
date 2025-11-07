@@ -1,0 +1,41 @@
+{
+  "id": 10,
+  "name": "Justice",
+  "name_ko": "정의",
+  "arcana_type": "major",
+  "rank": "Justice",
+  "number": 10,
+  "deep_meaning": "Justice represents fairness, truth, and the law of cause and effect. She sits between two pillars holding scales and a sword, symbolizing balanced judgment and decisive action. This card reminds us that actions have consequences and that truth will ultimately prevail. Justice is about taking responsibility for our choices and understanding that we create our own reality through our decisions. It speaks to legal matters, contracts, and karmic balance. The card teaches that fairness requires both compassion and objectivity.",
+  "deep_meaning_ko": "정의는 fairness을/를 상징합니다.",
+  "symbolism": {
+    "scales": "balance and fairness",
+    "sword": "mental clarity and truth",
+    "purple_cloak": "compassion and understanding",
+    "crown": "clear thinking",
+    "pillars": "law and structure"
+  },
+  "upright_themes": [
+    "fairness",
+    "truth",
+    "law",
+    "accountability",
+    "karma"
+  ],
+  "reversed_themes": [
+    "unfairness",
+    "dishonesty",
+    "lack of accountability",
+    "legal issues"
+  ],
+  "upright_extended": "Justice represents fairness, truth, and the law of cause and effect. She sits between two pillars holding scales and a sword, symbolizing balanced judgment and decisive action. This card reminds us that actions have consequences and that truth will ultimately prevail. Justice is about taking responsibility for our choices and understanding that we create our own reality through our decisions. It speaks to legal matters, contracts, and karmic balance. The card teaches that fairness requires both compassion and objectivity.",
+  "reversed_extended": "역방향에서 Justice는 unfairness, dishonesty, lack of accountability을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Libra",
+  "element": "Air",
+  "numerology": "Number 10 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of Justice?",
+    "What does Justice teach me about my current situation?"
+  ]
+}

@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Testing
+.pytest_cache/
+tests/
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data files
+data/embeddings/
+data/knowledge_base/
+*.db
+*.sqlite
+
+# Scripts (not needed in production)
+scripts/
+check_*.py
+
+# Logs
+logs/
+*.log
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# Alembic (if using Firestore)
+alembic/
+
+# Local config
+firebase-service-account.local.json
+.env.local

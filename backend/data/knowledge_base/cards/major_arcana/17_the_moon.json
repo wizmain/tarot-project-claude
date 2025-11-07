@@ -1,0 +1,41 @@
+{
+  "id": 17,
+  "name": "The Moon",
+  "name_ko": "달",
+  "arcana_type": "major",
+  "rank": "The Moon",
+  "number": 17,
+  "deep_meaning": "The Moon represents illusion, intuition, and the unconscious mind. In the moonlight, nothing is quite as it seems - shadows deepen, and imagination runs wild. This card speaks to the realm of dreams, fears, and hidden truths. The path between two towers winds into the distance, uncertain and mysterious. The Moon teaches us to trust our intuition while remaining aware that our perceptions may be clouded by fear or projection. It asks us to explore our inner landscape and face what lurks in our unconscious.",
+  "deep_meaning_ko": "달는 illusion을/를 상징합니다.",
+  "symbolism": {
+    "moon": "the unconscious and intuition",
+    "dog_and_wolf": "tamed and wild nature",
+    "crayfish": "early stages of consciousness emerging",
+    "path": "the journey into the unknown",
+    "towers": "gates to the unconscious"
+  },
+  "upright_themes": [
+    "illusion",
+    "intuition",
+    "uncertainty",
+    "dreams",
+    "subconscious"
+  ],
+  "reversed_themes": [
+    "confusion",
+    "fear",
+    "misinterpretation",
+    "deception"
+  ],
+  "upright_extended": "The Moon represents illusion, intuition, and the unconscious mind. In the moonlight, nothing is quite as it seems - shadows deepen, and imagination runs wild. This card speaks to the realm of dreams, fears, and hidden truths. The path between two towers winds into the distance, uncertain and mysterious. The Moon teaches us to trust our intuition while remaining aware that our perceptions may be clouded by fear or projection. It asks us to explore our inner landscape and face what lurks in our unconscious.",
+  "reversed_extended": "역방향에서 The Moon는 confusion, fear, misinterpretation을 나타냅니다.",
+  "life_lessons": "",
+  "related_cards": [],
+  "astrological_association": "Pisces",
+  "element": "Water",
+  "numerology": "Number 17 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of The Moon?",
+    "What does The Moon teach me about my current situation?"
+  ]
+}

@@ -33,7 +33,7 @@ class AIResponse(BaseModel):
     raw_response: Optional[Dict[str, Any]] = Field(None, description="Raw API response")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "content": "The Fool card represents new beginnings...",
                 "model": "gpt-4-turbo-preview",
@@ -146,7 +146,7 @@ class OrchestratorResponse(BaseModel):
     total_cost: float = Field(0.0, description="Total estimated cost across all attempts")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "response": {
                     "content": "The Fool card represents...",
@@ -185,7 +185,7 @@ class GenerationConfig(BaseModel):
     stop_sequences: Optional[list[str]] = Field(None, description="Stop sequences")
 
     class Config:
-        json_schema_extra = {
+        json_json_schema_extra = {
             "example": {
                 "temperature": 0.7,
                 "max_tokens": 1000,

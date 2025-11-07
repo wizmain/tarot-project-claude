@@ -1,0 +1,39 @@
+{
+  "id": 57,
+  "name": "Nine of Swords",
+  "name_ko": "소드의 9",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "nine",
+  "deep_meaning": "The Nine of Swords represents anxiety, nightmares, and mental anguish. A figure sits up in bed, head in hands, with nine swords hanging ominously on the wall above - the classic image of 3 AM worries. This card embodies the torture of overthinking, the weight of worry, and the darkness of fears that seem worse at night. It speaks to anxiety spirals, guilt, and the suffering created by our own thoughts. The Nine of Swords reminds us that what we fear is often worse than reality, that thoughts are not facts, and that dawn always comes after the darkest night. This is suffering - but suffering that can be transformed by perspective.",
+  "deep_meaning_ko": "소드의 9는 불안, 악몽, 그리고 정신적 고뇌를 나타냅니다. 인물이 침대에 앉아 머리를 손에 묻고 있고, 아홉 개의 검이 위 벽에 불길하게 걸려 있습니다 - 새벽 3시 걱정의 전형적인 이미지. 이 카드는 과도한 사고의 고문, 걱정의 무게, 그리고 밤에 더 나빠 보이는 두려움의 어둠을 구현합니다. 불안 나선, 죄책감, 그리고 우리 자신의 생각이 만든 고통에 대해 말합니다. 소드의 9는 우리가 두려워하는 것이 종종 현실보다 나쁘고, 생각이 사실이 아니며, 가장 어두운 밤 후에 항상 새벽이 온다는 것을 상기시킵니다. 이것은 고통입니다 - 그러나 관점에 의해 변화될 수 있는 고통입니다.",
+  "symbolism": {
+    "sitting_in_bed": "sleepless nights, anxiety",
+    "head_in_hands": "despair and worry",
+    "nine_swords": "overwhelming thoughts",
+    "darkness": "mental anguish",
+    "quilt_with_roses": "beauty obscured by worry"
+  },
+  "upright_themes": [
+    "anxiety",
+    "worry",
+    "nightmares",
+    "fear",
+    "guilt",
+    "mental anguish",
+    "despair",
+    "overthinking"
+  ],
+  "reversed_themes": [
+    "hope",
+    "recovery",
+    "releasing worry",
+    "new perspective",
+    "seeking help",
+    "light at end of tunnel"
+  ],
+  "life_lessons": "Your worst fears are often illusions. Thoughts are not reality. Seek help when anxiety overwhelms. Dawn follows every dark night.",
+  "related_cards": [9, 15, 16, 18],
+  "element": "Air",
+  "numerology": "9 - Mental suffering near completion, crisis before dawn"
+}

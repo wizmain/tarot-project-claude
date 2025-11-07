@@ -19,7 +19,7 @@
  * - 로딩 및 에러 상태 처리
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import DatePicker from "react-datepicker";
@@ -133,56 +133,56 @@ export default function AnalyticsDashboard() {
   }, [router]);
 
   // 데이터 fetch 함수 분리
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!authToken) return;
-      setLoading(true);
-      setError(null);
+    setLoading(true);
+    setError(null);
 
-      try {
-        const headers = {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json",
-        };
+    try {
+      const headers = {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      };
 
-        // 1. Summary 데이터
-        const summaryRes = await fetch(
-          `${API_BASE_URL}/api/v1/analytics/llm-usage/summary?days=${days}`,
-          { headers }
-        );
-        if (!summaryRes.ok) throw new Error("Failed to fetch summary data");
-        const summary = await summaryRes.json();
-        setSummaryData(summary);
+      // 1. Summary 데이터
+      const summaryRes = await fetch(
+        `${API_BASE_URL}/api/v1/analytics/llm-usage/summary?days=${days}`,
+        { headers }
+      );
+      if (!summaryRes.ok) throw new Error("Failed to fetch summary data");
+      const summary = await summaryRes.json();
+      setSummaryData(summary);
 
-        // 2. Daily trend 데이터
-        const trendRes = await fetch(
-          `${API_BASE_URL}/api/v1/analytics/llm-usage/daily-trend?days=${days}`,
-          { headers }
-        );
-        if (!trendRes.ok) throw new Error("Failed to fetch trend data");
-        const trend = await trendRes.json();
-        setDailyTrend(trend.data);
+      // 2. Daily trend 데이터
+      const trendRes = await fetch(
+        `${API_BASE_URL}/api/v1/analytics/llm-usage/daily-trend?days=${days}`,
+        { headers }
+      );
+      if (!trendRes.ok) throw new Error("Failed to fetch trend data");
+      const trend = await trendRes.json();
+      setDailyTrend(trend.data);
 
-        // 3. Recent logs 데이터
-        const logsRes = await fetch(
-          `${API_BASE_URL}/api/v1/analytics/llm-usage/recent?page=${page}&page_size=${pageSize}`,
-          { headers }
-        );
-        if (!logsRes.ok) throw new Error("Failed to fetch recent logs");
-        const logs = await logsRes.json();
-        setRecentLogs(logs.logs);
-        setTotalLogs(logs.total);
-      } catch (err) {
-        console.error("Error fetching analytics data:", err);
-        setError(err instanceof Error ? err.message : "Unknown error");
-      } finally {
-        setLoading(false);
-      }
-  };
+      // 3. Recent logs 데이터
+      const logsRes = await fetch(
+        `${API_BASE_URL}/api/v1/analytics/llm-usage/recent?page=${page}&page_size=${pageSize}`,
+        { headers }
+      );
+      if (!logsRes.ok) throw new Error("Failed to fetch recent logs");
+      const logs = await logsRes.json();
+      setRecentLogs(logs.logs);
+      setTotalLogs(logs.total);
+    } catch (err) {
+      console.error("Error fetching analytics data:", err);
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  }, [authToken, days, page]);
 
   // 데이터 fetch
   useEffect(() => {
     fetchData();
-  }, [authToken, days, page]);
+  }, [fetchData]);
 
   // Auto-refresh
   useEffect(() => {
@@ -193,7 +193,7 @@ export default function AnalyticsDashboard() {
     }, refreshInterval * 1000);
 
     return () => clearInterval(interval);
-  }, [autoRefresh, refreshInterval, authToken, days, page]);
+  }, [autoRefresh, refreshInterval, fetchData]);
 
   // 로딩 상태
   if (loading) {

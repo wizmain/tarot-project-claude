@@ -1,0 +1,39 @@
+{
+  "id": 49,
+  "name": "Ace of Swords",
+  "name_ko": "소드의 에이스",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "ace",
+  "deep_meaning": "The Ace of Swords represents mental clarity, breakthrough, and the power of truth. A hand emerges from clouds grasping a upright sword crowned with laurel and palm - symbols of victory and peace through clear thinking. This card embodies new intellectual understanding, decisive moments, and the cutting away of illusion to reveal truth. It signals mental breakthroughs, clear communication, and the moment when confusion gives way to understanding. The Ace of Swords reminds us that truth is powerful, that clarity cuts through confusion, and that honest thinking is the foundation of right action.",
+  "deep_meaning_ko": "소드의 에이스는 정신적 명료함, 돌파구, 그리고 진실의 힘을 나타냅니다. 손이 구름에서 나와 월계수와 종려나무로 장식된 곧게 선 검을 잡고 있습니다 - 명확한 사고를 통한 승리와 평화의 상징. 이 카드는 새로운 지적 이해, 결정적인 순간, 그리고 진실을 드러내기 위해 환상을 잘라내는 것을 구현합니다. 정신적 돌파구, 명확한 소통, 그리고 혼란이 이해로 바뀌는 순간을 알립니다. 소드의 에이스는 진실이 강력하고, 명료함이 혼란을 뚫고 지나가며, 정직한 사고가 올바른 행동의 기초임을 상기시킵니다.",
+  "symbolism": {
+    "upright_sword": "truth, clarity, and mental power",
+    "hand_from_cloud": "divine insight and inspiration",
+    "crown": "victory through clear thinking",
+    "laurel_and_palm": "achievement and peace",
+    "mountains": "challenges overcome by clarity"
+  },
+  "upright_themes": [
+    "clarity",
+    "breakthrough",
+    "new ideas",
+    "mental clarity",
+    "truth",
+    "justice",
+    "clear communication",
+    "intellectual power"
+  ],
+  "reversed_themes": [
+    "confusion",
+    "miscommunication",
+    "hostility",
+    "lack of clarity",
+    "clouded judgment",
+    "chaos"
+  ],
+  "life_lessons": "Truth cuts through illusion. Mental clarity is a powerful tool. Honest thinking and clear communication create breakthroughs.",
+  "related_cards": [1, 7, 11, 19],
+  "element": "Air",
+  "numerology": "1 - New mental beginnings, breakthrough clarity"
+}

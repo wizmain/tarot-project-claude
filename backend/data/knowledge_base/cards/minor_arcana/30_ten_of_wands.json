@@ -1,0 +1,38 @@
+{
+  "id": 30,
+  "name": "Ten of Wands",
+  "name_ko": "완드의 10",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "ten",
+  "deep_meaning": "The Ten of Wands represents burden, responsibility, and the weight of success. A figure struggles to carry ten wands toward a distant destination, bent under the load. This card embodies the paradox of achievement - success brings responsibility, and ambition can become overwhelming. It speaks to taking on too much, the exhaustion of carrying everything alone, and the need to delegate or release what no longer serves. The Ten of Wands reminds us that sometimes we must set down unnecessary burdens to reach our destination with energy and joy intact.",
+  "deep_meaning_ko": "완드의 10은 부담, 책임, 그리고 성공의 무게를 나타냅니다. 인물이 먼 목적지를 향해 열 개의 완드를 나르며 짐에 굽혀져 있습니다. 이 카드는 성취의 역설을 구현합니다 - 성공은 책임을 가져오고, 야망은 압도적일 수 있습니다. 너무 많이 떠맡는 것, 모든 것을 혼자 짊어지는 피로, 그리고 위임하거나 더 이상 도움이 되지 않는 것을 내려놓아야 하는 필요성에 대해 말합니다. 완드의 10은 때로는 불필요한 짐을 내려놓아야 에너지와 기쁨을 온전히 가지고 목적지에 도달할 수 있음을 상기시킵니다.",
+  "symbolism": {
+    "ten_wands": "overwhelming responsibility and burden",
+    "bent_figure": "strain and exhaustion",
+    "destination_ahead": "goal within sight but not yet reached",
+    "blocking_view": "burden obscuring vision",
+    "upright_posture_attempted": "determination despite hardship"
+  },
+  "upright_themes": [
+    "burden",
+    "responsibility",
+    "hard work",
+    "stress",
+    "obligation",
+    "overwhelm",
+    "carrying too much",
+    "accomplishment costs"
+  ],
+  "reversed_themes": [
+    "release of burden",
+    "delegation",
+    "lightening the load",
+    "shirking responsibility",
+    "collapse from pressure"
+  ],
+  "life_lessons": "Success shouldn't mean suffering. Delegate, ask for help, or set down what doesn't serve you. The destination matters less if you arrive depleted.",
+  "related_cards": [7, 8, 12, 21],
+  "element": "Fire",
+  "numerology": "10 - Completion of cycle, but at what cost"
+}

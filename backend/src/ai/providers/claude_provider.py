@@ -232,6 +232,23 @@ class ClaudeProvider(AIProvider):
                 original_error=e
             )
 
+    def _validate_model(self, model: str) -> None:
+        """
+        Validate model - warn if unknown but let Anthropic API do the actual validation
+
+        This allows using new models without code changes while still providing
+        helpful warnings for potential typos.
+
+        Args:
+            model: Model identifier to validate
+        """
+        if model not in self.available_models:
+            logger.warning(
+                f"[Anthropic] Model '{model}' not in known list. "
+                f"Known models: {', '.join(self.available_models)}. "
+                f"Proceeding anyway - Anthropic API will validate."
+            )
+
     def estimate_cost(
         self,
         prompt_tokens: int,
@@ -262,6 +279,7 @@ class ClaudeProvider(AIProvider):
 
         if pricing is None:
             # Default to Sonnet pricing if model not found
+            logger.warning(f"[Anthropic] Unknown model '{model}' for pricing. Using claude-3-sonnet-20240229 pricing as fallback.")
             pricing = self.MODEL_PRICING["claude-3-sonnet-20240229"]
 
         # Calculate cost (pricing is per 1M tokens)

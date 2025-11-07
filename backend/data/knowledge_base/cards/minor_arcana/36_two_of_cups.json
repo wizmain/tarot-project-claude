@@ -1,0 +1,40 @@
+{
+  "id": 36,
+  "name": "Two of Cups",
+  "name_ko": "컵의 2",
+  "arcana_type": "minor",
+  "suit": "cups",
+  "rank": "two",
+  "deep_meaning": "The Two of Cups represents partnership, mutual attraction, and harmonious connections. This card symbolizes the beauty of two souls coming together in balance and respect - whether in romantic love, friendship, or business partnerships. It speaks to emotional reciprocity, shared values, and the magic that occurs when two people truly see and honor each other. The Two of Cups reminds us that the most meaningful connections are built on equality, trust, and genuine understanding.",
+  "deep_meaning_ko": "컵의 2는 파트너십, 상호 매력, 그리고 조화로운 연결을 나타냅니다. 이 카드는 낭만적 사랑, 우정, 또는 비즈니스 파트너십에서 균형과 존중 속에 함께하는 두 영혼의 아름다움을 상징합니다. 감정적 상호성, 공유된 가치, 그리고 두 사람이 진정으로 서로를 보고 존중할 때 일어나는 마법을 말합니다. 컵의 2는 가장 의미 있는 연결이 평등, 신뢰, 그리고 진정한 이해 위에 구축됨을 상기시킵니다.",
+  "symbolism": {
+    "two_cups": "mutual exchange and emotional balance",
+    "caduceus": "healing, balance, and divine union",
+    "lion_head": "passion and courage in love",
+    "wings": "spiritual connection transcending physical realm",
+    "equal_height": "equality and mutual respect",
+    "gazing_at_each_other": "recognition and true seeing"
+  },
+  "upright_themes": [
+    "partnership",
+    "love",
+    "harmony",
+    "connection",
+    "mutual respect",
+    "unity",
+    "attraction",
+    "balanced relationships"
+  ],
+  "reversed_themes": [
+    "imbalance",
+    "broken relationships",
+    "miscommunication",
+    "disharmony",
+    "unrequited love",
+    "separation"
+  ],
+  "life_lessons": "True partnership requires equality, honesty, and mutual respect. The strongest bonds are formed when two people honor both their connection and their individuality. Love flourishes in balance.",
+  "related_cards": [6, 2, 10],
+  "element": "Water",
+  "numerology": "2 - Partnership, duality, and balance"
+}

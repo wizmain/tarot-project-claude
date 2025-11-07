@@ -1,0 +1,38 @@
+{
+  "id": 69,
+  "name": "Seven of Pentacles",
+  "name_ko": "펜타클의 7",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "seven",
+  "deep_meaning": "The Seven of Pentacles represents patience, assessment, and long-term investment paying off. A farmer leans on his hoe, gazing at a pentacle bush bearing fruit, contemplating whether the harvest will be worth the labor invested. This card embodies the pause to evaluate progress, the patience required for growth, and the question of whether current efforts will yield desired results. It speaks to reviewing investments - of time, money, or energy - and deciding whether to continue or pivot. The Seven of Pentacles reminds us that growth takes time, that periodic assessment ensures we're on the right path, and that patience and persistence are different from stubbornness.",
+  "deep_meaning_ko": "펜타클의 7은 인내, 평가, 그리고 장기 투자가 결실을 맺는 것을 나타냅니다. 농부가 괭이에 기대어 열매를 맺는 펜타클 덤불을 바라보며, 수확이 투자된 노동의 가치가 있을지 숙고합니다. 이 카드는 진척 상황을 평가하기 위한 멈춤, 성장에 필요한 인내, 그리고 현재 노력이 원하는 결과를 낳을 것인지에 대한 질문을 구현합니다. 시간, 돈 또는 에너지의 투자를 검토하고 계속할지 전환할지 결정하는 것에 대해 말합니다. 펜타클의 7은 성장이 시간이 걸리고, 주기적 평가가 올바른 길에 있는지 확인하며, 인내와 끈기가 고집과 다르다는 것을 상기시킵니다.",
+  "symbolism": {
+    "leaning_on_hoe": "pause in work for assessment",
+    "fruiting_bush": "investment bearing results",
+    "contemplative_pose": "evaluation of progress",
+    "seven_pentacles": "tangible results of effort",
+    "farmer": "patience and cultivation"
+  },
+  "upright_themes": [
+    "patience",
+    "assessment",
+    "long-term view",
+    "investment",
+    "perseverance",
+    "growth",
+    "evaluation",
+    "sustainable success"
+  ],
+  "reversed_themes": [
+    "impatience",
+    "lack of results",
+    "poor planning",
+    "wasted effort",
+    "giving up too soon"
+  ],
+  "life_lessons": "Good things take time. Periodically assess your investments. Patience and persistence differ from stubbornness - adjust course when needed.",
+  "related_cards": [3, 4, 9, 14],
+  "element": "Earth",
+  "numerology": "7 - Assessment, patience, and wisdom of long-term thinking"
+}

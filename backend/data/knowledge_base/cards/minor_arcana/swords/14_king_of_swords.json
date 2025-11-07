@@ -1,0 +1,35 @@
+{
+  "id": 63,
+  "name": "King of Swords",
+  "name_ko": "검의 킹",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "king",
+  "number": 14,
+  "deep_meaning": "The King of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of mastery, control, leadership. The King represents full mastery and authoritative command of thoughts, communication, conflict, intellect.",
+  "deep_meaning_ko": "검의 킹는 thoughts, communication, conflict, intellect의 에너지를 나타냅니다.",
+  "symbolism": {
+    "swords": "Air element energy",
+    "king": "mastery, control, leadership"
+  },
+  "upright_themes": [
+    "thoughts",
+    "mastery",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked thoughts",
+    "resistance to mastery",
+    "delays"
+  ],
+  "upright_extended": "The King of Swords combines the Air element's focus on thoughts, communication, conflict, intellect with the energy of mastery, control, leadership. The King represents full mastery and authoritative command of thoughts, communication, conflict, intellect.",
+  "reversed_extended": "When reversed, King of Swords suggests challenges or blockages in thoughts, communication, conflict, intellect. The natural flow is interrupted.",
+  "element": "Air",
+  "numerology": "Number 14: mastery, control, leadership",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Air energy of swords manifesting in my life?",
+    "What does this card teach me about thoughts, communication, conflict, intellect?"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": 29,
+  "name": "Eight of Wands",
+  "name_ko": "완드의 8",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "eight",
+  "number": 8,
+  "deep_meaning": "The Eight of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of movement, action, progress. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "완드의 8는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "eight": "movement, action, progress"
+  },
+  "upright_themes": [
+    "action",
+    "movement",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to movement",
+    "delays"
+  ],
+  "upright_extended": "The Eight of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of movement, action, progress. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Eight of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 8: movement, action, progress",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

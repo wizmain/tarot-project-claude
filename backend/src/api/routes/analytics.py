@@ -27,6 +27,31 @@ logger = get_logger(__name__)
 
 router = APIRouter(prefix="/api/v1/analytics", tags=["analytics"])
 
+# Allowed emails for analytics access
+ANALYTICS_ALLOWED_EMAILS = [
+    "wizmain@gmail.com",
+    "test@example.com",
+]
+
+
+def check_analytics_permission(current_user):
+    """
+    Check if user has permission to access analytics
+
+    Args:
+        current_user: Current authenticated user
+
+    Raises:
+        HTTPException: If user doesn't have permission
+    """
+    if current_user.email not in ANALYTICS_ALLOWED_EMAILS:
+        logger.warning(f"[Analytics] Access denied for user {current_user.email}")
+        raise HTTPException(
+            status_code=403,
+            detail="You don't have permission to access analytics"
+        )
+    logger.info(f"[Analytics] Access granted for user {current_user.email}")
+
 
 # ==================== Response Models ====================
 
@@ -198,7 +223,12 @@ async def get_llm_usage_summary(
     - 총 비용, 호출 수, 평균 응답 시간
     - 이전 기간 대비 변화율
     - 모델별 통계
+
+    **권한**: wizmain@gmail.com, test@example.com만 접근 가능
     """
+    # Check permission
+    check_analytics_permission(current_user)
+
     logger.info(f"[Analytics] Summary requested by user {current_user.id} for {days} days")
 
     try:
@@ -288,7 +318,12 @@ async def get_daily_trend(
 
     - 기간별 일일 통계
     - 차트 렌더링용 데이터
+
+    **권한**: wizmain@gmail.com, test@example.com만 접근 가능
     """
+    # Check permission
+    check_analytics_permission(current_user)
+
     logger.info(f"[Analytics] Daily trend requested for {days} days")
 
     try:
@@ -340,7 +375,12 @@ async def get_recent_logs(
 
     - 페이지네이션 지원
     - 최신순 정렬
+
+    **권한**: wizmain@gmail.com, test@example.com만 접근 가능
     """
+    # Check permission
+    check_analytics_permission(current_user)
+
     logger.info(f"[Analytics] Recent logs requested: page={page}, size={page_size}")
 
     try:

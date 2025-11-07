@@ -1,0 +1,40 @@
+{
+  "id": 62,
+  "name": "King of Swords",
+  "name_ko": "소드의 왕",
+  "arcana_type": "minor",
+  "suit": "swords",
+  "rank": "king",
+  "deep_meaning": "The King of Swords represents intellectual authority, clear judgment, and mastery of the rational mind. He sits upon his throne with sword held perfectly upright, his gaze direct and unwavering. This card embodies the highest expression of mental discipline, ethical thinking, and the ability to make difficult decisions with fairness and clarity. The King of Swords is the judge, the strategist, the truth-teller - someone who has mastered both thought and communication. He reminds us that true authority comes from ethical clarity, that justice requires both intellect and compassion, and that powerful leadership demands the courage to make hard decisions based on principle rather than popularity.",
+  "deep_meaning_ko": "소드의 왕은 지적 권위, 명확한 판단, 그리고 합리적 정신의 숙달을 나타냅니다. 그는 검을 완벽하게 곧게 들고 왕좌에 앉아 있으며, 시선은 직접적이고 흔들림이 없습니다. 이 카드는 정신적 규율의 최고 표현, 윤리적 사고, 그리고 공정함과 명료함으로 어려운 결정을 내리는 능력을 구현합니다. 소드의 왕은 판사, 전략가, 진실을 말하는 사람입니다 - 사고와 소통을 모두 숙달한 사람. 그는 진정한 권위가 윤리적 명료함에서 나오고, 정의가 지성과 연민을 모두 필요로 하며, 강력한 리더십이 인기가 아닌 원칙에 기반한 어려운 결정을 내릴 용기를 요구한다는 것을 상기시킵니다.",
+  "symbolism": {
+    "upright_sword": "truth, justice, and mental clarity",
+    "throne": "intellectual authority and power",
+    "butterflies": "transformation through thought",
+    "crescent_moons": "balanced intellect and intuition",
+    "stern_gaze": "unwavering judgment",
+    "blue_sky": "clear thinking"
+  },
+  "upright_themes": [
+    "authority",
+    "intellectual power",
+    "truth",
+    "ethical thinking",
+    "clear judgment",
+    "structure",
+    "discipline",
+    "logical"
+  ],
+  "reversed_themes": [
+    "tyranny",
+    "manipulation",
+    "cruelty",
+    "abuse of power",
+    "cold logic",
+    "lack of empathy"
+  ],
+  "life_lessons": "Lead with ethical clarity. Make decisions based on principle, not popularity. True power combines intellect with justice. Authority requires responsibility.",
+  "related_cards": [1, 4, 7, 11],
+  "element": "Air",
+  "numerology": "King - Mastery of intellect, highest expression of rational thought and justice"
+}

@@ -1,0 +1,35 @@
+{
+  "id": 30,
+  "name": "Nine of Wands",
+  "name_ko": "완드의 9",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "nine",
+  "number": 9,
+  "deep_meaning": "The Nine of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of achievement, near completion. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "deep_meaning_ko": "완드의 9는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "nine": "achievement, near completion"
+  },
+  "upright_themes": [
+    "action",
+    "achievement",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to achievement",
+    "delays"
+  ],
+  "upright_extended": "The Nine of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of achievement, near completion. This numbered card shows the progression of wands energy through concrete life experiences and situations.",
+  "reversed_extended": "When reversed, Nine of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 9: achievement, near completion",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

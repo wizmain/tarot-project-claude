@@ -178,23 +178,28 @@ class ContextBuilder:
         else:
             keywords = card.keywords_reversed if getattr(card, "keywords_reversed", None) else []
 
+        # Arcana type (for English prompts)
+        arcana_type_value = getattr(card, "arcana_type", None)
+        arcana_type_str = arcana_type_value.value if hasattr(arcana_type_value, 'value') else str(arcana_type_value) if arcana_type_value else "major"
+
+        # Suit (for English prompts)
+        suit_value = getattr(card, "suit", None)
+        suit_str = suit_value.value if hasattr(suit_value, 'value') else str(suit_value) if suit_value else None
+
         context = {
+            "id": getattr(card, "id", None),  # Add card ID for response
             "name": card.name,
             "orientation": orientation,
             "orientation_korean": ContextBuilder.get_orientation_korean(orientation),
-            "arcana_korean": ContextBuilder.get_arcana_korean(getattr(card, "arcana_type", None)),
+            "arcana_type": arcana_type_str,  # English field
+            "arcana_korean": ContextBuilder.get_arcana_korean(arcana_type_value),
+            "suit": suit_str,  # English field
+            "suit_korean": ContextBuilder.get_suit_korean(suit_value),
             "number": getattr(card, "number", None),
             "keywords": keywords,
             "upright_meaning": getattr(card, "meaning_upright", ""),
             "reversed_meaning": getattr(card, "meaning_reversed", ""),
         }
-
-        # 수트 정보 추가 (마이너 아르카나만 해당)
-        suit_value = getattr(card, "suit", None)
-        if suit_value:
-            context["suit_korean"] = ContextBuilder.get_suit_korean(suit_value)
-        else:
-            context["suit_korean"] = None
 
         return context
 

@@ -1,0 +1,43 @@
+{
+  "id": 7,
+  "name": "Strength",
+  "name_ko": "힘",
+  "arcana_type": "major",
+  "rank": "Strength",
+  "number": 7,
+  "deep_meaning": "Strength represents inner power, courage, and compassion. Unlike the Chariot's external force, this card speaks to the gentle mastery of one's instincts and emotions. The image of a woman calmly closing a lion's mouth symbolizes the triumph of the spirit over base nature. True strength lies not in domination but in patience, self-control, and loving-kindness. This card teaches that we overcome obstacles not through force but through understanding, and that real courage is about facing our fears with compassion rather than violence.",
+  "deep_meaning_ko": "힘는 inner strength을/를 상징합니다.",
+  "symbolism": {
+    "woman": "consciousness and compassion",
+    "lion": "raw instincts and passions",
+    "infinity_symbol": "infinite spiritual power",
+    "white_robe": "purity of intention",
+    "flowers": "beauty born from gentle care"
+  },
+  "upright_themes": [
+    "inner strength",
+    "courage",
+    "compassion",
+    "patience",
+    "self-control",
+    "gentle power"
+  ],
+  "reversed_themes": [
+    "self-doubt",
+    "weakness",
+    "insecurity",
+    "lack of confidence",
+    "abuse of power"
+  ],
+  "upright_extended": "Strength represents inner power, courage, and compassion. Unlike the Chariot's external force, this card speaks to the gentle mastery of one's instincts and emotions. The image of a woman calmly closing a lion's mouth symbolizes the triumph of the spirit over base nature. True strength lies not in domination but in patience, self-control, and loving-kindness. This card teaches that we overcome obstacles not through force but through understanding, and that real courage is about facing our fears with compassion rather than violence.",
+  "reversed_extended": "역방향에서 Strength는 self-doubt, weakness, insecurity을 나타냅니다.",
+  "life_lessons": "True power comes from within; gentleness can be stronger than force; patience and compassion overcome obstacles",
+  "related_cards": [],
+  "astrological_association": "Leo",
+  "element": "Fire",
+  "numerology": "Number 7 represents completion and spiritual attainment.",
+  "questions_to_ask": [
+    "How can I embody the energy of Strength?",
+    "What does Strength teach me about my current situation?"
+  ]
+}

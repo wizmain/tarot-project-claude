@@ -1,0 +1,35 @@
+{
+  "id": 34,
+  "name": "Queen of Wands",
+  "name_ko": "완드의 퀸",
+  "arcana_type": "minor",
+  "suit": "wands",
+  "rank": "queen",
+  "number": 13,
+  "deep_meaning": "The Queen of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of action, ambition, creativity, passion, willpower through nurturing and intuitive wisdom.",
+  "deep_meaning_ko": "완드의 퀸는 action, ambition, creativity, passion, willpower의 에너지를 나타냅니다.",
+  "symbolism": {
+    "wands": "Fire element energy",
+    "queen": "nurturing, intuitive, caring authority"
+  },
+  "upright_themes": [
+    "action",
+    "nurturing",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked action",
+    "resistance to nurturing",
+    "delays"
+  ],
+  "upright_extended": "The Queen of Wands combines the Fire element's focus on action, ambition, creativity, passion, willpower with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of action, ambition, creativity, passion, willpower through nurturing and intuitive wisdom.",
+  "reversed_extended": "When reversed, Queen of Wands suggests challenges or blockages in action, ambition, creativity, passion, willpower. The natural flow is interrupted.",
+  "element": "Fire",
+  "numerology": "Number 13: nurturing, intuitive, caring authority",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Fire energy of wands manifesting in my life?",
+    "What does this card teach me about action, ambition, creativity, passion, willpower?"
+  ]
+}

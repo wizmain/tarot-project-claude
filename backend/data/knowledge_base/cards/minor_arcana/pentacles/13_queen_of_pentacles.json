@@ -1,0 +1,35 @@
+{
+  "id": 76,
+  "name": "Queen of Pentacles",
+  "name_ko": "펜타클의 퀸",
+  "arcana_type": "minor",
+  "suit": "pentacles",
+  "rank": "queen",
+  "number": 13,
+  "deep_meaning": "The Queen of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of material, money, career, physical world through nurturing and intuitive wisdom.",
+  "deep_meaning_ko": "펜타클의 퀸는 material, money, career, physical world의 에너지를 나타냅니다.",
+  "symbolism": {
+    "pentacles": "Earth element energy",
+    "queen": "nurturing, intuitive, caring authority"
+  },
+  "upright_themes": [
+    "material",
+    "nurturing",
+    "progress",
+    "development"
+  ],
+  "reversed_themes": [
+    "blocked material",
+    "resistance to nurturing",
+    "delays"
+  ],
+  "upright_extended": "The Queen of Pentacles combines the Earth element's focus on material, money, career, physical world with the energy of nurturing, intuitive, caring authority. The Queen embodies mastery of material, money, career, physical world through nurturing and intuitive wisdom.",
+  "reversed_extended": "When reversed, Queen of Pentacles suggests challenges or blockages in material, money, career, physical world. The natural flow is interrupted.",
+  "element": "Earth",
+  "numerology": "Number 13: nurturing, intuitive, caring authority",
+  "related_cards": [],
+  "questions_to_ask": [
+    "How is the Earth energy of pentacles manifesting in my life?",
+    "What does this card teach me about material, money, career, physical world?"
+  ]
+}
