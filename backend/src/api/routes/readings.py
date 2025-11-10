@@ -29,6 +29,13 @@ from src.ai.prompt_engine.context_builder import ContextBuilder
 from src.ai.prompt_engine.response_parser import ResponseParser
 from src.ai.prompt_engine.reading_validator import ReadingValidator
 from src.ai.prompt_engine.schemas import ParseError, JSONExtractionError, ValidationError
+from src.ai.models import (
+    AIProviderError,
+    AIRateLimitError,
+    AITimeoutError,
+    AIServiceUnavailableError,
+    AIAuthenticationError,
+)
 from src.ai.rag.retriever import Retriever
 from src.ai.rag.context_enricher import ContextEnricher
 from src.ai.provider_loader import load_providers_from_settings, get_default_timeout_from_settings
@@ -309,10 +316,14 @@ async def create_reading(
     )
 
     try:
+        # Import card shuffle components (needed for both user selection and random modes)
+        from src.core.card_shuffle import DrawnCard, Orientation, CardData, CardShuffleService
+        
         card_count_map = {
             "one_card": 1,
             "three_card_past_present_future": 3,
             "three_card_situation_action_outcome": 3,
+            "celtic_cross": 10,
         }
         card_count = card_count_map.get(request.spread_type, 1)
 
@@ -330,9 +341,6 @@ async def create_reading(
                     f"선택한 카드 수({len(request.selected_card_ids)})가 "
                     f"필요한 카드 수({card_count})와 일치하지 않습니다."
                 )
-            
-            # Fetch selected cards from database
-            from src.core.card_shuffle import DrawnCard, Orientation, CardData, CardShuffleService
             
             # Validate reversed_states if provided
             if request.reversed_states is not None:
@@ -407,17 +415,64 @@ async def create_reading(
 
         cards_context = [ContextBuilder.build_card_context(dc) for dc in drawn_cards]
 
+        # Build prompts using Jinja2 templates
+        # Select template based on prompt language setting
+        prompt_lang = settings.PROMPT_LANGUAGE
+        lang_suffix = f"_{prompt_lang}" if prompt_lang == "en" else ""
+
         template_map = {
-            "one_card": "reading/one_card.txt",
-            "three_card_past_present_future": "reading/three_card_past_present_future.txt",
-            "three_card_situation_action_outcome": "reading/three_card_situation_action_outcome.txt",
+            "one_card": f"reading/one_card{lang_suffix}.txt",
+            "three_card_past_present_future": f"reading/three_card_past_present_future{lang_suffix}.txt",
+            "three_card_situation_action_outcome": f"reading/three_card_situation_action_outcome{lang_suffix}.txt",
+            "celtic_cross": f"reading/celtic_cross{lang_suffix}.txt",
         }
-        template_path = template_map.get(request.spread_type, "reading/one_card.txt")
+        template_path = template_map.get(request.spread_type, f"reading/one_card{lang_suffix}.txt")
+
+        logger.info(f"[CreateReading] Using prompt template: {template_path} (language: {prompt_lang})")
 
         system_template = jinja_env.get_template("system/tarot_expert.txt")
         system_prompt = system_template.render()
 
-        reading_template = jinja_env.get_template(template_path)
+        # Try to load template with language suffix, fallback to default (Korean) if not found
+        try:
+            reading_template = jinja_env.get_template(template_path)
+            logger.debug(f"[CreateReading] Template loaded successfully: {template_path}")
+        except Exception as e:
+            # If language-specific template doesn't exist, fallback to default (Korean) version
+            if lang_suffix:
+                logger.warning(
+                    f"[CreateReading] Template {template_path} not found (error: {e}), "
+                    f"falling back to default (Korean) version"
+                )
+                # Remove language suffix to use default template
+                base_template_map = {
+                    "one_card": "reading/one_card.txt",
+                    "three_card_past_present_future": "reading/three_card_past_present_future.txt",
+                    "three_card_situation_action_outcome": "reading/three_card_situation_action_outcome.txt",
+                    "celtic_cross": "reading/celtic_cross.txt",
+                }
+                fallback_template_path = base_template_map.get(
+                    request.spread_type, "reading/one_card.txt"
+                )
+                try:
+                    reading_template = jinja_env.get_template(fallback_template_path)
+                    logger.info(f"[CreateReading] Using fallback template: {fallback_template_path}")
+                except Exception as fallback_error:
+                    logger.error(
+                        f"[CreateReading] Failed to load both primary ({template_path}) and "
+                        f"fallback ({fallback_template_path}) templates: {fallback_error}"
+                    )
+                    raise HTTPException(
+                        status_code=500,
+                        detail=f"템플릿 파일을 로드할 수 없습니다: {fallback_template_path}",
+                    )
+            else:
+                # If already using default template, re-raise the error
+                logger.error(f"[CreateReading] Failed to load template {template_path}: {e}")
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"템플릿 파일을 로드할 수 없습니다: {template_path}",
+                )
 
         if request.spread_type == "one_card":
             prompt_context = {
@@ -443,11 +498,19 @@ async def create_reading(
         full_prompt = f"{reading_prompt}\n\n{output_format}"
 
         orchestrator = await get_orchestrator(db_provider)
-        # Phase 1 Optimization: Increased max_tokens to prevent truncation
-        # English prompts are more token-efficient, but Korean responses still need sufficient space
-        # - One card: 2000 tokens (increased from 1500)
-        # - Three card: 3500 tokens (increased from 2500)
-        max_tokens = 2000 if card_count == 1 else 3500
+        # Optimized max_tokens configuration by spread type
+        # Note: API limit is 4096 tokens, so we cap at that value
+        # - One card: 2000 tokens (sufficient for single card interpretation)
+        # - Three card: 3500 tokens (balanced for three cards)
+        # - Celtic Cross: 4096 tokens (10 cards require extensive interpretation, capped at API limit)
+        MAX_TOKENS_CONFIG = {
+            1: 2000,   # one_card
+            3: 3500,   # three_card spreads
+            10: 4096,  # celtic_cross (capped at API limit)
+        }
+        max_tokens = MAX_TOKENS_CONFIG.get(card_count, 3500)  # Default fallback
+        # Ensure max_tokens doesn't exceed API limit
+        max_tokens = min(max_tokens, 4096)
 
         # Retry logic for parsing failures
         MAX_PARSE_RETRIES = 2  # 최대 2번 재시도 (총 3번 시도)
@@ -465,11 +528,12 @@ async def create_reading(
                         MAX_PARSE_RETRIES,
                         str(last_parse_error)[:100]
                     )
-                    # 재시도 시 max_tokens를 증가시켜 응답이 잘리지 않도록 함
-                    max_tokens = int(max_tokens * 1.3)
+                    # 재시도 시 max_tokens를 증가시켜 응답이 잘리지 않도록 함 (API 제한 고려)
+                    previous_max_tokens = max_tokens
+                    max_tokens = min(int(max_tokens * 1.3), 4096)  # Cap at API limit
                     logger.info(
-                        "[CreateReading] max_tokens 증가: %d → %d",
-                        int(max_tokens / 1.3),
+                        "[CreateReading] max_tokens 증가: %d → %d (API 제한: 4096)",
+                        previous_max_tokens,
                         max_tokens
                     )
 
@@ -513,20 +577,38 @@ async def create_reading(
 
             except (ParseError, JSONExtractionError, ValidationError) as e:
                 last_parse_error = e
+                
+                # Enhanced error logging with context
+                error_type = type(e).__name__
+                error_summary = str(e)[:300]  # Truncate for logging
+                
+                # Check if response was truncated
+                was_truncated = (
+                    ai_response.finish_reason in ("max_tokens", "length") 
+                    if 'ai_response' in locals() else False
+                )
+                
+                logger.warning(
+                    "[CreateReading] 파싱 실패 (시도 %d/%d): %s - %s%s",
+                    parse_attempt + 1,
+                    MAX_PARSE_RETRIES + 1,
+                    error_type,
+                    error_summary,
+                    " (응답이 잘림)" if was_truncated else ""
+                )
 
                 # 마지막 시도였다면 예외를 다시 던짐
                 if parse_attempt >= MAX_PARSE_RETRIES:
                     logger.error(
-                        "[CreateReading] 모든 파싱 재시도 실패 (%d회 시도)",
-                        parse_attempt + 1
+                        "[CreateReading] 모든 파싱 재시도 실패 (%d회 시도). "
+                        "마지막 오류: %s - %s",
+                        parse_attempt + 1,
+                        error_type,
+                        error_summary
                     )
                     raise
 
                 # 아직 재시도 가능하면 계속 진행
-                logger.warning(
-                    "[CreateReading] 파싱 실패, 재시도 예정: %s",
-                    str(e)[:200]
-                )
                 continue
 
         # 파싱이 성공하지 못했다면 (이론적으로 도달 불가능)
@@ -536,6 +618,7 @@ async def create_reading(
         ReadingValidator.validate_reading_quality(
             reading=parsed_response,
             expected_card_count=card_count,
+            spread_type=request.spread_type,
         )
 
         reading_data = {
@@ -615,9 +698,16 @@ async def create_reading(
 
     except (ParseError, JSONExtractionError, ValidationError) as e:
         logger.error("[CreateReading] AI 응답 처리 실패: %s", e)
+        # Provide user-friendly error messages based on error type
+        if isinstance(e, JSONExtractionError):
+            error_detail = "AI 응답 형식 오류가 발생했습니다. 응답이 잘렸을 수 있습니다."
+        elif isinstance(e, ValidationError):
+            error_detail = "AI 응답 검증 실패: " + str(e)
+        else:
+            error_detail = "AI 응답 파싱 실패: " + str(e)
         raise HTTPException(
             status_code=400,
-            detail=f"AI 응답 처리 실패: {str(e)}",
+            detail=error_detail,
         )
     except ValueError as e:
         logger.error("[CreateReading] 카드 선택 실패: %s", e)
@@ -625,13 +715,40 @@ async def create_reading(
             status_code=400,
             detail=f"카드 선택 실패: {str(e)}",
         )
+    except (AIRateLimitError, AIServiceUnavailableError) as e:
+        logger.error("[CreateReading] AI 서비스 일시적 오류: %s", e)
+        raise HTTPException(
+            status_code=503,
+            detail="AI 서비스가 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해주세요.",
+        )
+    except AITimeoutError as e:
+        logger.error("[CreateReading] AI 요청 타임아웃: %s", e)
+        raise HTTPException(
+            status_code=504,
+            detail="AI 응답 생성 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.",
+        )
+    except AIAuthenticationError as e:
+        logger.error("[CreateReading] AI 인증 오류: %s", e)
+        raise HTTPException(
+            status_code=500,
+            detail="AI 서비스 인증 오류가 발생했습니다. 관리자에게 문의해주세요.",
+        )
+    except AIProviderError as e:
+        logger.error("[CreateReading] AI Provider 오류: %s", e)
+        raise HTTPException(
+            status_code=500,
+            detail="AI 서비스 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+        )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception("[CreateReading] 리딩 생성 실패: %s", e)
+        # Log the actual error type for debugging
+        error_type = type(e).__name__
+        logger.error(f"[CreateReading] 예상치 못한 오류 타입: {error_type}")
         raise HTTPException(
             status_code=500,
-            detail="리딩 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+            detail="리딩 생성 중 예상치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
         )
 
 

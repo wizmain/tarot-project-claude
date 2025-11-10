@@ -404,6 +404,32 @@ class DatabaseProvider(ABC):
         """스프레드 타입별 피드백 통계"""
         pass
 
+    # ==================== Admin Statistics Operations ====================
+
+    @abstractmethod
+    async def get_total_users_count(self) -> int:
+        """전체 사용자 수 조회 (관리자 대시보드용)"""
+        pass
+
+    @abstractmethod
+    async def get_total_readings_count_all(self) -> int:
+        """전체 리딩 수 조회 (관리자 대시보드용, user_id 필터 없음)"""
+        pass
+
+    @abstractmethod
+    async def get_readings_count_by_date_range(
+        self,
+        start_date: datetime,
+        end_date: datetime,
+    ) -> int:
+        """기간별 리딩 수 조회 (관리자 대시보드용)"""
+        pass
+
+    @abstractmethod
+    async def get_total_llm_cost(self) -> float:
+        """전체 LLM 비용 합계 조회 (관리자 대시보드용)"""
+        pass
+
     # ==================== Settings Operations ====================
 
     @abstractmethod

@@ -134,13 +134,29 @@ def get_auth_orchestrator() -> AuthOrchestrator:
                 'refresh_token_expire_days': 7,
             }
 
-        # Firebase Provider 설정 (선택적)
+        # Firebase Provider 설정
         firebase_config = {}
         if getattr(settings, 'FIREBASE_CREDENTIALS_PATH', None):
             firebase_config['credentials_path'] = settings.FIREBASE_CREDENTIALS_PATH
-        if getattr(settings, 'FIREBASE_API_KEY', None):
-            firebase_config['api_key'] = settings.FIREBASE_API_KEY
-        if firebase_config:
+        
+        firebase_api_key = getattr(settings, 'FIREBASE_API_KEY', None)
+        if firebase_api_key:
+            firebase_config['api_key'] = firebase_api_key
+        
+        # Primary provider가 firebase인 경우 API key 필수
+        if primary_provider == 'firebase':
+            if not firebase_api_key:
+                error_msg = (
+                    "FIREBASE_API_KEY 환경 변수가 설정되지 않았습니다. "
+                    "Firebase를 primary provider로 사용하려면 FIREBASE_API_KEY가 필요합니다. "
+                    "Firebase Console → Project Settings → General → Web API Key에서 확인하세요."
+                )
+                logger.error(f"[AuthOrchestrator] {error_msg}")
+                raise ValueError(error_msg)
+        
+        # Firebase config가 있으면 추가 (primary가 아니어도 fallback으로 사용 가능)
+        if firebase_config or primary_provider == 'firebase':
+            # Primary provider인 경우 최소한 api_key는 있어야 함 (위에서 검증됨)
             configs['firebase'] = firebase_config
 
         # Auth0 Provider 설정 (선택적)

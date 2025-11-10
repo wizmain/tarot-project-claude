@@ -172,71 +172,100 @@ export default function CardSelector({
 
       {/* Horizontal Scrollable Card List */}
       <div className="relative">
-        <div className="overflow-x-auto overflow-y-visible pb-4 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-purple-100">
-          <div className="flex gap-4 min-w-max px-4 py-4">
-            {allCards.map((card, index) => {
-              const isSelected = selectedCards.includes(card.id);
-              const selectionOrder = selectedCards.indexOf(card.id);
-
-              return (
-                <motion.div
-                  key={card.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.01 }}
-                  onClick={() => handleCardClick(card.id)}
-                  className={`
-                    relative flex-shrink-0 w-32 h-48 rounded-lg cursor-pointer transition-all
-                    ${
-                      isSelected
-                        ? 'ring-4 ring-purple-500 scale-105 shadow-2xl'
-                        : 'hover:scale-105 hover:shadow-lg'
-                    }
-                    ${isInteractionDisabled ? 'opacity-50 cursor-not-allowed' : ''}
-                  `}
-                >
-                  {/* Card Image */}
-                  <div className="w-full h-full bg-gradient-to-br from-purple-600 to-indigo-600 dark:from-purple-800 dark:to-indigo-800 rounded-lg border-2 border-purple-400 dark:border-purple-600 flex flex-col items-center justify-center p-4 overflow-hidden">
-                    {/* Card Back Pattern */}
-                    <div className="w-full h-full flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-4xl mb-2 text-white">🌟</div>
-                        <div className="text-xs text-purple-100 dark:text-purple-200 font-semibold">
-                          TAROT
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Selection Indicator */}
-                  {isSelected && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -top-3 -right-3 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-xl z-10 border-2 border-white"
-                    >
-                      {selectionOrder + 1}
-                    </motion.div>
-                  )}
-
-                  {/* Checkmark */}
-                  {isSelected && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="absolute inset-0 bg-purple-600/20 rounded-lg flex items-center justify-center"
-                    >
-                      <div className="text-4xl text-white drop-shadow-lg">✓</div>
-                    </motion.div>
-                  )}
-                </motion.div>
-              );
-            })}
+        {/* Scroll Hint */}
+        <div className="mb-3 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/20 rounded-full">
+            <span className="text-purple-600 dark:text-purple-400 text-sm font-semibold">
+              ← →
+            </span>
+            <span className="text-purple-600 dark:text-purple-400 text-xs">
+              좌우로 스크롤하여 더 많은 카드를 확인하세요
+            </span>
           </div>
         </div>
 
-        {/* Scroll Hint */}
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-purple-50 to-transparent dark:from-gray-900 pointer-events-none" />
+        <div className="relative">
+          {/* Left Fade Gradient */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-gray-800 dark:via-gray-800/80 dark:to-transparent pointer-events-none z-10" />
+          
+          {/* Right Fade Gradient */}
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-gray-800 dark:via-gray-800/80 dark:to-transparent pointer-events-none z-10" />
+
+          <div className="overflow-x-auto overflow-y-visible pb-4 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-purple-100">
+            <div className="flex gap-4 min-w-max px-4 py-4">
+              {allCards.map((card, index) => {
+                const isSelected = selectedCards.includes(card.id);
+                const selectionOrder = selectedCards.indexOf(card.id);
+
+                return (
+                  <motion.div
+                    key={card.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.01 }}
+                    onClick={() => handleCardClick(card.id)}
+                    className={`
+                      relative flex-shrink-0 w-32 h-48 rounded-lg cursor-pointer transition-all
+                      ${
+                        isSelected
+                          ? 'ring-4 ring-purple-500 scale-105 shadow-2xl'
+                          : 'hover:scale-105 hover:shadow-lg'
+                      }
+                      ${isInteractionDisabled ? 'opacity-50 cursor-not-allowed' : ''}
+                    `}
+                  >
+                    {/* Card Image */}
+                    <div className="w-full h-full bg-gradient-to-br from-purple-600 to-indigo-600 dark:from-purple-800 dark:to-indigo-800 rounded-lg border-2 border-purple-400 dark:border-purple-600 flex flex-col items-center justify-center p-4 overflow-hidden">
+                      {/* Card Back Pattern */}
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-4xl mb-2 text-white">🌟</div>
+                          <div className="text-xs text-purple-100 dark:text-purple-200 font-semibold">
+                            TAROT
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Selection Indicator */}
+                    {isSelected && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -top-3 -right-3 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-xl z-10 border-2 border-white"
+                      >
+                        {selectionOrder + 1}
+                      </motion.div>
+                    )}
+
+                    {/* Checkmark */}
+                    {isSelected && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="absolute inset-0 bg-purple-600/20 rounded-lg flex items-center justify-center"
+                      >
+                        <div className="text-4xl text-white drop-shadow-lg">✓</div>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator Arrows */}
+        <div className="flex justify-between items-center mt-2 px-4">
+          <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 text-sm">
+            <span className="animate-pulse">←</span>
+            <span className="text-xs">스크롤</span>
+          </div>
+          <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 text-sm">
+            <span className="text-xs">스크롤</span>
+            <span className="animate-pulse">→</span>
+          </div>
+        </div>
       </div>
 
       {/* Action Buttons */}

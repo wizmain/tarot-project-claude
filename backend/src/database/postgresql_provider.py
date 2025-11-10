@@ -20,6 +20,7 @@ from src.core.database import SessionLocal
 from src.models.card import Card as CardModel, ArcanaType, Suit
 from src.models.reading import Reading as ReadingModel, ReadingCard
 from src.models.feedback import Feedback as FeedbackModel
+from src.models.user import User as UserModel
 
 
 class PostgreSQLProvider(DatabaseProvider):
@@ -572,6 +573,52 @@ class PostgreSQLProvider(DatabaseProvider):
             })
 
         return results
+
+    # ==================== Admin Statistics Operations ====================
+
+    async def get_total_users_count(self) -> int:
+        """전체 사용자 수 조회 (관리자 대시보드용)"""
+        db = self._get_session()
+        count = db.query(func.count(UserModel.id)).scalar()
+        return count or 0
+
+    async def get_total_readings_count_all(self) -> int:
+        """전체 리딩 수 조회 (관리자 대시보드용, user_id 필터 없음)"""
+        db = self._get_session()
+        count = db.query(func.count(ReadingModel.id)).scalar()
+        return count or 0
+
+    async def get_readings_count_by_date_range(
+        self,
+        start_date: datetime,
+        end_date: datetime,
+    ) -> int:
+        """기간별 리딩 수 조회 (관리자 대시보드용)"""
+        db = self._get_session()
+        count = db.query(func.count(ReadingModel.id)).filter(
+            and_(
+                ReadingModel.created_at >= start_date,
+                ReadingModel.created_at < end_date
+            )
+        ).scalar()
+        return count or 0
+
+    async def get_total_llm_cost(self) -> float:
+        """전체 LLM 비용 합계 조회 (관리자 대시보드용)"""
+        db = self._get_session()
+        readings = db.query(ReadingModel.llm_usage).all()
+        total_cost = 0.0
+
+        for reading in readings:
+            llm_usage = reading.llm_usage if reading.llm_usage else []
+            if isinstance(llm_usage, list):
+                for log in llm_usage:
+                    if isinstance(log, dict):
+                        cost = log.get('estimated_cost', 0.0)
+                        if isinstance(cost, (int, float)):
+                            total_cost += cost
+
+        return round(total_cost, 2)
 
     # ==================== Connection Management ====================
 

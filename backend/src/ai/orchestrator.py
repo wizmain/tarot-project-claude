@@ -63,7 +63,7 @@ class AIOrchestrator:
     def __init__(
         self,
         providers: List[AIProvider],
-        provider_timeout: int = 3,
+        provider_timeout: int = 30,
         max_retries: int = 2
     ):
         """
@@ -71,7 +71,7 @@ class AIOrchestrator:
 
         Args:
             providers: List of AI providers (first is primary)
-            provider_timeout: Timeout per provider in seconds (default 3s)
+            provider_timeout: Timeout per provider in seconds (default 30s)
             max_retries: Maximum retries per provider (default 2)
         """
         if not providers:

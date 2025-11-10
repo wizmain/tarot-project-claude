@@ -179,9 +179,11 @@ export const READING_SPREADS: Record<ReadingType, ReadingSpread> = {
  */
 export interface ReadingRequest {
   question: string;  // 5-500 characters
-  spread_type: 'one_card' | 'three_card_past_present_future' | 'three_card_situation_action_outcome';
+  spread_type: 'one_card' | 'three_card_past_present_future' | 'three_card_situation_action_outcome' | 'celtic_cross';
   category?: 'love' | 'career' | 'finance' | 'health' | 'personal_growth' | 'spirituality' | null;
   user_context?: string | null;  // max 1000 characters
+  selected_card_ids?: number[] | null;  // Optional: user-selected card IDs
+  reversed_states?: boolean[] | null;  // Optional: reversed states for selected cards
 }
 
 /**
@@ -191,7 +193,7 @@ export interface ReadingCardResponse {
   id: number;  // ReadingCard ID
   reading_id: string;  // Reading UUID
   card_id: number;  // Card ID
-  position: 'single' | 'past' | 'present' | 'future' | 'situation' | 'action' | 'outcome';
+  position: 'single' | 'past' | 'present' | 'future' | 'situation' | 'action' | 'outcome' | 'challenge' | 'above' | 'below' | 'advice' | 'external' | 'hopes_fears';
   orientation: 'upright' | 'reversed';
   interpretation: string;  // AI-generated interpretation
   key_message: string;  // One-line key message

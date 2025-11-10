@@ -210,10 +210,14 @@ async def generate_reading_stream(
         await asyncio.sleep(0.1)
 
         # ===== Stage 2: Draw Cards =====
+        # Import card shuffle components (needed for both user selection and random modes)
+        from src.core.card_shuffle import DrawnCard, Orientation, CardData, CardShuffleService
+        
         card_count_map = {
             "one_card": 1,
             "three_card_past_present_future": 3,
             "three_card_situation_action_outcome": 3,
+            "celtic_cross": 10,
         }
         card_count = card_count_map.get(request.spread_type, 1)
 
@@ -234,9 +238,6 @@ async def generate_reading_stream(
                     f"선택한 카드 수({len(request.selected_card_ids)})가 "
                     f"필요한 카드 수({card_count})와 일치하지 않습니다."
                 )
-            
-            # Fetch selected cards from database
-            from src.core.card_shuffle import DrawnCard, Orientation, CardData, CardShuffleService
             
             # Validate reversed_states if provided
             if request.reversed_states is not None:
@@ -296,6 +297,7 @@ async def generate_reading_stream(
             "one_card": ["현재"],
             "three_card_past_present_future": ["과거", "현재", "미래"],
             "three_card_situation_action_outcome": ["상황", "행동", "결과"],
+            "celtic_cross": ["현재", "도전", "과거", "미래", "의식적 목표", "무의식적 영향", "조언", "외부 영향", "희망과 두려움", "최종 결과"],
         }
         positions = position_names.get(request.spread_type, [])
 
@@ -395,6 +397,7 @@ async def generate_reading_stream(
             "one_card": f"reading/one_card{lang_suffix}.txt",
             "three_card_past_present_future": f"reading/three_card_past_present_future{lang_suffix}.txt",
             "three_card_situation_action_outcome": f"reading/three_card_situation_action_outcome{lang_suffix}.txt",
+            "celtic_cross": f"reading/celtic_cross{lang_suffix}.txt",
         }
         template_path = template_map.get(request.spread_type, f"reading/one_card{lang_suffix}.txt")
 
@@ -403,7 +406,40 @@ async def generate_reading_stream(
         system_template = jinja_env.get_template("system/tarot_expert.txt")
         system_prompt = system_template.render()
 
-        reading_template = jinja_env.get_template(template_path)
+        # Try to load template with language suffix, fallback to default (Korean) if not found
+        try:
+            reading_template = jinja_env.get_template(template_path)
+            logger.debug(f"[SSE] Template loaded successfully: {template_path}")
+        except Exception as e:
+            # If language-specific template doesn't exist, fallback to default (Korean) version
+            if lang_suffix:
+                logger.warning(
+                    f"[SSE] Template {template_path} not found (error: {e}), "
+                    f"falling back to default (Korean) version"
+                )
+                # Remove language suffix to use default template
+                base_template_map = {
+                    "one_card": "reading/one_card.txt",
+                    "three_card_past_present_future": "reading/three_card_past_present_future.txt",
+                    "three_card_situation_action_outcome": "reading/three_card_situation_action_outcome.txt",
+                    "celtic_cross": "reading/celtic_cross.txt",
+                }
+                fallback_template_path = base_template_map.get(
+                    request.spread_type, "reading/one_card.txt"
+                )
+                try:
+                    reading_template = jinja_env.get_template(fallback_template_path)
+                    logger.info(f"[SSE] Using fallback template: {fallback_template_path}")
+                except Exception as fallback_error:
+                    logger.error(
+                        f"[SSE] Failed to load both primary ({template_path}) and "
+                        f"fallback ({fallback_template_path}) templates: {fallback_error}"
+                    )
+                    raise
+            else:
+                # If already using default template, re-raise the error
+                logger.error(f"[SSE] Failed to load template {template_path}: {e}")
+                raise
         reading_prompt = reading_template.render(**prompt_context)
 
         output_template = jinja_env.get_template("output/structured_response.txt")
@@ -416,12 +452,23 @@ async def generate_reading_stream(
 
         # Phase 1 Optimization: Increased max_tokens to prevent truncation and reduce retries
         # English prompts are more token-efficient, but Korean responses still need sufficient tokens
+        # Note: API limit is 4096, so we cap at that value
         MAX_TOKENS_CONFIG = {
             "one_card": {"en": 2000, "ko": 2000},  # Increased from 1500
             "three_card": {"en": 3500, "ko": 3500},  # Increased from 2500
+            "celtic_cross": {"en": 4096, "ko": 4096},  # 10 cards require extensive interpretation, capped at API limit
         }
-        spread_category = "three_card" if card_count > 1 else "one_card"
+        if card_count == 1:
+            spread_category = "one_card"
+        elif card_count == 3:
+            spread_category = "three_card"
+        elif card_count == 10:
+            spread_category = "celtic_cross"
+        else:
+            spread_category = "three_card"  # Default fallback
         max_tokens = MAX_TOKENS_CONFIG[spread_category].get(prompt_lang, 2500)
+        # Ensure max_tokens doesn't exceed API limit
+        max_tokens = min(max_tokens, 4096)
 
         yield create_sse_event(
             SSEEventType.AI_GENERATION,
@@ -440,7 +487,7 @@ async def generate_reading_stream(
 
         for parse_attempt in range(MAX_PARSE_RETRIES + 1):
             try:
-                # Generate response (재시도 시 max_tokens 증가)
+                # Generate response (재시도 시 max_tokens 증가, 단 4096 제한 준수)
                 if parse_attempt > 0:
                     logger.warning(
                         "[SSE] 파싱 재시도 %d/%d: 이전 오류=%s",
@@ -448,7 +495,8 @@ async def generate_reading_stream(
                         MAX_PARSE_RETRIES,
                         str(last_parse_error)[:100]
                     )
-                    max_tokens = int(max_tokens * 1.3)
+                    # Increase max_tokens but cap at 4096 (API limit)
+                    max_tokens = min(int(max_tokens * 1.3), 4096)
 
                     yield create_progress_event(
                         ReadingStage.GENERATING_AI,
@@ -523,7 +571,8 @@ async def generate_reading_stream(
         card_count = len(drawn_cards)
         validator.validate_reading_quality(
             reading=parsed_response,
-            expected_card_count=card_count
+            expected_card_count=card_count,
+            spread_type=request.spread_type
         )
         # Note: validate_reading_quality raises ValidationError on failure, no return value
 

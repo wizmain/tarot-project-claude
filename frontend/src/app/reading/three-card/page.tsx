@@ -14,6 +14,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import ReadingProgress from '@/components/ReadingProgress';
 import { config } from '@/config/env';
 import { shuffleArray } from '@/lib/utils';
+import FeedbackSection from '@/components/FeedbackSection';
 
 function ThreeCardReadingContent() {
   const router = useRouter();
@@ -187,7 +188,7 @@ function ThreeCardReadingContent() {
   };
 
   return (
-    <main className="min-h-screen p-8 bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950">
+    <main className="min-h-screen p-4 md:p-8 bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8 text-center">
@@ -210,7 +211,7 @@ function ThreeCardReadingContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 md:p-8"
           >
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
               질문을 입력하세요
@@ -280,7 +281,7 @@ function ThreeCardReadingContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 md:p-8"
           >
             {question && (
               <div className="mb-8 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
@@ -349,24 +350,24 @@ function ThreeCardReadingContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 md:p-8"
               >
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8 text-center">
+                <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-6 md:mb-8 text-center">
                   당신의 타임라인
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                   {cards.map((cardData: any, index: number) => (
                     <div
                       key={index}
-                      className="flex flex-col items-center"
+                      className="flex flex-col items-center w-full pb-6 md:pb-0 border-b md:border-b-0 border-gray-200 dark:border-gray-700 last:border-b-0"
                     >
                       {/* Position Header */}
                       <div className="text-center mb-4">
-                        <div className="text-3xl mb-2">
+                        <div className="text-2xl md:text-3xl mb-2">
                           {index === 0 ? '📅' : index === 1 ? '⏳' : '🔮'}
                         </div>
-                        <h3 className="text-xl font-semibold text-purple-600 dark:text-purple-400">
+                        <h3 className="text-lg md:text-xl font-semibold text-purple-600 dark:text-purple-400">
                           {index === 0 ? '과거' : index === 1 ? '현재' : '미래'}
                         </h3>
                       </div>
@@ -382,38 +383,38 @@ function ThreeCardReadingContent() {
                       </div>
 
                       {/* Card Name */}
-                      <h4 className="font-semibold text-gray-900 dark:text-white text-center min-h-[3rem] flex items-center justify-center mb-4">
-                        <span>
+                      <h4 className="font-semibold text-gray-900 dark:text-white text-center min-h-[3rem] flex items-center justify-center mb-4 px-2">
+                        <span className="text-base md:text-lg">
                           {cardData.card.name_ko}
-                          <span className="ml-2 text-sm text-gray-500">
+                          <span className="ml-2 text-xs md:text-sm text-gray-500">
                             ({cardData.orientation === 'upright' ? '정방향' : '역방향'})
                           </span>
                         </span>
                       </h4>
 
                       {/* AI Key Message */}
-                      <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 w-full mb-4">
-                        <h5 className="font-semibold text-purple-900 dark:text-purple-200 mb-3 text-sm">
+                      <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 md:p-4 w-full mb-4">
+                        <h5 className="font-semibold text-purple-900 dark:text-purple-200 mb-2 md:mb-3 text-xs md:text-sm">
                           💡 핵심 메시지
                         </h5>
-                        <p className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed font-medium">
+                        <p className="text-gray-800 dark:text-gray-200 text-xs md:text-sm leading-relaxed font-medium">
                           {cardData.key_message}
                         </p>
                       </div>
 
                       {/* AI Interpretation */}
-                      <div className="w-full mb-3">
-                        <h5 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm">
+                      <div className="w-full mb-3 px-1">
+                        <h5 className="font-semibold text-gray-900 dark:text-white mb-2 text-xs md:text-sm">
                           🔮 AI 해석
                         </h5>
-                        <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-line">
+                        <p className="text-gray-700 dark:text-gray-300 text-xs md:text-sm leading-relaxed whitespace-pre-line">
                           {cardData.interpretation}
                         </p>
                       </div>
 
                       {/* Keywords */}
-                      <div className="w-full">
-                        <h5 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm text-center">
+                      <div className="w-full px-1">
+                        <h5 className="font-semibold text-gray-900 dark:text-white mb-2 text-xs md:text-sm text-center">
                           🏷️ 키워드
                         </h5>
                         <div className="flex flex-wrap gap-1 justify-center">
@@ -444,7 +445,7 @@ function ThreeCardReadingContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 md:p-8"
               >
                 <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
                   📖 종합 리딩
@@ -461,7 +462,7 @@ function ThreeCardReadingContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 md:p-8"
               >
                 <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
                   💬 조언
@@ -532,7 +533,7 @@ function ThreeCardReadingContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-6"
+                className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-4 md:p-6"
               >
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-2xl">👨‍💼</span>
@@ -633,6 +634,11 @@ function ThreeCardReadingContent() {
                   )}
                 </div>
               </motion.div>
+            )}
+
+            {/* Feedback Section - Show when reading is complete */}
+            {!isStreaming && readingId && (
+              <FeedbackSection readingId={readingId} />
             )}
 
             {/* Action Buttons - Show when reading is complete */}

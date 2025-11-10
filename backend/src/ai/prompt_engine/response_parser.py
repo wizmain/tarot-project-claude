@@ -129,22 +129,61 @@ class ResponseParser:
                 logger.error(f"{context}")
                 logger.error(f"{' ' * error_pos}^ ERROR HERE")
 
-            # Check if JSON appears truncated
+            # Enhanced truncation detection
+            json_text_stripped = json_text.rstrip()
+            brace_count = json_text.count('{') - json_text.count('}')
+            bracket_count = json_text.count('[') - json_text.count(']')
+            quote_count = json_text.count('"')
+            incomplete_string = quote_count % 2 != 0
+            
+            # Check for truncation indicators
             is_truncated = (
-                not json_text.rstrip().endswith('}') or
-                json_text.count('{') != json_text.count('}') or
-                json_text.count('[') != json_text.count(']') or
-                json_text.count('"') % 2 != 0
+                not json_text_stripped.endswith('}') or
+                brace_count != 0 or
+                bracket_count != 0 or
+                incomplete_string or
+                json_text_stripped.endswith(',') or
+                json_text_stripped.endswith(':')
             )
+            
+            # Additional check: if error position is near the end, likely truncated
+            text_length = len(json_text)
+            error_near_end = e.pos and (text_length - e.pos) < 50
 
-            if is_truncated:
+            if is_truncated or error_near_end:
+                truncation_details = []
+                if brace_count != 0:
+                    truncation_details.append(f"중괄호 불일치 ({brace_count:+d})")
+                if bracket_count != 0:
+                    truncation_details.append(f"대괄호 불일치 ({bracket_count:+d})")
+                if incomplete_string:
+                    truncation_details.append("문자열이 완료되지 않음")
+                if json_text_stripped.endswith(',') or json_text_stripped.endswith(':'):
+                    truncation_details.append("불완전한 구문")
+                
+                details_str = ", ".join(truncation_details) if truncation_details else "응답이 중간에 잘림"
+                
                 error_msg = (
-                    f"JSON이 불완전합니다 (응답이 중간에 잘린 것으로 보임). "
-                    f"원인: {e.msg} (line {e.lineno}, col {e.colno}). "
-                    f"힌트: max_tokens 설정을 증가시키거나 프롬프트를 단순화하세요."
+                    f"JSON이 불완전합니다 ({details_str}). "
+                    f"파싱 오류: {e.msg} (line {e.lineno}, col {e.colno}, position {e.pos}). "
+                    f"응답 길이: {text_length}자. "
+                    f"이는 max_tokens 제한으로 인한 응답 잘림일 가능성이 높습니다. "
+                    f"max_tokens를 증가시키거나 프롬프트를 단순화하세요."
                 )
             else:
-                error_msg = f"유효하지 않은 JSON 형식입니다: {e.msg} (line {e.lineno}, col {e.colno})"
+                # Provide more context for non-truncation errors
+                error_context = ""
+                if e.pos:
+                    start = max(0, e.pos - 100)
+                    end = min(len(json_text), e.pos + 100)
+                    context_snippet = json_text[start:end]
+                    error_context = f"\n오류 주변 컨텍스트: ...{context_snippet}..."
+                
+                error_msg = (
+                    f"유효하지 않은 JSON 형식입니다: {e.msg} "
+                    f"(line {e.lineno}, col {e.colno}, position {e.pos})"
+                    f"{error_context}"
+                )
 
             raise JSONExtractionError(error_msg)
 

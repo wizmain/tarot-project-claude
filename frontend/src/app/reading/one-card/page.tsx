@@ -14,6 +14,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import ReadingProgress from '@/components/ReadingProgress';
 import { config } from '@/config/env';
 import { shuffleArray } from '@/lib/utils';
+import FeedbackSection from '@/components/FeedbackSection';
 
 function OneCardReadingContent() {
   const router = useRouter();
@@ -590,7 +591,7 @@ function OneCardReadingContent() {
                           <div key={idx} className="text-amber-700 dark:text-amber-400">
                             <span className="font-mono">#{card.id}</span>
                             <span className="ml-2">
-                              {card.name_ko || card.name_en || 'Unknown'}
+                              {card.name_ko || card.name || 'Unknown'}
                             </span>
                             {selectedReversedStates[idx] !== undefined && (
                               <span className="ml-2 text-xs font-semibold">
@@ -662,6 +663,11 @@ function OneCardReadingContent() {
                   )}
                 </div>
               </motion.div>
+            )}
+
+            {/* Feedback Section - Show when reading is complete */}
+            {!isStreaming && readingId && (
+              <FeedbackSection readingId={readingId} />
             )}
 
             {/* Action Buttons - Show when reading is complete */}

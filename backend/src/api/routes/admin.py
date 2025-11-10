@@ -70,23 +70,47 @@ async def get_dashboard_stats(
         )
         
         # Gather all statistics
-        # TODO: Implement these methods in DatabaseProvider if needed
-        # For now, use existing methods
-        
         feedback_stats = await db_provider.get_feedback_statistics()
         
+        # Get total users count
+        total_users = await db_provider.get_total_users_count()
+        
+        # Get total readings count (all readings, not just with feedback)
+        total_readings = await db_provider.get_total_readings_count_all()
+        
         # Calculate time-based metrics
-        # TODO: Add these methods to DatabaseProvider
+        now = datetime.utcnow()
+        today_start = datetime(now.year, now.month, now.day)
+        week_start = today_start - timedelta(days=now.weekday())
+        month_start = datetime(now.year, now.month, 1)
+        
+        readings_today = await db_provider.get_readings_count_by_date_range(
+            start_date=today_start,
+            end_date=now
+        )
+        
+        readings_this_week = await db_provider.get_readings_count_by_date_range(
+            start_date=week_start,
+            end_date=now
+        )
+        
+        readings_this_month = await db_provider.get_readings_count_by_date_range(
+            start_date=month_start,
+            end_date=now
+        )
+        
+        # Get total LLM cost
+        total_cost = await db_provider.get_total_llm_cost()
         
         return DashboardStats(
-            total_users=0,  # TODO: Implement user count
-            total_readings=feedback_stats.get("total_readings_with_feedback", 0),
+            total_users=total_users,
+            total_readings=total_readings,
             total_feedback=feedback_stats.get("total_feedback_count", 0),
             avg_rating=feedback_stats.get("average_rating", 0.0),
-            total_cost=0.0,  # TODO: Implement from LLM logs
-            readings_today=0,  # TODO: Implement
-            readings_this_week=0,  # TODO: Implement
-            readings_this_month=0  # TODO: Implement
+            total_cost=total_cost,
+            readings_today=readings_today,
+            readings_this_week=readings_this_week,
+            readings_this_month=readings_this_month
         )
         
     except Exception as e:

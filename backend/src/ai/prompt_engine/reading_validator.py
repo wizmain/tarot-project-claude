@@ -74,7 +74,8 @@ class ReadingValidator:
         reading: ReadingResponse,
         expected_card_count: int,
         min_interpretation_length: Optional[int] = None,
-        min_overall_length: Optional[int] = None
+        min_overall_length: Optional[int] = None,
+        spread_type: Optional[str] = None
     ) -> None:
         """
         리딩 응답의 전체 품질 검증
@@ -82,19 +83,20 @@ class ReadingValidator:
         검증 항목:
         1. 필수 필드 존재 확인
         2. 카드 수 일치 확인
-        3. 한국어 응답 확인
-        4. 최소 길이 요구사항 확인
+        3. 한국어 응답 확인 (스프레드 타입별 조정)
+        4. 최소 길이 요구사항 확인 (스프레드 타입별 조정)
 
         Args:
             reading: 검증할 ReadingResponse 객체
-            expected_card_count: 예상 카드 수 (1 or 3)
+            expected_card_count: 예상 카드 수 (1, 3, or 10)
             min_interpretation_length: 해석 최소 길이 (기본값 사용 시 None)
             min_overall_length: 전체 리딩 최소 길이 (기본값 사용 시 None)
+            spread_type: 스프레드 타입 (one_card, three_card, celtic_cross 등)
 
         Raises:
             ValidationError: 검증 실패 시
         """
-        logger.info("[ReadingValidator] 리딩 품질 검증 시작")
+        logger.info(f"[ReadingValidator] 리딩 품질 검증 시작 (카드 수: {expected_card_count}, 스프레드: {spread_type})")
 
         # 1. 필수 필드 존재 확인 (Pydantic에서 이미 검증되지만 재확인)
         ReadingValidator._validate_required_fields(reading)
@@ -102,13 +104,29 @@ class ReadingValidator:
         # 2. 카드 수 확인
         ReadingValidator.validate_card_count(reading, expected_card_count)
 
-        # 3. 한국어 응답 확인
-        ReadingValidator.validate_korean_content(reading)
+        # 3. 한국어 응답 확인 (스프레드 타입별 조정)
+        ReadingValidator.validate_korean_content(reading, spread_type=spread_type)
 
-        # 4. 최소 길이 검증
-        min_interp = min_interpretation_length or ReadingValidator.MIN_INTERPRETATION_LENGTH
-        min_overall = min_overall_length or ReadingValidator.MIN_OVERALL_READING_LENGTH
-        ReadingValidator.validate_minimum_lengths(reading, min_interp, min_overall)
+        # 4. 최소 길이 검증 (스프레드 타입별 조정)
+        # 스프레드 타입별 기본값 조정
+        if min_interpretation_length is None:
+            if spread_type == "celtic_cross" or expected_card_count == 10:
+                # 켈틱 크로스는 카드가 많아서 각 카드 해석이 짧을 수 있음
+                min_interpretation_length = 80
+            else:
+                min_interpretation_length = ReadingValidator.MIN_INTERPRETATION_LENGTH
+        
+        if min_overall_length is None:
+            if spread_type == "celtic_cross" or expected_card_count == 10:
+                # 켈틱 크로스는 전체 리딩이 더 길어야 함
+                min_overall_length = 300
+            elif expected_card_count == 1:
+                # 원카드는 전체 리딩이 짧을 수 있음
+                min_overall_length = 80
+            else:
+                min_overall_length = ReadingValidator.MIN_OVERALL_READING_LENGTH
+        
+        ReadingValidator.validate_minimum_lengths(reading, min_interpretation_length, min_overall_length)
 
         logger.info("[ReadingValidator] 리딩 품질 검증 완료 ✅")
 
@@ -173,15 +191,18 @@ class ReadingValidator:
         logger.debug(f"[ReadingValidator] 카드 수 검증 통과: {actual_count}장")
 
     @staticmethod
-    def validate_korean_content(reading: ReadingResponse) -> None:
+    def validate_korean_content(reading: ReadingResponse, spread_type: Optional[str] = None) -> None:
         """
         응답이 한국어로 작성되었는지 확인
 
-        한글 문자(가-힣)의 비율이 20% 이상인지 확인합니다.
-        숫자, 영문, 기호 등이 포함될 수 있으므로 너무 높은 비율을 요구하지 않습니다.
+        한글 문자(가-힣)의 비율을 확인합니다.
+        스프레드 타입별로 다른 기준을 적용합니다:
+        - 일반 스프레드: 최소 12% (완화됨)
+        - 켈틱 크로스: 최소 10% (더 관대함)
 
         Args:
             reading: 검증할 ReadingResponse 객체
+            spread_type: 스프레드 타입 (celtic_cross인 경우 더 관대한 기준 적용)
 
         Raises:
             ValidationError: 한국어 비율이 낮은 경우
@@ -219,15 +240,22 @@ class ReadingValidator:
         korean_chars = len(ReadingValidator.KOREAN_PATTERN.findall(full_text))
         korean_ratio = korean_chars / total_chars
 
+        # 스프레드 타입별 최소 비율 설정
+        if spread_type == "celtic_cross":
+            min_korean_ratio = 0.10  # 켈틱 크로스는 더 관대하게
+        else:
+            min_korean_ratio = 0.12  # 일반 스프레드는 12% (기존 20%에서 완화)
+
         logger.debug(
             f"[ReadingValidator] 한국어 비율: {korean_ratio:.2%} "
-            f"(한글: {korean_chars}, 전체: {total_chars})"
+            f"(한글: {korean_chars}, 전체: {total_chars}, 최소 요구: {min_korean_ratio:.0%})"
         )
 
-        # 한글 비율이 20% 미만이면 실패
-        if korean_ratio < 0.2:
+        # 한글 비율이 최소 기준 미만이면 실패
+        if korean_ratio < min_korean_ratio:
             raise ValidationError(
-                f"한국어 응답이 아닙니다. 한글 비율: {korean_ratio:.2%} (최소 20% 필요)"
+                f"한국어 응답이 아닙니다. 한글 비율: {korean_ratio:.2%} "
+                f"(최소 {min_korean_ratio:.0%} 필요, 스프레드: {spread_type or '일반'})"
             )
 
         logger.debug("[ReadingValidator] 한국어 검증 통과 ✅")

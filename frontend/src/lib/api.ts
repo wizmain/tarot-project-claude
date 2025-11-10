@@ -238,6 +238,85 @@ export const readingAPI = {
   },
 };
 
+/**
+ * Feedback API endpoints
+ */
+export interface FeedbackCreate {
+  rating: number;
+  comment?: string;
+  helpful?: boolean;
+  accurate?: boolean;
+}
+
+export interface FeedbackUpdate {
+  rating?: number;
+  comment?: string;
+  helpful?: boolean;
+  accurate?: boolean;
+}
+
+export interface FeedbackResponse {
+  id: string;
+  reading_id: string;
+  user_id: string;
+  rating: number;
+  comment?: string;
+  helpful: boolean;
+  accurate: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export const feedbackAPI = {
+  /**
+   * Create feedback for a reading (requires authentication)
+   */
+  createFeedback: async (
+    readingId: string,
+    feedback: FeedbackCreate
+  ): Promise<FeedbackResponse> => {
+    return fetchAPI<FeedbackResponse>(
+      `/api/v1/readings/${readingId}/feedback`,
+      {
+        method: 'POST',
+        body: JSON.stringify(feedback),
+        requiresAuth: true,
+      }
+    );
+  },
+
+  /**
+   * Get feedback for a reading (requires authentication)
+   */
+  getFeedback: async (
+    readingId: string,
+    page: number = 1,
+    pageSize: number = 10
+  ): Promise<FeedbackResponse[]> => {
+    return fetchAPI<FeedbackResponse[]>(
+      `/api/v1/readings/${readingId}/feedback`,
+      {
+        params: { page, page_size: pageSize },
+        requiresAuth: true,
+      }
+    );
+  },
+
+  /**
+   * Update feedback (requires authentication)
+   */
+  updateFeedback: async (
+    feedbackId: string,
+    feedback: FeedbackUpdate
+  ): Promise<FeedbackResponse> => {
+    return fetchAPI<FeedbackResponse>(`/api/v1/feedback/${feedbackId}`, {
+      method: 'PUT',
+      body: JSON.stringify(feedback),
+      requiresAuth: true,
+    });
+  },
+};
+
 // Auth API is now handled by AuthProvider
 
 /**

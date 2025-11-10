@@ -105,8 +105,8 @@ class ReadingRequest(BaseModel):
     )
     spread_type: str = Field(
         default="one_card",
-        pattern="^(one_card|three_card_past_present_future|three_card_situation_action_outcome)$",
-        description="스프레드 타입 (one_card, three_card_past_present_future, three_card_situation_action_outcome)",
+        pattern="^(one_card|three_card_past_present_future|three_card_situation_action_outcome|celtic_cross)$",
+        description="스프레드 타입 (one_card, three_card_past_present_future, three_card_situation_action_outcome, celtic_cross)",
         examples=["one_card"]
     )
     category: Optional[str] = Field(
@@ -126,14 +126,14 @@ class ReadingRequest(BaseModel):
         description="사용자가 선택한 카드 ID 목록 (User Selection Mode). None이면 랜덤 선택",
         examples=[[0, 15, 42]],
         min_length=1,
-        max_length=3
+        max_length=10
     )
     reversed_states: Optional[List[bool]] = Field(
         default=None,
         description="카드의 역방향 상태 목록 (selected_card_ids와 함께 사용). None이면 백엔드에서 랜덤 결정",
         examples=[[False, True, False]],
         min_length=1,
-        max_length=3
+        max_length=10
     )
 
     class Config:
@@ -156,7 +156,7 @@ class ReadingCardResponse(BaseModel):
     id: str = Field(..., description="ReadingCard identifier")
     reading_id: str = Field(..., description="Reading ID (UUID or document ID)")
     card_id: int = Field(..., description="Card ID")
-    position: str = Field(..., description="카드 위치 (single, past, present, future, situation, action, outcome)")
+    position: str = Field(..., description="카드 위치 (single, past, present, future, situation, action, outcome, challenge, above, below, advice, external, hopes_fears, outcome)")
     orientation: str = Field(..., description="카드 방향 (upright, reversed)")
     interpretation: str = Field(..., description="AI가 생성한 카드 해석")
     key_message: str = Field(..., description="핵심 메시지 한 줄")

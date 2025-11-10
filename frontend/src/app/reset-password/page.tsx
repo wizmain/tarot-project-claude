@@ -3,7 +3,8 @@
 /**
  * Reset Password Page
  *
- * Allows users to set a new password using the reset token from email
+ * Allows users to set a new password using the reset token from email.
+ * Supports both Custom JWT tokens (token parameter) and Firebase oobCode (oobCode parameter).
  */
 
 import { useState, useEffect, Suspense } from 'react';
@@ -14,7 +15,8 @@ import { API_BASE_URL } from '@/lib/constants';
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  // Support both 'token' (Custom JWT) and 'oobCode' (Firebase) parameters
+  const token = searchParams.get('token') || searchParams.get('oobCode');
 
   const [formData, setFormData] = useState({
     newPassword: '',

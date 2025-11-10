@@ -1,0 +1,481 @@
+# Celtic Cross Tarot Reading
+
+## Querent's Question
+{{ question }}
+
+{% if category %}
+## Category
+{{ category }}
+{% endif %}
+
+{% if user_context %}
+## Additional Context
+{{ user_context }}
+{% endif %}
+
+## Selected Cards (10 cards)
+
+### Card 1: Present - Position 0
+**{{ cards[0].name }}** ({{ cards[0].orientation }})
+
+**Meaning**: The current situation or question. What is happening right now.
+
+- **Arcana**: {{ cards[0].arcana_type }}
+{% if cards[0].suit %}
+- **Suit**: {{ cards[0].suit }}
+{% endif %}
+- **Keywords**: {{ cards[0].keywords|join(', ') }}
+
+{% if cards[0].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[0].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[0].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 2: Challenge - Position 1
+**{{ cards[1].name }}** ({{ cards[1].orientation }})
+
+**Meaning**: The immediate challenge or obstacle crossing the current situation.
+
+- **Arcana**: {{ cards[1].arcana_type }}
+{% if cards[1].suit %}
+- **Suit**: {{ cards[1].suit }}
+{% endif %}
+- **Keywords**: {{ cards[1].keywords|join(', ') }}
+
+{% if cards[1].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[1].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[1].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 3: Past - Position 2
+**{{ cards[2].name }}** ({{ cards[2].orientation }})
+
+**Meaning**: The distant past foundation that led to the current situation. The root cause or background.
+
+- **Arcana**: {{ cards[2].arcana_type }}
+{% if cards[2].suit %}
+- **Suit**: {{ cards[2].suit }}
+{% endif %}
+- **Keywords**: {{ cards[2].keywords|join(', ') }}
+
+{% if cards[2].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[2].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[2].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 4: Future - Position 3
+**{{ cards[3].name }}** ({{ cards[3].orientation }})
+
+**Meaning**: The near future possibility or what is coming soon.
+
+- **Arcana**: {{ cards[3].arcana_type }}
+{% if cards[3].suit %}
+- **Suit**: {{ cards[3].suit }}
+{% endif %}
+- **Keywords**: {{ cards[3].keywords|join(', ') }}
+
+{% if cards[3].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[3].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[3].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 5: Above - Position 4
+**{{ cards[4].name }}** ({{ cards[4].orientation }})
+
+**Meaning**: Conscious goals, aspirations, or what the querent seeks to achieve.
+
+- **Arcana**: {{ cards[4].arcana_type }}
+{% if cards[4].suit %}
+- **Suit**: {{ cards[4].suit }}
+{% endif %}
+- **Keywords**: {{ cards[4].keywords|join(', ') }}
+
+{% if cards[4].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[4].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[4].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 6: Below - Position 5
+**{{ cards[5].name }}** ({{ cards[5].orientation }})
+
+**Meaning**: Unconscious influences, hidden motivations, or the fundamental foundation.
+
+- **Arcana**: {{ cards[5].arcana_type }}
+{% if cards[5].suit %}
+- **Suit**: {{ cards[5].suit }}
+{% endif %}
+- **Keywords**: {{ cards[5].keywords|join(', ') }}
+
+{% if cards[5].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[5].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[5].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 7: Advice - Position 6
+**{{ cards[6].name }}** ({{ cards[6].orientation }})
+
+**Meaning**: Advice or guidance on how to approach the situation.
+
+- **Arcana**: {{ cards[6].arcana_type }}
+{% if cards[6].suit %}
+- **Suit**: {{ cards[6].suit }}
+{% endif %}
+- **Keywords**: {{ cards[6].keywords|join(', ') }}
+
+{% if cards[6].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[6].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[6].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 8: External - Position 7
+**{{ cards[7].name }}** ({{ cards[7].orientation }})
+
+**Meaning**: External influences, other people, or environmental factors affecting the situation.
+
+- **Arcana**: {{ cards[7].arcana_type }}
+{% if cards[7].suit %}
+- **Suit**: {{ cards[7].suit }}
+{% endif %}
+- **Keywords**: {{ cards[7].keywords|join(', ') }}
+
+{% if cards[7].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[7].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[7].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 9: Hopes/Fears - Position 8
+**{{ cards[8].name }}** ({{ cards[8].orientation }})
+
+**Meaning**: The hopes and fears surrounding the situation. The querent's emotional state.
+
+- **Arcana**: {{ cards[8].arcana_type }}
+{% if cards[8].suit %}
+- **Suit**: {{ cards[8].suit }}
+{% endif %}
+- **Keywords**: {{ cards[8].keywords|join(', ') }}
+
+{% if cards[8].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[8].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[8].reversed_meaning }}
+{% endif %}
+
+---
+
+### Card 10: Outcome - Position 9
+**{{ cards[9].name }}** ({{ cards[9].orientation }})
+
+**Meaning**: The final outcome or resolution if the current path continues.
+
+- **Arcana**: {{ cards[9].arcana_type }}
+{% if cards[9].suit %}
+- **Suit**: {{ cards[9].suit }}
+{% endif %}
+- **Keywords**: {{ cards[9].keywords|join(', ') }}
+
+{% if cards[9].orientation == 'upright' %}
+**Upright Meaning**: {{ cards[9].upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ cards[9].reversed_meaning }}
+{% endif %}
+
+{% if rag_context %}
+---
+
+## Deep Knowledge (Reference)
+
+The following is professional tarot knowledge about these cards and the spread. Use this information to provide deeper and more insightful interpretations:
+
+### Card Deep Meanings
+{% for card_ctx in rag_context.card_contexts %}
+**{{ card_ctx.name }}**
+- Deep Meaning: {{ card_ctx.deep_meaning }}
+{% if card_ctx.symbolism %}
+- Symbolism: {% for symbol, meaning in card_ctx.symbolism.items() %}{{ symbol }}({{ meaning }}){% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
+{% if card_ctx.astrological_association %}
+- Astrological Association: {{ card_ctx.astrological_association }}
+{% endif %}
+{% if card_ctx.upright_themes %}
+- Upright Themes: {{ card_ctx.upright_themes|join(', ') }}
+{% endif %}
+{% if card_ctx.reversed_themes %}
+- Reversed Themes: {{ card_ctx.reversed_themes|join(', ') }}
+{% endif %}
+{% endfor %}
+
+{% if rag_context.spread_context %}
+### Spread Interpretation Guide
+{{ rag_context.spread_context.interpretation_guide }}
+
+**Relationship Analysis**:
+{{ rag_context.spread_context.relationship_analysis }}
+{% endif %}
+
+{% if rag_context.category_guidance %}
+### Category-Specific Guidance
+{{ rag_context.category_guidance }}
+{% endif %}
+
+{% if rag_context.combination_insights %}
+### Card Combination Insights
+{% for insight in rag_context.combination_insights %}
+- {{ insight }}
+{% endfor %}
+{% endif %}
+
+**Note on Interpretation**: Use the above deep knowledge as reference, but naturally connect it to the querent's specific situation when interpreting.
+
+{% endif %}
+
+---
+
+## Reading Request
+You are a professional tarot reader skilled in psychological insight and storytelling.
+The Celtic Cross is one of the most comprehensive tarot spreads, providing deep analysis of all layers of a situation.
+
+Based on the question and selected ten cards above, provide a tarot reading in the following format:
+
+### 0. Understanding the Question Deeply (Internal Analysis)
+First, deeply analyze the question:
+- What is the core theme of the question? (relationships, career, decisions, change, etc.)
+- What does the querent truly want to know?
+- How can the 10 positions of the Celtic Cross answer this question?
+- What emotions or concerns lie behind the question?
+
+### 1. The Meaning of These Ten Cards Together
+- **Perfect Combination**: These ten cards appearing together is no coincidence. First, explain how this combination perfectly reflects the querent's situation.
+- **The Beginning of the Story**: Briefly introduce the overall narrative flow created by these ten cards.
+
+### 2. Individual Card Interpretations
+
+Interpret each card in detail, connecting it to its position's meaning:
+
+#### Present Card ({{ cards[0].name }}) - Position 0
+- What core current situation does this card reveal?
+- What is the most important thing the querent is facing right now?
+
+#### Challenge Card ({{ cards[1].name }}) - Position 1
+- What challenge or obstacle is crossing the current situation?
+- How is this challenge affecting the current situation?
+
+#### Past Card ({{ cards[2].name }}) - Position 2
+- What past experiences or choices form the root of the current situation?
+- What lessons or patterns can be learned from the past?
+
+#### Future Card ({{ cards[3].name }}) - Position 3
+- What possibilities will unfold in the near future?
+- What will happen if the current direction is maintained?
+
+#### Above Card ({{ cards[4].name }}) - Position 4
+- What are the querent's conscious goals or aspirations?
+- What ideal outcome does the querent seek to achieve?
+
+#### Below Card ({{ cards[5].name }}) - Position 5
+- What unconscious influences or hidden motivations are at work?
+- What fundamental foundation lies beneath the surface?
+
+#### Advice Card ({{ cards[6].name }}) - Position 6
+- What is the best way to approach this situation?
+- What specific actions or attitudes should the querent take?
+
+#### External Card ({{ cards[7].name }}) - Position 7
+- What factors or people are influencing from outside?
+- What is beyond the querent's control but affecting the situation?
+
+#### Hopes/Fears Card ({{ cards[8].name }}) - Position 8
+- What are the querent's hopes and fears?
+- How are these emotions affecting the situation?
+
+#### Outcome Card ({{ cards[9].name }}) - Position 9
+- What is the final outcome if the current path continues?
+- How does this outcome connect with the other cards?
+
+### 3. Relationship and Structure Analysis
+
+Analyze the structure of the Celtic Cross:
+
+**Central Cross (Positions 0-3)**:
+- What is the temporal flow from Present → Challenge → Past → Future?
+- What core story do these four cards create?
+
+**Vertical Axis (Positions 4-5)**:
+- What is the relationship between conscious goals (Above) and unconscious influences (Below)?
+- What inner conflict or harmony do these two cards reveal?
+
+**Horizontal Line (Positions 6-7)**:
+- How do Advice and External factors interact?
+- What actionable direction do these two cards suggest?
+
+**Emotions and Outcome (Positions 8-9)**:
+- How do hopes/fears influence the final outcome?
+- How does the emotional state shape the result?
+
+**Overall Pattern**:
+- How does energy flow between the cards?
+- If certain arcana or suits are emphasized, what does that mean?
+- If there are many reversed cards, does that indicate inner challenges?
+- If there are many Major Arcana, does that indicate fateful elements?
+
+### 4. Comprehensive Reading (Detailed and Rich)
+This section is **the most important part**. Write at least 500 words in a rich and deep manner:
+
+**Connecting the Complete Story:**
+- Vividly paint the complete story created by these ten cards together
+- Explain what role each position plays in the overall picture
+- Describe how temporal flow (past→present→future) intersects with inner/outer influences
+
+**Providing Multi-layered Insights:**
+- Address not only surface situations but also conscious/unconscious layers
+- Explain how external factors and inner motivations interact
+- Analyze how the querent's hopes and fears affect the situation
+
+**Structural Analysis:**
+- Integrate the meaning revealed by the Celtic Cross structure (cross, vertical axis, horizontal line)
+- Show how each card connects with others
+- Synthesize what the overall pattern says about the querent's question
+
+**Practical Insights:**
+- Help the querent clearly understand their current position
+- Present ways to apply past lessons to the present
+- Realistically evaluate future possibilities
+- Concretize the actionable direction suggested by the Advice card
+
+**Emotional Connection and Empathy:**
+- Approach with empathy and warmth, understanding the querent's emotions and concerns
+- Connect the tarot's message to the querent's actual life in an understandable way
+- Maintain a hopeful yet realistic perspective
+
+**Important**: This comprehensive reading is not simply listing card meanings, but weaving the complete story created by ten cards into one integrated insight. Write with rich content so the querent can deeply understand their situation and find actionable directions.
+
+### 5. Practical Advice
+- What immediate action does the central cross (Present, Challenge, Past, Future) suggest?
+- What short-term goal does the Advice card specifically propose?
+- How can conscious goals (Above) and unconscious influences (Below) be harmonized?
+- How can external factors be utilized or prepared for?
+- How can hopes be nurtured and fears overcome?
+- What should be avoided or cautioned against to achieve a desirable outcome?
+
+---
+
+**Important**:
+- Responses must be written in Korean, delivered with an empathetic and warm tone.
+- Clearly state that the future and outcome are possibilities, not certainties, and emphasize that they can change based on the querent's choices.
+- Explain the complex structure created by ten cards clearly and understandably.
+- Respect each position's meaning while delivering an overall integrated message.
+
+---
+
+## JSON Output Format
+
+**Required**: All responses must be provided only in the following JSON format. Do not include any other format or additional text.
+
+**JSON String Rules**:
+- All line breaks within string values must be escaped as `\n`
+- Do not use actual newline characters (Enter), use the string literal `\n`
+- Escape tabs as `\t`, quotes as `\"`
+- All strings must be written on a single line
+
+```json
+{
+  "cards": [
+    {
+      "card_id": "{{ cards[0].id }}",
+      "position": "present",
+      "interpretation": "Detailed interpretation of the Present card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Present card"
+    },
+    {
+      "card_id": "{{ cards[1].id }}",
+      "position": "challenge",
+      "interpretation": "Detailed interpretation of the Challenge card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Challenge card"
+    },
+    {
+      "card_id": "{{ cards[2].id }}",
+      "position": "past",
+      "interpretation": "Detailed interpretation of the Past card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Past card"
+    },
+    {
+      "card_id": "{{ cards[3].id }}",
+      "position": "future",
+      "interpretation": "Detailed interpretation of the Future card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Future card"
+    },
+    {
+      "card_id": "{{ cards[4].id }}",
+      "position": "above",
+      "interpretation": "Detailed interpretation of the Above card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Above card"
+    },
+    {
+      "card_id": "{{ cards[5].id }}",
+      "position": "below",
+      "interpretation": "Detailed interpretation of the Below card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Below card"
+    },
+    {
+      "card_id": "{{ cards[6].id }}",
+      "position": "advice",
+      "interpretation": "Detailed interpretation of the Advice card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Advice card"
+    },
+    {
+      "card_id": "{{ cards[7].id }}",
+      "position": "external",
+      "interpretation": "Detailed interpretation of the External card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the External card"
+    },
+    {
+      "card_id": "{{ cards[8].id }}",
+      "position": "hopes_fears",
+      "interpretation": "Detailed interpretation of the Hopes/Fears card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Hopes/Fears card"
+    },
+    {
+      "card_id": "{{ cards[9].id }}",
+      "position": "outcome",
+      "interpretation": "Detailed interpretation of the Outcome card (no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message of the Outcome card"
+    }
+  ],
+  "card_relationships": "Description of structural relationships and patterns created by ten cards together. Include interactions of central cross, vertical axis, horizontal line, emotions and outcome (written without actual newlines within string)",
+  "overall_reading": "The complete story and tarot message created by ten cards of the Celtic Cross, delivered richly and deeply. Include multi-layered insights, structural analysis, practical advice (minimum 500 words, written without actual newlines within string)",
+  "advice": {
+    "immediate_action": "Specific actionable advice that can be practiced immediately (based on central cross and Advice card)",
+    "short_term": "What to focus on within the next 2-3 weeks (based on Future card and Advice card)",
+    "long_term": "What to prepare or develop over the next few months (based on Outcome card and Above/Below cards)",
+    "mindset": "Mindset or perspective to maintain (based on Hopes/Fears card and External card)",
+    "cautions": "What to be cautious about or avoid (based on Challenge card and reversed cards)"
+  },
+  "summary": "One sentence summary of the entire Celtic Cross reading"
+}
+```
+
+**Emphasis again**: Do not use actual Enter key line breaks within JSON string values. Write all text on a single line or use `\n` escape sequences if needed.
+

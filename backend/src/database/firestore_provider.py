@@ -801,6 +801,63 @@ class FirestoreProvider(DatabaseProvider):
 
         return results
 
+    # ==================== Admin Statistics Operations ====================
+
+    async def get_total_users_count(self) -> int:
+        """전체 사용자 수 조회 (관리자 대시보드용)"""
+        # Firestore에는 users 컬렉션이 없으므로 readings에서 고유한 user_id 집계
+        readings = list(self.readings_collection.stream())
+        unique_user_ids = set()
+        for doc in readings:
+            data = doc.to_dict()
+            user_id = data.get('user_id')
+            if user_id:
+                unique_user_ids.add(user_id)
+        return len(unique_user_ids)
+
+    async def get_total_readings_count_all(self) -> int:
+        """전체 리딩 수 조회 (관리자 대시보드용, user_id 필터 없음)"""
+        # Firestore는 count 쿼리를 지원하지만, 모든 문서를 스트림하는 것이 더 안정적
+        readings = list(self.readings_collection.stream())
+        return len(readings)
+
+    async def get_readings_count_by_date_range(
+        self,
+        start_date: datetime,
+        end_date: datetime,
+    ) -> int:
+        """기간별 리딩 수 조회 (관리자 대시보드용)"""
+        if start_date.tzinfo is None:
+            start_date = start_date.replace(tzinfo=timezone.utc)
+        if end_date.tzinfo is None:
+            end_date = end_date.replace(tzinfo=timezone.utc)
+
+        query = (
+            self.readings_collection
+            .where(filter=FieldFilter('created_at', '>=', start_date))
+            .where(filter=FieldFilter('created_at', '<', end_date))
+        )
+
+        readings = list(query.stream())
+        return len(readings)
+
+    async def get_total_llm_cost(self) -> float:
+        """전체 LLM 비용 합계 조회 (관리자 대시보드용)"""
+        readings = list(self.readings_collection.stream())
+        total_cost = 0.0
+
+        for doc in readings:
+            data = doc.to_dict()
+            llm_usage = data.get('llm_usage', [])
+            if isinstance(llm_usage, list):
+                for log in llm_usage:
+                    if isinstance(log, dict):
+                        cost = log.get('estimated_cost', 0.0)
+                        if isinstance(cost, (int, float)):
+                            total_cost += cost
+
+        return round(total_cost, 2)
+
     # ==================== Settings Operations ====================
 
     async def get_app_settings(self) -> Optional[Dict[str, Any]]:
