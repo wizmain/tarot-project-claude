@@ -1,0 +1,72 @@
+# 켈틱 크로스 개별 카드 해석
+
+## 질문자의 질문
+{{ question }}
+
+{% if category %}
+## 카테고리
+{{ category }}
+{% endif %}
+
+## 해석할 카드들
+
+{% for card in cards %}
+### 카드 {{ loop.index }}: {{ card.position_name }} - 포지션 {{ card.position_index }}
+**{{ card.name }}** ({{ card.orientation_korean }})
+
+**포지션 의미**: {{ card.position_meaning }}
+
+- **아르카나**: {{ card.arcana_korean }}
+{% if card.suit %}
+- **수트**: {{ card.suit_korean }}
+{% endif %}
+- **키워드**: {{ card.keywords|join(', ') }}
+
+{% if card.orientation == 'upright' %}
+**정방향 의미**: {{ card.upright_meaning }}
+{% else %}
+**역방향 의미**: {{ card.reversed_meaning }}
+{% endif %}
+
+---
+
+{% endfor %}
+
+## 리딩 요청
+
+당신은 전문 타로 리더입니다. 위의 질문과 선택된 카드들을 바탕으로, 각 카드의 핵심 해석을 제공해주세요.
+
+**중요 지침**:
+- 각 카드는 해당 포지션의 의미와 연결하여 해석해야 합니다
+- 질문자의 구체적 상황과 자연스럽게 연결해주세요
+- 각 카드 해석은 200-300자 정도로 간결하게 작성하세요
+- 핵심 메시지는 한 문장으로 명확하게 전달하세요
+- 상세한 설명보다는 질문에 대한 직접적인 답변에 집중하세요
+
+## JSON 출력 형식
+
+**필수**: 모든 응답은 다음 JSON 형식으로만 제공해주세요.
+
+**JSON 문자열 규칙**:
+- 모든 문자열 값 내부의 줄바꿈은 반드시 `\n`으로 이스케이프해야 합니다
+- 실제 개행문자(Enter)를 사용하지 말고, 문자열 리터럴 `\n`을 사용하세요
+- 탭은 `\t`로, 따옴표는 `\"`로 이스케이프하세요
+- 모든 문자열은 반드시 한 줄로 작성하세요
+
+```json
+{
+  "cards": [
+    {% for card in cards %}
+    {
+      "card_id": "{{ card.id }}",
+      "position": "{{ card.position }}",
+      "interpretation": "카드 해석 내용 (200-300자, 문자열 내부에 실제 개행문자 없이, 필요시 \\n 사용)",
+      "key_message": "핵심 메시지 한 문장 (50자 이내)"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+```
+
+**다시 한번 강조**: JSON 문자열 값 안에 실제 엔터키로 줄바꿈하지 마세요. 모든 텍스트는 한 줄로 작성하거나, 필요시 `\n` 이스케이프 시퀀스를 사용하세요.
+

@@ -1,0 +1,112 @@
+# Celtic Cross Overall Reading
+
+## Querent's Question
+{{ question }}
+
+{% if category %}
+## Category
+{{ category }}
+{% endif %}
+
+## Individual Card Interpretation Results
+
+The following are the interpretation results for each card. Please write a comprehensive reading referencing these interpretations.
+
+{% for card_summary in card_summaries %}
+### {{ card_summary.position_name }} (Position {{ card_summary.position_index }})
+- **Card**: {{ card_summary.name }} ({{ card_summary.orientation }})
+- **Interpretation**: {{ card_summary.interpretation }}
+- **Key Message**: {{ card_summary.key_message }}
+
+{% endfor %}
+
+{% if rag_context %}
+## Deep Knowledge (Reference)
+
+The following is professional tarot knowledge about these cards and the spread:
+
+{% if rag_context.spread_context %}
+### Spread Interpretation Guide
+{{ rag_context.spread_context.interpretation_guide }}
+
+**Relationship Analysis**:
+{{ rag_context.spread_context.relationship_analysis }}
+{% endif %}
+
+{% if rag_context.category_guidance %}
+### Category-Specific Guidance
+{{ rag_context.category_guidance }}
+{% endif %}
+
+{% if rag_context.combination_insights %}
+### Card Combination Insights
+{% for insight in rag_context.combination_insights %}
+- {{ insight }}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+## Reading Request
+
+You are a professional tarot reader skilled in psychological insight and storytelling.
+The Celtic Cross is one of the most comprehensive tarot spreads, providing deep analysis of all layers of a situation.
+
+Based on the question and ten card interpretations above, provide a **rich and deep comprehensive reading** in the following format:
+
+### Overall Reading Writing Guide
+
+**1. Connecting the Complete Story:**
+- Vividly paint the complete story created by these ten cards together
+- Explain what role each position plays in the overall picture
+- Describe how temporal flow (past→present→future) intersects with inner/outer influences
+
+**2. Providing Multi-layered Insights:**
+- Address not only surface situations but also conscious/unconscious layers
+- Explain how external factors and inner motivations interact
+- Analyze how the querent's hopes and fears affect the situation
+
+**3. Structural Analysis:**
+- Integrate the meaning revealed by the Celtic Cross structure (cross, vertical axis, horizontal line)
+- Show how each card connects with others
+- Synthesize what the overall pattern says about the querent's question
+
+**4. Practical Insights:**
+- Help the querent clearly understand their current position
+- Present ways to apply past lessons to the present
+- Realistically evaluate future possibilities
+
+**5. Emotional Connection and Empathy:**
+- Approach with empathy and warmth, understanding the querent's emotions and concerns
+- Connect the tarot's message to the querent's actual life in an understandable way
+- Maintain a hopeful yet realistic perspective
+
+**6. Card Citations:**
+- When mentioning specific cards in the overall reading, always use citation marks
+- Citation format: `[Card Name(Position)]` e.g., `[The Fool(Present)]` or `[Present Card]`
+- Naturally integrate each card's core message while maintaining clarity through citations
+
+**Important**: 
+- This comprehensive reading is not simply listing card meanings, but weaving the complete story created by ten cards into one integrated insight
+- Write **at least 1000 characters** with rich content
+- Write in detail so the querent can deeply understand their situation and find actionable directions
+- **Output Language**: Responses must be written in {{ response_language|default('Korean') }}. Use {{ response_language|default('Korean') }} characters and grammar. Deliver with an empathetic and warm tone.
+
+## JSON Output Format
+
+**Required**: All responses must be provided only in the following JSON format.
+
+**JSON String Rules**:
+- All line breaks within string values must be escaped as `\n`
+- Do not use actual newline characters (Enter), use the string literal `\n`
+- Escape tabs as `\t`, quotes as `\"`
+- All strings must be written on a single line
+
+```json
+{
+  "overall_reading": "The complete story and tarot message created by ten cards of the Celtic Cross, delivered richly and deeply. Include multi-layered insights, structural analysis, practical advice. When mentioning cards, use [Card Name(Position)] format for citations. Minimum 1000 characters, written without actual newlines within string",
+  "summary": "One sentence summary of the entire Celtic Cross reading (within 80 characters)"
+}
+```
+
+**Emphasis again**: Do not use actual Enter key line breaks within JSON string values. Write all text on a single line or use `\n` escape sequences if needed.
+

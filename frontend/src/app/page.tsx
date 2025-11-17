@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface DetailedReadingOption {
   id: string;
@@ -69,16 +70,61 @@ const DETAILED_READING_OPTIONS: DetailedReadingOption[] = [
 
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuth();
   const [showDetailedReadings, setShowDetailedReadings] = useState(false);
 
+  // 모달이 열릴 때 인증 상태 확인
+  useEffect(() => {
+    if (showDetailedReadings && !isLoading && !isAuthenticated) {
+      // 모달이 열린 상태에서 인증되지 않은 경우 모달 닫기
+      setShowDetailedReadings(false);
+      const shouldLogin = window.confirm('상세 리딩을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?');
+      if (shouldLogin) {
+        router.push('/login');
+      }
+    }
+  }, [showDetailedReadings, isAuthenticated, isLoading, router]);
+
   const handleDetailedReadingClick = () => {
+    // 로딩 중이면 대기
+    if (isLoading) {
+      return;
+    }
+
+    // 인증 확인
+    if (!isAuthenticated) {
+      // 인증되지 않은 경우 로그인 페이지로 리다이렉트
+      const shouldLogin = window.confirm('상세 리딩을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?');
+      if (shouldLogin) {
+        router.push('/login');
+      }
+      return;
+    }
+    
     setShowDetailedReadings(true);
   };
 
   const handleOptionClick = (option: DetailedReadingOption) => {
-    if (option.available && option.route) {
-      router.push(option.route);
+    if (!option.available || !option.route) {
+      return;
     }
+
+    // 로딩 중이면 대기
+    if (isLoading) {
+      return;
+    }
+
+    // 상세 리딩 옵션 클릭 시 인증 확인
+    if (!isAuthenticated) {
+      // 인증되지 않은 경우 로그인 페이지로 리다이렉트
+      const shouldLogin = window.confirm('상세 리딩을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?');
+      if (shouldLogin) {
+        router.push('/login');
+      }
+      return;
+    }
+
+    router.push(option.route);
   };
 
   const handleCloseModal = () => {
@@ -200,6 +246,44 @@ export default function Home() {
 
                 {/* Options Grid */}
                 <div className="p-6">
+                  {/* 로딩 중 표시 */}
+                  {isLoading && (
+                    <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                        <p className="text-sm text-blue-700 dark:text-blue-300">
+                          인증 상태를 확인하는 중...
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 인증 상태 경고 */}
+                  {!isLoading && !isAuthenticated && (
+                    <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl">⚠️</span>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-1">
+                            로그인이 필요합니다
+                          </h3>
+                          <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-3">
+                            상세 리딩을 사용하려면 로그인이 필요합니다.
+                          </p>
+                          <button
+                            onClick={() => {
+                              setShowDetailedReadings(false);
+                              router.push('/login');
+                            }}
+                            className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                          >
+                            로그인 페이지로 이동
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {DETAILED_READING_OPTIONS.map((option, index) => (
                       <motion.div
@@ -209,11 +293,13 @@ export default function Home() {
                         transition={{ delay: index * 0.1 }}
                         onClick={() => handleOptionClick(option)}
                         className={`
-                          rounded-lg border-2 p-5 transition-all cursor-pointer
+                          rounded-lg border-2 p-5 transition-all
                           ${
-                            option.available
-                              ? 'border-purple-300 dark:border-purple-600 hover:border-purple-500 dark:hover:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:shadow-lg'
-                              : 'border-gray-200 dark:border-gray-700 opacity-60 cursor-not-allowed'
+                            !option.available
+                              ? 'border-gray-200 dark:border-gray-700 opacity-60 cursor-not-allowed'
+                              : !isAuthenticated
+                              ? 'border-yellow-300 dark:border-yellow-600 opacity-75 cursor-not-allowed'
+                              : 'border-purple-300 dark:border-purple-600 hover:border-purple-500 dark:hover:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:shadow-lg cursor-pointer'
                           }
                         `}
                       >
@@ -238,8 +324,16 @@ export default function Home() {
                           {option.descriptionKo}
                         </p>
                         {option.available && (
-                          <div className="mt-3 text-purple-600 dark:text-purple-400 text-sm font-semibold">
-                            클릭하여 시작 →
+                          <div className="mt-3">
+                            {isAuthenticated ? (
+                              <div className="text-purple-600 dark:text-purple-400 text-sm font-semibold">
+                                클릭하여 시작 →
+                              </div>
+                            ) : (
+                              <div className="text-yellow-600 dark:text-yellow-400 text-sm font-semibold">
+                                ⚠️ 로그인이 필요합니다
+                              </div>
+                            )}
                           </div>
                         )}
                       </motion.div>

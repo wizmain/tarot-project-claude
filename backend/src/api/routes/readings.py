@@ -25,7 +25,11 @@ from src.core.logging import get_logger
 from src.core.card_shuffle import CardShuffleService, DrawnCard
 from src.core.config import settings
 from src.ai import AIOrchestrator, ProviderFactory, GenerationConfig
-from src.ai.prompt_engine.context_builder import ContextBuilder
+from src.ai.prompt_engine.spread_config import (
+    get_card_count,
+    get_prompt_template_path,
+    get_max_tokens
+)
 from src.ai.prompt_engine.response_parser import ResponseParser
 from src.ai.prompt_engine.reading_validator import ReadingValidator
 from src.ai.prompt_engine.schemas import ParseError, JSONExtractionError, ValidationError
@@ -84,6 +88,19 @@ async def get_orchestrator(db_provider: DatabaseProvider) -> AIOrchestrator:
             db_provider=db_provider,
             fallback_to_env=True
         )
+        
+        # Sync model registry with loaded providers
+        try:
+            from src.ai.model_registry import get_registry
+            registry = get_registry()
+            if not registry._initialized:
+                registry.sync_from_providers(providers)
+                logger.info(
+                    f"Model registry synced with {len(providers)} provider(s), "
+                    f"{len(registry.models)} models registered"
+                )
+        except Exception as e:
+            logger.warning(f"Failed to sync model registry (non-critical): {e}")
         
         # Get timeout from settings
         timeout = await get_default_timeout_from_settings(db_provider)
@@ -319,13 +336,8 @@ async def create_reading(
         # Import card shuffle components (needed for both user selection and random modes)
         from src.core.card_shuffle import DrawnCard, Orientation, CardData, CardShuffleService
         
-        card_count_map = {
-            "one_card": 1,
-            "three_card_past_present_future": 3,
-            "three_card_situation_action_outcome": 3,
-            "celtic_cross": 10,
-        }
-        card_count = card_count_map.get(request.spread_type, 1)
+        # 스프레드 설정에서 카드 수 가져오기
+        card_count = get_card_count(request.spread_type)
 
         # Two modes: User Selection vs Random
         if request.selected_card_ids:
@@ -420,13 +432,16 @@ async def create_reading(
         prompt_lang = settings.PROMPT_LANGUAGE
         lang_suffix = f"_{prompt_lang}" if prompt_lang == "en" else ""
 
-        template_map = {
-            "one_card": f"reading/one_card{lang_suffix}.txt",
-            "three_card_past_present_future": f"reading/three_card_past_present_future{lang_suffix}.txt",
-            "three_card_situation_action_outcome": f"reading/three_card_situation_action_outcome{lang_suffix}.txt",
-            "celtic_cross": f"reading/celtic_cross{lang_suffix}.txt",
-        }
-        template_path = template_map.get(request.spread_type, f"reading/one_card{lang_suffix}.txt")
+        # 스프레드 설정에서 템플릿 경로 가져오기
+        template_path = get_prompt_template_path(
+            spread_type=request.spread_type,
+            template_key="main",
+            language=prompt_lang
+        )
+        
+        if not template_path:
+            # Fallback to default naming convention
+            template_path = f"reading/{request.spread_type}{lang_suffix}.txt"
 
         logger.info(f"[CreateReading] Using prompt template: {template_path} (language: {prompt_lang})")
 
@@ -445,26 +460,25 @@ async def create_reading(
                     f"falling back to default (Korean) version"
                 )
                 # Remove language suffix to use default template
-                base_template_map = {
-                    "one_card": "reading/one_card.txt",
-                    "three_card_past_present_future": "reading/three_card_past_present_future.txt",
-                    "three_card_situation_action_outcome": "reading/three_card_situation_action_outcome.txt",
-                    "celtic_cross": "reading/celtic_cross.txt",
-                }
-                fallback_template_path = base_template_map.get(
-                    request.spread_type, "reading/one_card.txt"
+                base_template_path = get_prompt_template_path(
+                    spread_type=request.spread_type,
+                    template_key="main",
+                    language="ko"  # Default Korean
                 )
+                if not base_template_path:
+                    base_template_path = f"reading/{request.spread_type}.txt"
+                
                 try:
-                    reading_template = jinja_env.get_template(fallback_template_path)
-                    logger.info(f"[CreateReading] Using fallback template: {fallback_template_path}")
+                    reading_template = jinja_env.get_template(base_template_path)
+                    logger.info(f"[CreateReading] Using fallback template: {base_template_path}")
                 except Exception as fallback_error:
                     logger.error(
                         f"[CreateReading] Failed to load both primary ({template_path}) and "
-                        f"fallback ({fallback_template_path}) templates: {fallback_error}"
+                        f"fallback ({base_template_path}) templates: {fallback_error}"
                     )
                     raise HTTPException(
                         status_code=500,
-                        detail=f"템플릿 파일을 로드할 수 없습니다: {fallback_template_path}",
+                        detail=f"템플릿 파일을 로드할 수 없습니다: {base_template_path}",
                     )
             else:
                 # If already using default template, re-raise the error
@@ -498,17 +512,8 @@ async def create_reading(
         full_prompt = f"{reading_prompt}\n\n{output_format}"
 
         orchestrator = await get_orchestrator(db_provider)
-        # Optimized max_tokens configuration by spread type
-        # Note: API limit is 4096 tokens, so we cap at that value
-        # - One card: 2000 tokens (sufficient for single card interpretation)
-        # - Three card: 3500 tokens (balanced for three cards)
-        # - Celtic Cross: 4096 tokens (10 cards require extensive interpretation, capped at API limit)
-        MAX_TOKENS_CONFIG = {
-            1: 2000,   # one_card
-            3: 3500,   # three_card spreads
-            10: 4096,  # celtic_cross (capped at API limit)
-        }
-        max_tokens = MAX_TOKENS_CONFIG.get(card_count, 3500)  # Default fallback
+        # 스프레드 설정에서 최대 토큰 수 가져오기
+        max_tokens = get_max_tokens(request.spread_type, prompt_lang)
         # Ensure max_tokens doesn't exceed API limit
         max_tokens = min(max_tokens, 4096)
 

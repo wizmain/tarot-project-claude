@@ -1,0 +1,83 @@
+# Celtic Cross Practical Advice
+
+## Querent's Question
+{{ question }}
+
+{% if category %}
+## Category
+{{ category }}
+{% endif %}
+
+## Card Interpretation Summary
+
+{% for card_summary in card_summaries %}
+### {{ card_summary.position_name }} (Position {{ card_summary.position_index }})
+- **Card**: {{ card_summary.name }} ({{ card_summary.orientation }})
+- **Key Message**: {{ card_summary.key_message }}
+
+{% endfor %}
+
+## Overall Reading Summary
+{{ overall_reading_summary }}
+
+## Reading Request
+
+You are a professional tarot reader. Based on the card interpretations and overall reading above, provide concrete, actionable advice for the querent.
+
+### Advice Writing Guide
+
+**1. Immediate Action (immediate_action)**:
+- Immediate action suggested by the central cross (Present, Challenge, Past, Future)
+- Short-term goal specifically proposed by the Advice card
+- Concrete action that can be taken today or this week (100-200 characters)
+
+**2. Short-term Goals (short_term)**:
+- What to focus on within the next 2-3 weeks
+- Based on Future card and Advice card
+- Specific and achievable goals (100-200 characters)
+
+**3. Long-term Direction (long_term)**:
+- What to prepare or develop over the next few months
+- Based on Outcome card and Above/Below cards
+- Medium to long-term direction and vision (100-200 characters)
+
+**4. Mindset (mindset)**:
+- Mindset or perspective to maintain
+- Based on Hopes/Fears card and External card
+- Attitude to maintain throughout the process (100-200 characters)
+
+**5. Cautions (cautions)**:
+- What to be cautious about or avoid
+- Based on Challenge card and reversed cards
+- Pitfalls or risk factors to avoid (100-200 characters)
+
+**Important**:
+- All advice must be concrete and actionable
+- Provide clear action guidelines rather than abstract expressions
+- Maintain positive yet realistic advice
+- **Output Language**: Write all responses in {{ response_language|default('Korean') }}. Use {{ response_language|default('Korean') }} characters and grammar.
+
+## JSON Output Format
+
+**Required**: All responses must be provided only in the following JSON format.
+
+**JSON String Rules**:
+- All line breaks within string values must be escaped as `\n`
+- Do not use actual newline characters (Enter), use the string literal `\n`
+- Escape tabs as `\t`, quotes as `\"`
+- All strings must be written on a single line
+
+```json
+{
+  "advice": {
+    "immediate_action": "Specific actionable advice that can be practiced immediately (based on central cross and Advice card, 100-200 characters)",
+    "short_term": "What to focus on within the next 2-3 weeks (based on Future card and Advice card, 100-200 characters)",
+    "long_term": "What to prepare or develop over the next few months (based on Outcome card and Above/Below cards, 100-200 characters)",
+    "mindset": "Mindset or perspective to maintain (based on Hopes/Fears card and External card, 100-200 characters)",
+    "cautions": "What to be cautious about or avoid (based on Challenge card and reversed cards, 100-200 characters)"
+  }
+}
+```
+
+**Emphasis again**: Do not use actual Enter key line breaks within JSON string values. Write all text on a single line or use `\n` escape sequences if needed.
+

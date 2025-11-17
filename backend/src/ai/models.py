@@ -178,7 +178,7 @@ class OrchestratorResponse(BaseModel):
 class GenerationConfig(BaseModel):
     """Configuration for text generation"""
     temperature: float = Field(0.7, ge=0.0, le=2.0, description="Sampling temperature")
-    max_tokens: int = Field(1000, ge=1, le=4096, description="Maximum tokens to generate")
+    max_tokens: int = Field(1000, ge=1, le=65536, description="Maximum tokens to generate")
     top_p: float = Field(1.0, ge=0.0, le=1.0, description="Nucleus sampling parameter")
     frequency_penalty: float = Field(0.0, ge=-2.0, le=2.0, description="Frequency penalty")
     presence_penalty: float = Field(0.0, ge=-2.0, le=2.0, description="Presence penalty")

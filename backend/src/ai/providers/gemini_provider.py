@@ -69,7 +69,14 @@ class GeminiProvider(AIProvider):
     # Model pricing (per 1M tokens) - Updated 2024
     # Source: https://ai.google.dev/pricing
     MODEL_PRICING = {
+        # Gemini 2.5
+        "gemini-2.5-pro": {"input": 1.25, "output": 5.00},  # Per 1M tokens (same as 1.5 Pro)
+        "gemini-2.5-flash": {"input": 0.075, "output": 0.30},  # Per 1M tokens (same as 1.5 Flash)
+        "gemini-2.5-flash-lite": {"input": 0.0375, "output": 0.15},  # Per 1M tokens (same as 1.5 Flash 8b)
+        
         # Gemini 2.0
+        "gemini-2.0-flash": {"input": 0.0, "output": 0.0},  # Free during preview
+        "gemini-2.0-flash-lite": {"input": 0.0, "output": 0.0},  # Free during preview
         "gemini-2.0-flash-exp": {"input": 0.0, "output": 0.0},  # Free during preview
         "gemini-2.0-flash-thinking-exp": {"input": 0.0, "output": 0.0},  # Free during preview
         
@@ -77,12 +84,14 @@ class GeminiProvider(AIProvider):
         "gemini-1.5-pro": {"input": 1.25, "output": 5.00},  # Per 1M tokens
         "gemini-1.5-pro-001": {"input": 1.25, "output": 5.00},
         "gemini-1.5-pro-002": {"input": 1.25, "output": 5.00},
+        "gemini-1.5-pro-latest": {"input": 1.25, "output": 5.00},  # Same as base model
         
         # Gemini 1.5 Flash
         "gemini-1.5-flash": {"input": 0.075, "output": 0.30},  # Per 1M tokens
         "gemini-1.5-flash-001": {"input": 0.075, "output": 0.30},
         "gemini-1.5-flash-002": {"input": 0.075, "output": 0.30},
         "gemini-1.5-flash-8b": {"input": 0.0375, "output": 0.15},  # Per 1M tokens
+        "gemini-1.5-flash-latest": {"input": 0.075, "output": 0.30},  # Same as base model
         
         # Gemini 1.0 Pro (Legacy)
         "gemini-1.0-pro": {"input": 0.50, "output": 1.50},  # Per 1M tokens
@@ -93,7 +102,7 @@ class GeminiProvider(AIProvider):
     def __init__(
         self,
         api_key: str,
-        default_model: str = "gemini-2.0-flash-exp",
+        default_model: str = "gemini-2.0-flash-lite",
         timeout: int = 30,
         max_retries: int = 3,
     ):
@@ -136,8 +145,12 @@ class GeminiProvider(AIProvider):
         Updated: 2024-12-20
         """
         return [
+            "gemini-2.5-flash",
+            "gemini-2.5-flash-lite",
+            "gemini-2.5-pro",
             # Gemini 2.0 (Latest)
-            "gemini-2.0-flash-exp",
+            "gemini-2.0-flash",
+            "gemini-2.0-flash-lite",
             "gemini-2.0-flash-thinking-exp",
             
             # Gemini 1.5 Pro
@@ -231,14 +244,69 @@ class GeminiProvider(AIProvider):
                 request_options={"timeout": self.timeout},
             )
 
-            # Extract response data
-            content = response.text if hasattr(response, 'text') else ""
-            
-            # Get finish reason
+            # Extract response data safely
+            # Check finish_reason first to handle MAX_TOKENS and SAFETY blocks
             finish_reason = None
+            content = ""
+            
             if hasattr(response, 'candidates') and response.candidates:
-                finish_reason = str(response.candidates[0].finish_reason)
-
+                candidate = response.candidates[0]
+                finish_reason_raw = candidate.finish_reason
+                
+                # Convert Gemini finish_reason enum to standardized string
+                # 0: FINISH_REASON_UNSPECIFIED -> None
+                # 1: STOP -> "stop"
+                # 2: MAX_TOKENS -> "max_tokens"
+                # 3: SAFETY -> "safety"
+                # 4: RECITATION -> "recitation"
+                # 5: OTHER -> "other"
+                finish_reason_map = {
+                    0: None,  # FINISH_REASON_UNSPECIFIED
+                    1: "stop",  # STOP
+                    2: "max_tokens",  # MAX_TOKENS
+                    3: "safety",  # SAFETY
+                    4: "recitation",  # RECITATION
+                    5: "other",  # OTHER
+                }
+                
+                # Handle enum value (int) or string representation
+                if isinstance(finish_reason_raw, int):
+                    finish_reason = finish_reason_map.get(finish_reason_raw)
+                elif isinstance(finish_reason_raw, str):
+                    # Try to parse string representation
+                    try:
+                        finish_reason_int = int(finish_reason_raw)
+                        finish_reason = finish_reason_map.get(finish_reason_int)
+                    except ValueError:
+                        finish_reason = finish_reason_raw.lower() if finish_reason_raw else None
+                else:
+                    finish_reason = str(finish_reason_raw) if finish_reason_raw else None
+                
+                # Try to extract content from parts
+                if hasattr(candidate, 'content') and candidate.content:
+                    if hasattr(candidate.content, 'parts') and candidate.content.parts:
+                        # Extract text from parts
+                        text_parts = []
+                        for part in candidate.content.parts:
+                            if hasattr(part, 'text') and part.text:
+                                text_parts.append(part.text)
+                        content = ''.join(text_parts)
+                
+                # If no content from parts, try response.text (but handle errors)
+                if not content:
+                    try:
+                        if hasattr(response, 'text'):
+                            content = response.text
+                    except Exception as e:
+                        # finish_reason이 MAX_TOKENS(2) 또는 SAFETY(3)일 때
+                        # response.text에 접근하면 오류가 발생할 수 있음
+                        logger.warning(
+                            f"[Gemini] Failed to access response.text: {e}. "
+                            f"finish_reason={finish_reason}. "
+                            f"Content may be empty or truncated."
+                        )
+                        content = ""
+                
             # Token usage (Gemini provides usage metadata)
             prompt_tokens = 0
             completion_tokens = 0
@@ -249,6 +317,16 @@ class GeminiProvider(AIProvider):
                 prompt_tokens = getattr(usage, 'prompt_token_count', 0)
                 completion_tokens = getattr(usage, 'candidates_token_count', 0)
                 total_tokens = getattr(usage, 'total_token_count', 0)
+            
+            # Log warning if content is empty but finish_reason indicates truncation
+            if not content and finish_reason == "max_tokens":
+                logger.warning(
+                    f"[Gemini] Response truncated due to max_tokens limit. "
+                    f"finish_reason={finish_reason}, "
+                    f"completion_tokens={completion_tokens}, "
+                    f"max_output_tokens={config.max_tokens}. "
+                    f"Consider increasing max_output_tokens."
+                )
 
             # Estimate cost
             estimated_cost = self.estimate_cost(prompt_tokens, completion_tokens, model)

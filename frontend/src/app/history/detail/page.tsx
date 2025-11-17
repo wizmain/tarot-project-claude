@@ -7,6 +7,7 @@ import TarotCard from '@/components/TarotCard';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { readingAPI } from '@/lib/api';
 import type { ReadingResponse } from '@/types/reading';
+import { useAuth } from '@/contexts/AuthContext';
 
 const SPREAD_TYPE_LABELS: Record<string, string> = {
   one_card: '원카드 리딩',
@@ -29,21 +30,30 @@ function ReadingDetailPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const readingId = searchParams.get('id');
+  const { isAuthenticated } = useAuth();
 
   const [reading, setReading] = useState<ReadingResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthError, setIsAuthError] = useState(false);
 
   async function fetchReading(id: string) {
     setLoading(true);
     setError(null);
+    setIsAuthError(false);
 
     try {
       const data = await readingAPI.getReading(id);
       setReading(data);
     } catch (err) {
       console.error('Failed to fetch reading:', err);
-      setError(err instanceof Error ? err.message : '리딩을 불러오는데 실패했습니다');
+      const errorMessage = err instanceof Error ? err.message : '리딩을 불러오는데 실패했습니다';
+      setError(errorMessage);
+      
+      // 인증 오류 확인
+      if (errorMessage.includes('[AUTH_EXPIRED]') || errorMessage.includes('[AUTH_FORBIDDEN]')) {
+        setIsAuthError(true);
+      }
     } finally {
       setLoading(false);
     }
@@ -81,20 +91,44 @@ function ReadingDetailPageContent() {
 
         {error && !loading && (
           <div className="bg-red-50 dark:bg-red-900/20 rounded-lg shadow-lg p-6">
-            <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-            <div className="flex gap-4">
-              <button
-                onClick={() => (readingId ? fetchReading(readingId) : router.push('/history'))}
-                className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
-              >
-                다시 시도
-              </button>
-              <button
-                onClick={() => router.push('/history')}
-                className="px-6 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-semibold transition-all"
-              >
-                목록으로
-              </button>
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">
+                {isAuthError ? '🔒 인증 오류' : '❌ 오류 발생'}
+              </h3>
+              <p className="text-red-600 dark:text-red-400">{error}</p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              {isAuthError ? (
+                <>
+                  <button
+                    onClick={() => router.push('/login')}
+                    className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
+                  >
+                    로그인 페이지로 이동
+                  </button>
+                  <button
+                    onClick={() => router.push('/history')}
+                    className="px-6 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-semibold transition-all"
+                  >
+                    목록으로
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => (readingId ? fetchReading(readingId) : router.push('/history'))}
+                    className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
+                  >
+                    다시 시도
+                  </button>
+                  <button
+                    onClick={() => router.push('/history')}
+                    className="px-6 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-semibold transition-all"
+                  >
+                    목록으로
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}

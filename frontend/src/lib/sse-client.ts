@@ -91,7 +91,7 @@ export interface SSEEventHandlers {
 }
 
 export interface ReadingRequest {
-  spread_type: 'one_card' | 'three_card_past_present_future' | 'three_card_situation_action_outcome';
+  spread_type: 'one_card' | 'three_card_past_present_future' | 'three_card_situation_action_outcome' | 'celtic_cross';
   question: string;
   category?: string;
   selected_card_ids?: number[];  // User Selection Mode: 선택한 카드 ID 목록
@@ -138,6 +138,13 @@ export class SSEReadingClient {
       });
 
       if (!response.ok) {
+        // Handle authentication errors
+        if (response.status === 401) {
+          throw new Error('세션이 만료되었습니다. 다시 로그인해주세요. [AUTH_EXPIRED]');
+        }
+        if (response.status === 403) {
+          throw new Error('이 리소스에 접근할 권한이 없습니다. 로그인 상태를 확인해주세요. [AUTH_FORBIDDEN]');
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 

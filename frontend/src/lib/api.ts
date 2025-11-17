@@ -91,9 +91,15 @@ async function fetchAPI<T>(
       // Handle 401 Unauthorized
       if (response.status === 401) {
         // Auth token is invalid or expired
-        // Let the AuthProvider handle re-authentication
         authEvents.emit();
         throw new Error('세션이 만료되었습니다. 다시 로그인해주세요. [AUTH_EXPIRED]');
+      }
+
+      // Handle 403 Forbidden
+      if (response.status === 403) {
+        // User doesn't have permission
+        authEvents.emit();
+        throw new Error('이 리소스에 접근할 권한이 없습니다. 로그인 상태를 확인해주세요. [AUTH_FORBIDDEN]');
       }
 
       throw new Error(

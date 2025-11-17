@@ -6,6 +6,7 @@ import { ReadingResponse } from '@/types/reading';
 import { readingAPI } from '@/lib/api';
 import { motion } from 'framer-motion';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { useAuth } from '@/contexts/AuthContext';
 
 const SPREAD_TYPE_LABELS: Record<string, string> = {
   'one_card': '원카드',
@@ -15,9 +16,11 @@ const SPREAD_TYPE_LABELS: Record<string, string> = {
 
 function HistoryPageContent() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const [readings, setReadings] = useState<ReadingResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthError, setIsAuthError] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [selectedSpread, setSelectedSpread] = useState<string | undefined>();
@@ -27,6 +30,7 @@ function HistoryPageContent() {
   const fetchReadings = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setIsAuthError(false);
 
     try {
       const response = await readingAPI.getReadings({
@@ -39,7 +43,13 @@ function HistoryPageContent() {
       setTotal(response.total);
     } catch (err) {
       console.error('Failed to fetch readings:', err);
-      setError(err instanceof Error ? err.message : '리딩 목록을 불러오는데 실패했습니다');
+      const errorMessage = err instanceof Error ? err.message : '리딩 목록을 불러오는데 실패했습니다';
+      setError(errorMessage);
+      
+      // 인증 오류 확인
+      if (errorMessage.includes('[AUTH_EXPIRED]') || errorMessage.includes('[AUTH_FORBIDDEN]')) {
+        setIsAuthError(true);
+      }
     } finally {
       setLoading(false);
     }
@@ -112,13 +122,39 @@ function HistoryPageContent() {
         {/* Error State */}
         {error && !loading && (
           <div className="bg-red-50 dark:bg-red-900/20 rounded-lg shadow-lg p-6">
-            <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-            <button
-              onClick={fetchReadings}
-              className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
-            >
-              다시 시도
-            </button>
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">
+                {isAuthError ? '🔒 인증 오류' : '❌ 오류 발생'}
+              </h3>
+              <p className="text-red-600 dark:text-red-400">
+                {error.replace(/\[AUTH_EXPIRED\]|\[AUTH_FORBIDDEN\]/g, '').trim()}
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              {isAuthError ? (
+                <>
+                  <button
+                    onClick={() => router.push('/login')}
+                    className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
+                  >
+                    로그인 페이지로 이동
+                  </button>
+                  <button
+                    onClick={() => router.push('/')}
+                    className="px-6 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-semibold transition-all"
+                  >
+                    홈으로
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={fetchReadings}
+                  className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
+                >
+                  다시 시도
+                </button>
+              )}
+            </div>
           </div>
         )}
 

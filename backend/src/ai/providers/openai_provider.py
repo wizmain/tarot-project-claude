@@ -166,33 +166,32 @@ class OpenAIProvider(AIProvider):
             "gpt-5-pro",
             "gpt-5-mini",
             "gpt-5-nano",
-            "gpt-5-2025-08-07",
-            "gpt-5-mini-2025-08-07",
-            "gpt-5-nano-2025-08-07",
+            # "gpt-5-2025-08-07",
+            # "gpt-5-mini-2025-08-07",
+            # "gpt-5-nano-2025-08-07",
 
             # GPT-4.1 Series
             "gpt-4.1",
             "gpt-4.1-mini",
             "gpt-4.1-nano",
-            "gpt-4.1-2025-04-14",
-            "gpt-4.1-mini-2025-04-14",
-            "gpt-4.1-nano-2025-04-14",
+            # "gpt-4.1-2025-04-14",
+            # "gpt-4.1-mini-2025-04-14",
+            # "gpt-4.1-nano-2025-04-14",
 
             # GPT-4o Series
             "gpt-4o",
             "gpt-4o-mini",
-            "chatgpt-4o-latest",
-            "gpt-4o-2024-11-20",
-            "gpt-4o-2024-08-06",
-            "gpt-4o-2024-05-13",
-            "gpt-4o-mini-2024-07-18",
+            # "gpt-4o-2024-11-20",
+            # "gpt-4o-2024-08-06",
+            # "gpt-4o-2024-05-13",
+            # "gpt-4o-mini-2024-07-18",
 
             # GPT-4 Turbo
             "gpt-4-turbo",
-            "gpt-4-turbo-preview",
-            "gpt-4-turbo-2024-04-09",
-            "gpt-4-0125-preview",
-            "gpt-4-1106-preview",
+            # "gpt-4-turbo-preview",
+            # "gpt-4-turbo-2024-04-09",
+            # "gpt-4-0125-preview",
+            # "gpt-4-1106-preview",
 
             # GPT-4
             "gpt-4",
@@ -201,23 +200,23 @@ class OpenAIProvider(AIProvider):
             # O-series (Reasoning models)
             "o1",
             "o1-mini",
-            "o1-2024-12-17",
-            "o1-mini-2024-09-12",
+            # "o1-2024-12-17",
+            # "o1-mini-2024-09-12",
             "o1-pro",
-            "o1-pro-2025-03-19",
+            # "o1-pro-2025-03-19",
             "o3",
             "o3-mini",
-            "o3-2025-04-16",
-            "o3-mini-2025-01-31",
+            # "o3-2025-04-16",
+            # "o3-mini-2025-01-31",
             "o4-mini",
-            "o4-mini-2025-04-16",
+            # "o4-mini-2025-04-16",
 
             # GPT-3.5 Turbo
             "gpt-3.5-turbo",
-            "gpt-3.5-turbo-0125",
-            "gpt-3.5-turbo-1106",
-            "gpt-3.5-turbo-instruct",
-            "gpt-3.5-turbo-instruct-0914",
+            # "gpt-3.5-turbo-0125",
+            # "gpt-3.5-turbo-1106",
+            # "gpt-3.5-turbo-instruct",
+            # "gpt-3.5-turbo-instruct-0914",
         ]
 
     async def generate(

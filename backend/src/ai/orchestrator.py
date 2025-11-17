@@ -120,72 +120,48 @@ class AIOrchestrator:
         start_time = time.time()
         errors: List[Dict[str, Any]] = []
         all_attempts: List[AIResponse] = []
-
-        # Try primary provider first
-        logger.info(f"[Orchestrator] Attempting primary provider: {self.primary_provider.provider_name}")
-
-        try:
-            response = await self._try_provider(
-                provider=self.primary_provider,
-                prompt=prompt,
-                system_prompt=system_prompt,
-                config=config,
-                model=model,
-                is_primary=True,
-                **kwargs
+        
+        # 모델명이 지정된 경우, 해당 모델을 지원하는 provider만 필터링
+        compatible_providers = self._get_compatible_providers(model)
+        
+        if not compatible_providers:
+            error_msg = (
+                f"No compatible provider found for model '{model}'. "
+                f"Available providers: {[p.provider_name for p in self.providers]}"
             )
-            all_attempts.append(response)
+            logger.error(f"[Orchestrator] {error_msg}")
+            raise AIProviderError(
+                message=error_msg,
+                provider="orchestrator",
+                error_type="NO_COMPATIBLE_PROVIDER",
+                original_error=None
+            )
 
-            elapsed = int((time.time() - start_time) * 1000)
+        # Try compatible providers in order (maintaining priority)
+        for idx, provider in enumerate(compatible_providers):
+            is_primary = (provider == self.primary_provider)
+            provider_label = "primary" if is_primary else f"fallback {idx}"
+            
             logger.info(
-                f"[Orchestrator] ✓ Primary provider succeeded "
-                f"({self.primary_provider.provider_name}) in {elapsed}ms"
-            )
-
-            total_cost = sum(attempt.estimated_cost or 0.0 for attempt in all_attempts)
-            return OrchestratorResponse(
-                response=response,
-                all_attempts=all_attempts,
-                total_cost=total_cost
-            )
-
-        except Exception as e:
-            error_info = {
-                "provider": self.primary_provider.provider_name,
-                "error_type": type(e).__name__,
-                "error": str(e),
-                "is_primary": True
-            }
-            errors.append(error_info)
-
-            logger.warning(
-                f"[Orchestrator] ✗ Primary provider failed "
-                f"({self.primary_provider.provider_name}): {error_info['error_type']} - {str(e)}"
-            )
-
-        # Try fallback providers
-        for idx, fallback_provider in enumerate(self.fallback_providers, 1):
-            logger.info(
-                f"[Orchestrator] Attempting fallback provider {idx}/{len(self.fallback_providers)}: "
-                f"{fallback_provider.provider_name}"
+                f"[Orchestrator] Attempting {provider_label} provider: {provider.provider_name}"
             )
 
             try:
                 response = await self._try_provider(
-                    provider=fallback_provider,
+                    provider=provider,
                     prompt=prompt,
                     system_prompt=system_prompt,
                     config=config,
                     model=model,
-                    is_primary=False,
+                    is_primary=is_primary,
                     **kwargs
                 )
                 all_attempts.append(response)
 
                 elapsed = int((time.time() - start_time) * 1000)
                 logger.info(
-                    f"[Orchestrator] ✓ Fallback provider succeeded "
-                    f"({fallback_provider.provider_name}) in {elapsed}ms"
+                    f"[Orchestrator] ✓ {provider_label.capitalize()} provider succeeded "
+                    f"({provider.provider_name}) in {elapsed}ms"
                 )
 
                 total_cost = sum(attempt.estimated_cost or 0.0 for attempt in all_attempts)
@@ -197,16 +173,16 @@ class AIOrchestrator:
 
             except Exception as e:
                 error_info = {
-                    "provider": fallback_provider.provider_name,
+                    "provider": provider.provider_name,
                     "error_type": type(e).__name__,
                     "error": str(e),
-                    "is_primary": False
+                    "is_primary": is_primary
                 }
                 errors.append(error_info)
 
                 logger.warning(
-                    f"[Orchestrator] ✗ Fallback provider {idx} failed "
-                    f"({fallback_provider.provider_name}): {error_info['error_type']} - {str(e)}"
+                    f"[Orchestrator] ✗ {provider_label.capitalize()} provider failed "
+                    f"({provider.provider_name}): {error_info['error_type']} - {str(e)}"
                 )
 
         # All providers failed
@@ -219,11 +195,50 @@ class AIOrchestrator:
         )
 
         raise AIProviderError(
-            message=f"All {len(self.providers)} providers failed. {error_summary}",
+            message=f"All {len(compatible_providers)} compatible providers failed. {error_summary}",
             provider="orchestrator",
             error_type="ALL_PROVIDERS_FAILED",
             original_error=None
         )
+    
+    def _get_compatible_providers(self, model: Optional[str]) -> List[AIProvider]:
+        """
+        모델명에 따라 호환되는 provider 리스트 반환
+        
+        모델명이 지정된 경우, 해당 모델을 지원하는 provider만 반환합니다.
+        우선순위 순서는 유지됩니다 (primary → fallback 순서).
+        
+        Args:
+            model: 모델명 (None이면 모든 provider 반환)
+        
+        Returns:
+            호환되는 provider 리스트 (우선순위 순서 유지)
+        """
+        if model is None:
+            # 모델명이 없으면 모든 provider 반환
+            return self.providers
+        
+        compatible = []
+        for provider in self.providers:
+            # provider가 모델을 지원하는지 확인
+            if model in provider.available_models:
+                compatible.append(provider)
+                logger.debug(
+                    f"[Orchestrator] Provider {provider.provider_name} supports model {model}"
+                )
+            else:
+                logger.debug(
+                    f"[Orchestrator] Provider {provider.provider_name} does not support model {model} "
+                    f"(available models: {len(provider.available_models)} total)"
+                )
+        
+        if compatible:
+            logger.info(
+                f"[Orchestrator] Found {len(compatible)} compatible provider(s) for model '{model}': "
+                f"{[p.provider_name for p in compatible]}"
+            )
+        
+        return compatible
 
     async def _try_provider(
         self,
@@ -352,6 +367,101 @@ class AIOrchestrator:
             "timeout_seconds": self.provider_timeout,
             "max_retries": self.max_retries
         }
+
+    async def generate_parallel(
+        self,
+        requests: List[Dict[str, Any]],
+        **default_kwargs
+    ) -> List[OrchestratorResponse]:
+        """
+        Generate multiple responses in parallel
+        
+        Processes multiple generation requests concurrently using asyncio.gather.
+        Each request can specify its own prompt, system_prompt, config, and model.
+        Common parameters can be passed via default_kwargs.
+        
+        Args:
+            requests: List of request dictionaries, each containing:
+                - prompt: str (required)
+                - system_prompt: Optional[str]
+                - config: Optional[GenerationConfig]
+                - model: Optional[str]
+                - Any other kwargs specific to that request
+            **default_kwargs: Default parameters applied to all requests
+                (can be overridden by individual request)
+        
+        Returns:
+            List[OrchestratorResponse]: List of orchestrator responses in same order as requests
+        
+        Example:
+            requests = [
+                {"prompt": "Interpret card 1", "model": "claude-haiku"},
+                {"prompt": "Interpret card 2", "model": "claude-haiku"},
+                {"prompt": "Overall reading", "model": "claude-sonnet-4"}
+            ]
+            responses = await orchestrator.generate_parallel(requests)
+        """
+        if not requests:
+            return []
+        
+        logger.info(
+            f"[Orchestrator] Starting parallel generation of {len(requests)} requests"
+        )
+        
+        async def _generate_one(request: Dict[str, Any]) -> OrchestratorResponse:
+            """Generate a single response"""
+            # Merge default kwargs with request-specific kwargs
+            merged_kwargs = {**default_kwargs, **request}
+            
+            # Extract known parameters
+            prompt = merged_kwargs.pop("prompt")
+            system_prompt = merged_kwargs.pop("system_prompt", None)
+            config = merged_kwargs.pop("config", None)
+            model = merged_kwargs.pop("model", None)
+            
+            # Remaining kwargs are passed to generate()
+            return await self.generate(
+                prompt=prompt,
+                system_prompt=system_prompt,
+                config=config,
+                model=model,
+                **merged_kwargs
+            )
+        
+        # Execute all requests in parallel
+        start_time = time.time()
+        try:
+            responses = await asyncio.gather(
+                *[_generate_one(req) for req in requests],
+                return_exceptions=True
+            )
+            
+            elapsed = int((time.time() - start_time) * 1000)
+            logger.info(
+                f"[Orchestrator] ✓ Parallel generation completed: "
+                f"{len(requests)} requests in {elapsed}ms"
+            )
+            
+            # Check for exceptions and convert to OrchestratorResponse with error info
+            result = []
+            for idx, response in enumerate(responses):
+                if isinstance(response, Exception):
+                    logger.error(
+                        f"[Orchestrator] ✗ Request {idx} failed: {response}"
+                    )
+                    # Create a failed response wrapper
+                    # Note: This maintains the response structure but indicates failure
+                    raise response  # Re-raise to maintain error handling behavior
+                result.append(response)
+            
+            return result
+            
+        except Exception as e:
+            elapsed = int((time.time() - start_time) * 1000)
+            logger.error(
+                f"[Orchestrator] ✗ Parallel generation failed after {elapsed}ms: {e}"
+            )
+            raise
 
     async def close_all(self):
         """Close all provider connections"""

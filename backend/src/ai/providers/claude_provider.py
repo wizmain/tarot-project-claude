@@ -36,13 +36,26 @@ class ClaudeProvider(AIProvider):
 
     # Model pricing (per 1M tokens) - as of 2024
     MODEL_PRICING = {
+        # Claude 4 Series
+        "claude-opus-4-1-20250805": {"input": 15.0, "output": 75.0},  # Same as Claude 3 Opus
+        "claude-opus-4-20250514": {"input": 15.0, "output": 75.0},  # Same as Claude 3 Opus
+        "claude-sonnet-4-5-20250929": {"input": 4.0, "output": 20.0},
+        "claude-sonnet-4-20250514": {"input": 4.0, "output": 20.0},  # Same as 4.5
+        "claude-haiku-4-5-20251001": {"input": 1.0, "output": 3.0},
+        
+        # Claude 3.7 Series
+        "claude-3-7-sonnet-20250219": {"input": 3.0, "output": 15.0},  # Same as 3.5 Sonnet
+        
+        # Claude 3.5 Series
+        "claude-3-5-sonnet-20241022": {"input": 3.0, "output": 15.0},
+        "claude-3-5-sonnet-20240620": {"input": 3.0, "output": 15.0},
+        "claude-3-5-haiku-20241022": {"input": 0.80, "output": 4.0},  # Higher than 3 Haiku
+        
+        # Claude 3 Series
         "claude-3-opus-20240229": {"input": 15.0, "output": 75.0},
         "claude-3-sonnet-20240229": {"input": 3.0, "output": 15.0},
         "claude-3-haiku-20240307": {"input": 0.25, "output": 1.25},
-        "claude-3-5-sonnet-20241022": {"input": 3.0, "output": 15.0},
-        "claude-3-5-sonnet-20240620": {"input": 3.0, "output": 15.0},
-        "claude-sonnet-4-5-20250929": {"input": 4.0, "output": 20.0},
-        "claude-haiku-4-5-20251001": {"input": 1.0, "output": 3.0},
+        
         # Generic versions (map to latest)
         "claude-3-opus": {"input": 15.0, "output": 75.0},
         "claude-3-sonnet": {"input": 3.0, "output": 15.0},
@@ -81,13 +94,15 @@ class ClaudeProvider(AIProvider):
     @property
     def available_models(self) -> List[str]:
         return [
-            "claude-3-opus-20240229",
-            "claude-3-sonnet-20240229",
-            "claude-3-haiku-20240307",
-            "claude-3-5-sonnet-20241022",
-            "claude-3-5-sonnet-20240620",
-            "claude-sonnet-4-5-20250929",
             "claude-haiku-4-5-20251001",
+            "claude-sonnet-4-5-20250929",
+            "claude-opus-4-1-20250805",
+            "claude-opus-4-20250514",
+            "claude-sonnet-4-20250514",
+            "claude-3-7-sonnet-20250219",
+            "claude-3-5-haiku-20241022",
+            "claude-3-haiku-20240307",
+            "claude-3-opus-20240229",
             "claude-3-opus",
             "claude-3-sonnet",
             "claude-3-5-sonnet",

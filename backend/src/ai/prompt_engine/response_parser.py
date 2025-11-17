@@ -308,6 +308,32 @@ class ResponseParser:
         if first_brace != -1 and last_brace != -1 and first_brace < last_brace:
             logger.debug("[ResponseParser] 순수 JSON 객체 발견")
             extracted = text[first_brace:last_brace + 1]
+            
+            # 불완전한 JSON 감지: 중괄호 불일치 체크
+            brace_count = extracted.count('{') - extracted.count('}')
+            bracket_count = extracted.count('[') - extracted.count(']')
+            quote_count = extracted.count('"')
+            incomplete_string = quote_count % 2 != 0
+            
+            # JSON이 불완전한 경우 (잘림 감지)
+            if brace_count != 0 or bracket_count != 0 or incomplete_string:
+                logger.warning(
+                    f"[ResponseParser] 불완전한 JSON 감지: "
+                    f"중괄호 불일치={brace_count:+d}, "
+                    f"대괄호 불일치={bracket_count:+d}, "
+                    f"문자열 미완성={incomplete_string}"
+                )
+                # 원본 텍스트의 끝 부분 확인
+                text_end = text[-100:] if len(text) > 100 else text
+                if not text_end.rstrip().endswith('}'):
+                    raise JSONExtractionError(
+                        f"JSON이 불완전합니다 (응답이 잘렸을 가능성). "
+                        f"중괄호 불일치: {brace_count:+d}, "
+                        f"대괄호 불일치: {bracket_count:+d}. "
+                        f"이는 max_tokens 제한으로 인한 응답 잘림일 가능성이 높습니다. "
+                        f"max_tokens를 증가시키거나 프롬프트를 단순화하세요."
+                    )
+            
             return ResponseParser.sanitize_json(extracted)
 
         # JSON을 찾을 수 없음

@@ -39,6 +39,14 @@ from src.ai import AIOrchestrator, ProviderFactory, GenerationConfig
 from src.ai.prompt_engine.context_builder import ContextBuilder
 from src.ai.prompt_engine.response_parser import ResponseParser
 from src.ai.prompt_engine.reading_validator import ReadingValidator
+from src.ai.prompt_engine.parallel_reading_engine import ParallelReadingEngine
+from src.ai.prompt_engine.spread_config import (
+    get_card_count,
+    get_position_names,
+    supports_parallel_processing,
+    get_prompt_template_path,
+    get_max_tokens
+)
 from src.ai.rag.retriever import Retriever
 from src.ai.rag.context_enricher import ContextEnricher
 from src.ai.provider_loader import load_providers_from_settings, get_default_timeout_from_settings
@@ -83,6 +91,19 @@ async def get_orchestrator(db_provider: DatabaseProvider) -> AIOrchestrator:
             db_provider=db_provider,
             fallback_to_env=True
         )
+        
+        # Sync model registry with loaded providers
+        try:
+            from src.ai.model_registry import get_registry
+            registry = get_registry()
+            if not registry._initialized:
+                registry.sync_from_providers(providers)
+                logger.info(
+                    f"Model registry synced with {len(providers)} provider(s), "
+                    f"{len(registry.models)} models registered"
+                )
+        except Exception as e:
+            logger.warning(f"Failed to sync model registry (non-critical): {e}")
         
         # Get default timeout from settings (with buffer for complex tarot readings)
         default_timeout = await get_default_timeout_from_settings(db_provider)
@@ -213,13 +234,8 @@ async def generate_reading_stream(
         # Import card shuffle components (needed for both user selection and random modes)
         from src.core.card_shuffle import DrawnCard, Orientation, CardData, CardShuffleService
         
-        card_count_map = {
-            "one_card": 1,
-            "three_card_past_present_future": 3,
-            "three_card_situation_action_outcome": 3,
-            "celtic_cross": 10,
-        }
-        card_count = card_count_map.get(request.spread_type, 1)
+        # 스프레드 설정에서 카드 수 가져오기
+        card_count = get_card_count(request.spread_type)
 
         # Two modes: User Selection vs Random
         if request.selected_card_ids:
@@ -293,17 +309,11 @@ async def generate_reading_stream(
             )
 
         # Send card drawn events
-        position_names = {
-            "one_card": ["현재"],
-            "three_card_past_present_future": ["과거", "현재", "미래"],
-            "three_card_situation_action_outcome": ["상황", "행동", "결과"],
-            "celtic_cross": ["현재", "도전", "과거", "미래", "의식적 목표", "무의식적 영향", "조언", "외부 영향", "희망과 두려움", "최종 결과"],
-        }
-        positions = position_names.get(request.spread_type, [])
+        position_names = get_position_names(request.spread_type)
 
         for idx, drawn_card in enumerate(drawn_cards):
             progress = 10 + int((idx + 1) / len(drawn_cards) * 20)  # 10-30%
-            position = positions[idx] if idx < len(positions) else f"Position {idx+1}"
+            position = position_names[idx] if idx < len(position_names) else f"Position {idx+1}"
 
             yield create_card_drawn_event(
                 card_id=drawn_card.card.id,
@@ -363,202 +373,288 @@ async def generate_reading_stream(
         await asyncio.sleep(0.1)
 
         # ===== Stage 4: AI Generation =====
-        yield create_progress_event(
-            ReadingStage.GENERATING_AI,
-            60,
-            "AI 리딩 생성 중...",
-            "Claude AI가 타로 리딩을 해석하고 있습니다"
-        ).to_sse_format()
-
-        # Build context for AI generation
-        cards_context = [ContextBuilder.build_card_context(dc) for dc in drawn_cards]
-
-        if request.spread_type == "one_card":
-            prompt_context = {
-                "question": request.question,
-                "category": request.category,
-                "card": cards_context[0],
-                "rag_context": rag_context,
-            }
-        else:
-            prompt_context = {
-                "question": request.question,
-                "category": request.category,
-                "cards": cards_context,
-                "rag_context": rag_context,
-            }
-
-        # Build prompts using Jinja2 templates
-        # Select template based on prompt language setting
-        prompt_lang = settings.PROMPT_LANGUAGE
-        lang_suffix = f"_{prompt_lang}" if prompt_lang == "en" else ""
-
-        template_map = {
-            "one_card": f"reading/one_card{lang_suffix}.txt",
-            "three_card_past_present_future": f"reading/three_card_past_present_future{lang_suffix}.txt",
-            "three_card_situation_action_outcome": f"reading/three_card_situation_action_outcome{lang_suffix}.txt",
-            "celtic_cross": f"reading/celtic_cross{lang_suffix}.txt",
-        }
-        template_path = template_map.get(request.spread_type, f"reading/one_card{lang_suffix}.txt")
-
-        logger.info(f"[SSE] Using prompt template: {template_path} (language: {prompt_lang})")
-
-        system_template = jinja_env.get_template("system/tarot_expert.txt")
-        system_prompt = system_template.render()
-
-        # Try to load template with language suffix, fallback to default (Korean) if not found
-        try:
-            reading_template = jinja_env.get_template(template_path)
-            logger.debug(f"[SSE] Template loaded successfully: {template_path}")
-        except Exception as e:
-            # If language-specific template doesn't exist, fallback to default (Korean) version
-            if lang_suffix:
-                logger.warning(
-                    f"[SSE] Template {template_path} not found (error: {e}), "
-                    f"falling back to default (Korean) version"
-                )
-                # Remove language suffix to use default template
-                base_template_map = {
-                    "one_card": "reading/one_card.txt",
-                    "three_card_past_present_future": "reading/three_card_past_present_future.txt",
-                    "three_card_situation_action_outcome": "reading/three_card_situation_action_outcome.txt",
-                    "celtic_cross": "reading/celtic_cross.txt",
-                }
-                fallback_template_path = base_template_map.get(
-                    request.spread_type, "reading/one_card.txt"
-                )
-                try:
-                    reading_template = jinja_env.get_template(fallback_template_path)
-                    logger.info(f"[SSE] Using fallback template: {fallback_template_path}")
-                except Exception as fallback_error:
-                    logger.error(
-                        f"[SSE] Failed to load both primary ({template_path}) and "
-                        f"fallback ({fallback_template_path}) templates: {fallback_error}"
-                    )
-                    raise
-            else:
-                # If already using default template, re-raise the error
-                logger.error(f"[SSE] Failed to load template {template_path}: {e}")
-                raise
-        reading_prompt = reading_template.render(**prompt_context)
-
-        output_template = jinja_env.get_template("output/structured_response.txt")
-        output_format = output_template.render()
-
-        full_prompt = f"{reading_prompt}\n\n{output_format}"
-
-        orchestrator = await get_orchestrator(db_provider)
-        card_count = len(drawn_cards)
-
-        # Phase 1 Optimization: Increased max_tokens to prevent truncation and reduce retries
-        # English prompts are more token-efficient, but Korean responses still need sufficient tokens
-        # Note: API limit is 4096, so we cap at that value
-        MAX_TOKENS_CONFIG = {
-            "one_card": {"en": 2000, "ko": 2000},  # Increased from 1500
-            "three_card": {"en": 3500, "ko": 3500},  # Increased from 2500
-            "celtic_cross": {"en": 4096, "ko": 4096},  # 10 cards require extensive interpretation, capped at API limit
-        }
-        if card_count == 1:
-            spread_category = "one_card"
-        elif card_count == 3:
-            spread_category = "three_card"
-        elif card_count == 10:
-            spread_category = "celtic_cross"
-        else:
-            spread_category = "three_card"  # Default fallback
-        max_tokens = MAX_TOKENS_CONFIG[spread_category].get(prompt_lang, 2500)
-        # Ensure max_tokens doesn't exceed API limit
-        max_tokens = min(max_tokens, 4096)
-
-        yield create_sse_event(
-            SSEEventType.AI_GENERATION,
-            AIGenerationEvent(
-                provider="anthropic",
-                model="claude-sonnet-4",
-                message="AI 리딩 생성 시작"
+        # Check if this spread type supports parallel processing
+        use_parallel_engine = supports_parallel_processing(request.spread_type) and len(drawn_cards) == get_card_count(request.spread_type)
+        
+        if use_parallel_engine:
+            # Use ParallelReadingEngine for Celtic Cross
+            yield create_progress_event(
+                ReadingStage.GENERATING_AI,
+                60,
+                "병렬 AI 리딩 생성 중...",
+                "여러 AI 모델이 동시에 카드 해석을 생성하고 있습니다"
+            ).to_sse_format()
+            
+            orchestrator = await get_orchestrator(db_provider)
+            parallel_engine = ParallelReadingEngine(
+                orchestrator=orchestrator,
+                spread_type=request.spread_type
             )
-        ).to_sse_format()
-
-        # Retry logic for parsing failures
-        MAX_PARSE_RETRIES = 2
-        parsed_response = None
-        last_parse_error = None
-        all_llm_results = []
-
-        for parse_attempt in range(MAX_PARSE_RETRIES + 1):
+            
             try:
-                # Generate response (재시도 시 max_tokens 증가, 단 4096 제한 준수)
-                if parse_attempt > 0:
-                    logger.warning(
-                        "[SSE] 파싱 재시도 %d/%d: 이전 오류=%s",
-                        parse_attempt,
-                        MAX_PARSE_RETRIES,
-                        str(last_parse_error)[:100]
-                    )
-                    # Increase max_tokens but cap at 4096 (API limit)
-                    max_tokens = min(int(max_tokens * 1.3), 4096)
-
-                    yield create_progress_event(
-                        ReadingStage.GENERATING_AI,
-                        60 + parse_attempt * 5,
-                        f"AI 리딩 재생성 중... (시도 {parse_attempt + 1}/{MAX_PARSE_RETRIES + 1})"
-                    ).to_sse_format()
-
-                llm_result = await orchestrator.generate(
-                    prompt=full_prompt,
-                    system_prompt=system_prompt,
-                    config=GenerationConfig(
-                        max_tokens=max_tokens,
-                        temperature=0.7,
-                        timeout=90,
-                    ),
+                parsed_response, all_llm_responses = await parallel_engine.generate_reading(
+                    drawn_cards=drawn_cards,
+                    question=request.question,
+                    category=request.category,
+                    rag_context=rag_context
                 )
-
-                all_llm_results.append(llm_result)
-
-                # Check if response was truncated
-                if llm_result.response.finish_reason in ("max_tokens", "length"):
-                    logger.warning(
-                        "[SSE] 응답이 잘렸을 수 있음: finish_reason=%s, tokens=%d/%d",
-                        llm_result.response.finish_reason,
-                        llm_result.response.completion_tokens,
-                        max_tokens
-                    )
-
-                # Parse the response
-                parser = ResponseParser()
-                parsed_response = parser.parse(llm_result.response.content)
-
-                # Parsing succeeded!
-                if parse_attempt > 0:
-                    logger.info("[SSE] 파싱 성공! (재시도 %d회 후)", parse_attempt)
-
-                break  # Exit retry loop
-
+                
+                yield create_progress_event(
+                    ReadingStage.GENERATING_AI,
+                    80,
+                    "병렬 AI 리딩 생성 완료"
+                ).to_sse_format()
+                
+                logger.info("[SSE] Parallel AI reading generation complete")
+                
+                # Build LLM usage logs from all orchestrator responses
+                llm_usage_logs = []
+                for orch_resp in all_llm_responses:
+                    # 각 orchestrator response는 여러 시도를 포함할 수 있음
+                    for attempt in orch_resp.all_attempts:
+                        log_entry = {
+                            "provider": attempt.provider,
+                            "model": attempt.model,
+                            "prompt_tokens": attempt.prompt_tokens or 0,
+                            "completion_tokens": attempt.completion_tokens or 0,
+                            "total_tokens": attempt.total_tokens or 0,
+                            "estimated_cost": attempt.estimated_cost or 0.0,
+                            "latency_seconds": (attempt.latency_ms or 0) / 1000.0,
+                            "purpose": "main_reading",  # 병렬 엔진은 모두 메인 리딩의 일부
+                            "created_at": datetime.now(timezone.utc),
+                        }
+                        llm_usage_logs.append(log_entry)
+                
+                logger.info(f"[SSE] Parallel engine: Collected {len(llm_usage_logs)} LLM usage logs from {len(all_llm_responses)} orchestrator responses")
+                
             except Exception as e:
-                last_parse_error = e
+                logger.error(f"[SSE] Parallel reading generation failed: {e}")
+                logger.error(traceback.format_exc())
+                raise
+        
+        else:
+            # Use traditional single LLM approach for other spreads
+            yield create_progress_event(
+                ReadingStage.GENERATING_AI,
+                60,
+                "AI 리딩 생성 중...",
+                "AI가 타로 리딩을 해석하고 있습니다"
+            ).to_sse_format()
 
-                if parse_attempt >= MAX_PARSE_RETRIES:
-                    logger.error("[SSE] 모든 파싱 재시도 실패 (%d회)", parse_attempt + 1)
+            # Build context for AI generation
+            cards_context = [ContextBuilder.build_card_context(dc) for dc in drawn_cards]
+
+            if request.spread_type == "one_card":
+                prompt_context = {
+                    "question": request.question,
+                    "category": request.category,
+                    "card": cards_context[0],
+                    "rag_context": rag_context,
+                }
+            else:
+                prompt_context = {
+                    "question": request.question,
+                    "category": request.category,
+                    "cards": cards_context,
+                    "rag_context": rag_context,
+                }
+
+            # Build prompts using Jinja2 templates
+            # Select template based on prompt language setting
+            prompt_lang = settings.PROMPT_LANGUAGE
+            lang_suffix = f"_{prompt_lang}" if prompt_lang == "en" else ""
+
+            # 스프레드 설정에서 템플릿 경로 가져오기
+            template_path = get_prompt_template_path(
+                spread_type=request.spread_type,
+                template_key="main",
+                language=prompt_lang
+            )
+            
+            if not template_path:
+                # Fallback to default naming convention
+                template_path = f"reading/{request.spread_type}{lang_suffix}.txt"
+
+            logger.info(f"[SSE] Using prompt template: {template_path} (language: {prompt_lang})")
+
+            system_template = jinja_env.get_template("system/tarot_expert.txt")
+            system_prompt = system_template.render()
+
+            # Try to load template with language suffix, fallback to default (Korean) if not found
+            try:
+                reading_template = jinja_env.get_template(template_path)
+                logger.debug(f"[SSE] Template loaded successfully: {template_path}")
+            except Exception as e:
+                # If language-specific template doesn't exist, fallback to default (Korean) version
+                if lang_suffix:
+                    logger.warning(
+                        f"[SSE] Template {template_path} not found (error: {e}), "
+                        f"falling back to default (Korean) version"
+                    )
+                    # Remove language suffix to use default template
+                    base_template_map = {
+                        "one_card": "reading/one_card.txt",
+                        "three_card_past_present_future": "reading/three_card_past_present_future.txt",
+                        "three_card_situation_action_outcome": "reading/three_card_situation_action_outcome.txt",
+                        "celtic_cross": "reading/celtic_cross.txt",
+                    }
+                    fallback_template_path = base_template_map.get(
+                        request.spread_type, "reading/one_card.txt"
+                    )
+                    try:
+                        reading_template = jinja_env.get_template(fallback_template_path)
+                        logger.info(f"[SSE] Using fallback template: {fallback_template_path}")
+                    except Exception as fallback_error:
+                        logger.error(
+                            f"[SSE] Failed to load both primary ({template_path}) and "
+                            f"fallback ({fallback_template_path}) templates: {fallback_error}"
+                        )
+                        raise
+                else:
+                    # If already using default template, re-raise the error
+                    logger.error(f"[SSE] Failed to load template {template_path}: {e}")
                     raise
+            reading_prompt = reading_template.render(**prompt_context)
 
-                logger.warning(
-                    "[SSE] 파싱 실패, 재시도 예정: %s",
-                    str(e)[:200]
+            output_template = jinja_env.get_template("output/structured_response.txt")
+            output_format = output_template.render()
+
+            full_prompt = f"{reading_prompt}\n\n{output_format}"
+
+            orchestrator = await get_orchestrator(db_provider)
+            card_count = len(drawn_cards)
+
+            # 스프레드 설정에서 최대 토큰 수 가져오기
+            max_tokens = get_max_tokens(request.spread_type, prompt_lang)
+            # Ensure max_tokens doesn't exceed API limit
+            max_tokens = min(max_tokens, 4096)
+
+            yield create_sse_event(
+                SSEEventType.AI_GENERATION,
+                AIGenerationEvent(
+                    provider="anthropic",
+                    model="claude-sonnet-4",
+                    message="AI 리딩 생성 시작"
                 )
-                continue
+            ).to_sse_format()
 
-        if parsed_response is None:
-            from src.ai.prompt_engine.schemas import ParseError
-            raise ParseError("파싱 재시도 후에도 응답을 처리할 수 없습니다")
+            # Retry logic for parsing failures
+            MAX_PARSE_RETRIES = 2
+            parsed_response = None
+            last_parse_error = None
+            all_llm_results = []
 
-        yield create_progress_event(
-            ReadingStage.GENERATING_AI,
-            80,
-            "AI 리딩 생성 완료"
-        ).to_sse_format()
+            for parse_attempt in range(MAX_PARSE_RETRIES + 1):
+                try:
+                    # Generate response (재시도 시 max_tokens 증가, 단 4096 제한 준수)
+                    if parse_attempt > 0:
+                        logger.warning(
+                            "[SSE] 파싱 재시도 %d/%d: 이전 오류=%s",
+                            parse_attempt,
+                            MAX_PARSE_RETRIES,
+                            str(last_parse_error)[:100]
+                        )
+                        # Increase max_tokens but cap at 4096 (API limit)
+                        max_tokens = min(int(max_tokens * 1.3), 4096)
 
-        logger.info("[SSE] AI 리딩 생성 완료: %d 토큰 사용", llm_result.response.total_tokens)
+                        yield create_progress_event(
+                            ReadingStage.GENERATING_AI,
+                            60 + parse_attempt * 5,
+                            f"AI 리딩 재생성 중... (시도 {parse_attempt + 1}/{MAX_PARSE_RETRIES + 1})"
+                        ).to_sse_format()
+
+                    llm_result = await orchestrator.generate(
+                        prompt=full_prompt,
+                        system_prompt=system_prompt,
+                        config=GenerationConfig(
+                            max_tokens=max_tokens,
+                            temperature=0.7,
+                            timeout=90,
+                        ),
+                    )
+
+                    all_llm_results.append(llm_result)
+
+                    # Check if response was truncated
+                    if llm_result.response.finish_reason in ("max_tokens", "length"):
+                        logger.warning(
+                            "[SSE] 응답이 잘렸을 수 있음: finish_reason=%s, tokens=%d/%d",
+                            llm_result.response.finish_reason,
+                            llm_result.response.completion_tokens,
+                            max_tokens
+                        )
+
+                    # Parse the response
+                    parser = ResponseParser()
+                    parsed_response = parser.parse(llm_result.response.content)
+
+                    # Parsing succeeded!
+                    if parse_attempt > 0:
+                        logger.info("[SSE] 파싱 성공! (재시도 %d회 후)", parse_attempt)
+
+                    break  # Exit retry loop
+
+                except Exception as e:
+                    last_parse_error = e
+
+                    if parse_attempt >= MAX_PARSE_RETRIES:
+                        logger.error("[SSE] 모든 파싱 재시도 실패 (%d회)", parse_attempt + 1)
+                        raise
+
+                    logger.warning(
+                        "[SSE] 파싱 실패, 재시도 예정: %s",
+                        str(e)[:200]
+                    )
+                    continue
+
+            if parsed_response is None:
+                from src.ai.prompt_engine.schemas import ParseError
+                raise ParseError("파싱 재시도 후에도 응답을 처리할 수 없습니다")
+
+            yield create_progress_event(
+                ReadingStage.GENERATING_AI,
+                80,
+                "AI 리딩 생성 완료"
+            ).to_sse_format()
+
+            logger.info("[SSE] AI 리딩 생성 완료: %d 토큰 사용", llm_result.response.total_tokens)
+            
+            # Build LLM usage logs for all attempts (including retries)
+            llm_usage_logs = []
+            logger.info(f"[SSE] Building LLM usage logs: {len(all_llm_results)} parse attempts")
+            for result_idx, result in enumerate(all_llm_results):
+                # Each orchestrator result may have multiple provider attempts
+                logger.info(f"[SSE]   Parse attempt {result_idx + 1}: {len(result.all_attempts)} provider attempts")
+                for attempt_idx, attempt in enumerate(result.all_attempts):
+                    # Determine purpose
+                    if result_idx == len(all_llm_results) - 1:
+                        # Last parsing attempt
+                        if attempt_idx == len(result.all_attempts) - 1:
+                            purpose = "main_reading"  # Final success
+                        else:
+                            purpose = "retry"  # Provider retry within same parse attempt
+                    else:
+                        # Previous parsing attempts
+                        purpose = "parse_retry"  # Parse failure retry
+
+                    log_entry = {
+                        "provider": attempt.provider,
+                        "model": attempt.model,
+                        "prompt_tokens": attempt.prompt_tokens or 0,
+                        "completion_tokens": attempt.completion_tokens or 0,
+                        "total_tokens": attempt.total_tokens or 0,
+                        "estimated_cost": attempt.estimated_cost or 0.0,
+                        "latency_seconds": (attempt.latency_ms or 0) / 1000.0,  # 🐛 Fix: Convert ms to seconds
+                        "purpose": purpose,
+                        "created_at": datetime.now(timezone.utc),
+                    }
+                    llm_usage_logs.append(log_entry)
+                    logger.info(
+                        f"[SSE]     - {purpose}: {attempt.provider}/{attempt.model}, "
+                        f"{attempt.total_tokens} tokens, {log_entry['latency_seconds']:.2f}s"
+                    )
+
+            logger.info(f"[SSE] Total LLM usage logs: {len(llm_usage_logs)}")
 
         # ===== Stage 5: Validate =====
         yield create_progress_event(
@@ -617,43 +713,6 @@ async def generate_reading_stream(
             92,
             "리딩 저장 예약 중..."
         ).to_sse_format()
-
-        # Build LLM usage logs for all attempts (including retries)
-        llm_usage_logs = []
-        logger.info(f"[SSE] Building LLM usage logs: {len(all_llm_results)} parse attempts")
-        for result_idx, result in enumerate(all_llm_results):
-            # Each orchestrator result may have multiple provider attempts
-            logger.info(f"[SSE]   Parse attempt {result_idx + 1}: {len(result.all_attempts)} provider attempts")
-            for attempt_idx, attempt in enumerate(result.all_attempts):
-                # Determine purpose
-                if result_idx == len(all_llm_results) - 1:
-                    # Last parsing attempt
-                    if attempt_idx == len(result.all_attempts) - 1:
-                        purpose = "main_reading"  # Final success
-                    else:
-                        purpose = "retry"  # Provider retry within same parse attempt
-                else:
-                    # Previous parsing attempts
-                    purpose = "parse_retry"  # Parse failure retry
-
-                log_entry = {
-                    "provider": attempt.provider,
-                    "model": attempt.model,
-                    "prompt_tokens": attempt.prompt_tokens or 0,
-                    "completion_tokens": attempt.completion_tokens or 0,
-                    "total_tokens": attempt.total_tokens or 0,
-                    "estimated_cost": attempt.estimated_cost or 0.0,
-                    "latency_seconds": (attempt.latency_ms or 0) / 1000.0,  # 🐛 Fix: Convert ms to seconds
-                    "purpose": purpose,
-                    "created_at": datetime.now(timezone.utc),
-                }
-                llm_usage_logs.append(log_entry)
-                logger.info(
-                    f"[SSE]     - {purpose}: {attempt.provider}/{attempt.model}, "
-                    f"{attempt.total_tokens} tokens, {log_entry['latency_seconds']:.2f}s"
-                )
-
-        logger.info(f"[SSE] Total LLM usage logs: {len(llm_usage_logs)}")
 
         reading_id = str(uuid4())
 

@@ -1,0 +1,73 @@
+# Celtic Cross Individual Card Interpretation
+
+## Querent's Question
+{{ question }}
+
+{% if category %}
+## Category
+{{ category }}
+{% endif %}
+
+## Cards to Interpret
+
+{% for card in cards %}
+### Card {{ loop.index }}: {{ card.position_name }} - Position {{ card.position_index }}
+**{{ card.name }}** ({{ card.orientation }})
+
+**Position Meaning**: {{ card.position_meaning }}
+
+- **Arcana**: {{ card.arcana_type }}
+{% if card.suit %}
+- **Suit**: {{ card.suit }}
+{% endif %}
+- **Keywords**: {{ card.keywords|join(', ') }}
+
+{% if card.orientation == 'upright' %}
+**Upright Meaning**: {{ card.upright_meaning }}
+{% else %}
+**Reversed Meaning**: {{ card.reversed_meaning }}
+{% endif %}
+
+---
+
+{% endfor %}
+
+## Reading Request
+
+You are a professional tarot reader. Based on the question and selected cards above, provide a concise interpretation of each card's core meaning.
+
+**Important Guidelines**:
+- Each card should be interpreted in connection with its position's meaning
+- Connect naturally to the querent's specific situation
+- Each card interpretation should be concise, approximately 200-300 characters
+- The key message should be clearly conveyed in one sentence
+- Focus on direct answers to the question rather than detailed explanations
+- **Output Language**: Write all responses in {{ response_language|default('Korean') }}. Use {{ response_language|default('Korean') }} characters and grammar.
+
+## JSON Output Format
+
+**Required**: All responses must be provided only in the following JSON format.
+
+**JSON String Rules**:
+- All line breaks within string values must be escaped as `\n`
+- Do not use actual newline characters (Enter), use the string literal `\n`
+- Escape tabs as `\t`, quotes as `\"`
+- All strings must be written on a single line
+
+```json
+{
+  "cards": [
+    {% for card in cards %}
+    {
+      "card_id": "{{ card.id }}",
+      "position": "{{ card.position }}",
+      "interpretation": "Card interpretation content (200-300 characters, no actual newlines within string, use \\n if needed)",
+      "key_message": "One sentence key message (within 50 characters)"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+```
+
+**Emphasis again**: Do not use actual Enter key line breaks within JSON string values. Write all text on a single line or use `\n` escape sequences if needed.
+

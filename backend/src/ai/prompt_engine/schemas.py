@@ -162,7 +162,7 @@ class ReadingResponse(BaseModel):
         ...,
         description="종합 리딩 - 전체적인 메시지와 통찰 (300-500자)",
         min_length=100,
-        max_length=1500
+        max_length=5000
     )
     advice: Advice = Field(
         ...,

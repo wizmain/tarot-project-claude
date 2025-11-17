@@ -33,7 +33,7 @@ from src.core.database import get_db_optional
 from src.core.config import settings
 from src.core.logging import get_logger
 from src.auth import AuthOrchestrator
-from src.auth.models import AuthInvalidTokenError
+from src.auth.models import AuthInvalidTokenError, AuthTokenExpiredError
 from src.api.repositories.user_repository import UserRepository
 from src.models import User
 
@@ -328,6 +328,14 @@ async def get_current_user(
 
     except HTTPException:
         raise
+
+    except AuthTokenExpiredError as e:
+        logger.warning(f"[Auth] 토큰 만료: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="토큰이 만료되었습니다. 다시 로그인해주세요.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     except AuthInvalidTokenError as e:
         logger.warning(f"[Auth] 유효하지 않은 토큰: {e}")

@@ -1,0 +1,72 @@
+# Celtic Cross Card Relationship Analysis
+
+## Querent's Question
+{{ question }}
+
+{% if category %}
+## Category
+{{ category }}
+{% endif %}
+
+## Individual Card Interpretation Summary
+
+{% for card_summary in card_summaries %}
+### {{ card_summary.position_name }} (Position {{ card_summary.position_index }})
+- **Card**: {{ card_summary.name }} ({{ card_summary.orientation }})
+- **Key Message**: {{ card_summary.key_message }}
+
+{% endfor %}
+
+## Reading Request
+
+You are a professional tarot reader. Analyze the structure of the Celtic Cross to explain the relationships and interactions between cards.
+
+### Structures to Analyze
+
+**1. Central Cross (Positions 0-3)**:
+- Temporal flow from Present → Challenge → Past → Future
+- Core story created by these four cards
+
+**2. Vertical Axis (Positions 4-5)**:
+- Relationship between conscious goals (Above) and unconscious influences (Below)
+- Inner conflict or harmony
+
+**3. Horizontal Line (Positions 6-7)**:
+- Interaction between Advice and External factors
+- Actionable direction
+
+**4. Emotions and Outcome (Positions 8-9)**:
+- How hopes/fears influence the final outcome
+- How emotional state shapes the result
+
+**5. Overall Pattern**:
+- Energy flow between cards
+- Meaning of emphasized arcana or suits
+- If many reversed cards, inner challenges
+- If many Major Arcana, fateful elements
+
+**Writing Guide**:
+- Clearly explain the meaning of each structural group
+- Analyze connections and interactions between cards
+- Synthesize what the overall pattern says about the querent's question
+- Write in detail, approximately 300-500 characters
+- **Output Language**: Write all responses in {{ response_language|default('Korean') }}. Use {{ response_language|default('Korean') }} characters and grammar.
+
+## JSON Output Format
+
+**Required**: All responses must be provided only in the following JSON format.
+
+**JSON String Rules**:
+- All line breaks within string values must be escaped as `\n`
+- Do not use actual newline characters (Enter), use the string literal `\n`
+- Escape tabs as `\t`, quotes as `\"`
+- All strings must be written on a single line
+
+```json
+{
+  "card_relationships": "Description of structural relationships and patterns created by ten cards together. Include interactions of central cross, vertical axis, horizontal line, emotions and outcome (300-500 characters, written without actual newlines within string)"
+}
+```
+
+**Emphasis again**: Do not use actual Enter key line breaks within JSON string values. Write all text on a single line or use `\n` escape sequences if needed.
+

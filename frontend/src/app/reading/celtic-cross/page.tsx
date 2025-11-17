@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Card } from '@/types';
 import { READING_SPREADS } from '@/types/reading';
 import { readingAPI } from '@/lib/api';
-import CelticCrossCardSelector, { CelticCrossPosition } from '@/components/CelticCrossCardSelector';
+import CelticCrossCardSelector from '@/components/CelticCrossCardSelector';
+import { CelticCrossPosition } from '@/components/CelticCrossLayout';
 import TarotCard from '@/components/TarotCard';
 import { motion } from 'framer-motion';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
@@ -268,6 +269,41 @@ function CelticCrossReadingContent() {
                 allCards={allCards}
                 error={sseError || undefined}
               />
+              
+              {/* 인증 오류 시 로그인 페이지로 이동 버튼 */}
+              {sseError && (sseError.includes('[AUTH_EXPIRED]') || sseError.includes('[AUTH_FORBIDDEN]')) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 bg-red-50 dark:bg-red-900/20 rounded-lg shadow-lg p-6"
+                >
+                  <div className="mb-4">
+                    <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">
+                      🔒 인증 오류
+                    </h3>
+                    <p className="text-red-600 dark:text-red-400">
+                      {sseError.replace(/\[AUTH_EXPIRED\]|\[AUTH_FORBIDDEN\]/g, '').trim()}
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button
+                      onClick={() => router.push('/login')}
+                      className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
+                    >
+                      로그인 페이지로 이동
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetSSE();
+                        setStep('question');
+                      }}
+                      className="px-6 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-semibold transition-all"
+                    >
+                      처음으로 돌아가기
+                    </button>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
 
             {/* Summary Section */}
