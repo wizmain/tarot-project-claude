@@ -42,7 +42,8 @@ from src.api.routes import (
     feedback_router,
     admin_router,
     analytics_router,
-    settings_router
+    settings_router,
+    chat_router,
 )
 
 # 로깅 시스템 초기화
@@ -216,6 +217,10 @@ logger.info("Analytics routes registered")
 # /api/v1/settings 경로로 설정 관련 API 엔드포인트 추가
 app.include_router(settings_router)
 logger.info("Settings routes registered")
+
+# /api/v1/chat 경로로 채팅 API 엔드포인트 추가
+app.include_router(chat_router)
+logger.info("Chat routes registered")
 
 
 # ==================== API Endpoints ====================

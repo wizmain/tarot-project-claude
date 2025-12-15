@@ -20,6 +20,8 @@ from .provider import (
     Reading as ReadingDTO,
     Feedback as FeedbackDTO,
     LLMUsageLog as LLMUsageLogDTO,
+    Conversation as ConversationDTO,
+    Message as MessageDTO,
 )
 
 
@@ -43,6 +45,7 @@ class FirestoreProvider(DatabaseProvider):
         self.cards_collection = self.db.collection('cards')
         self.readings_collection = self.db.collection('readings')
         self.feedback_collection = self.db.collection('feedback')
+        self.conversations_collection = self.db.collection('conversations')
 
         # Phase 2 Optimization: In-memory card cache
         self._cards_cache: Optional[List[CardDTO]] = None
@@ -952,6 +955,211 @@ class FirestoreProvider(DatabaseProvider):
         }, merge=True)
         
         return True
+
+    # ==================== Connection Management ====================
+
+    # ==================== Conversation Operations ====================
+
+    def _doc_to_conversation_dto(self, doc) -> ConversationDTO:
+        """Convert Firestore document to Conversation DTO"""
+        data = doc.to_dict()
+        created_at = data.get('created_at')
+        updated_at = data.get('updated_at')
+
+        if hasattr(created_at, "to_datetime"):
+            created_at = created_at.to_datetime()
+        if hasattr(updated_at, "to_datetime"):
+            updated_at = updated_at.to_datetime()
+
+        return ConversationDTO(
+            id=doc.id,
+            user_id=data['user_id'],
+            title=data['title'],
+            created_at=created_at or datetime.now(timezone.utc),
+            updated_at=updated_at or datetime.now(timezone.utc),
+        )
+
+    async def create_conversation(self, conversation_data: Dict[str, Any]) -> ConversationDTO:
+        """대화 생성"""
+        conversation_id = conversation_data.get('id') or str(uuid.uuid4())
+        now = datetime.now(timezone.utc)
+
+        doc_data = {
+            'user_id': conversation_data['user_id'],
+            'title': conversation_data['title'],
+            'created_at': now,
+            'updated_at': now,
+        }
+
+        doc_ref = self.conversations_collection.document(conversation_id)
+        doc_ref.set(doc_data)
+
+        doc = doc_ref.get()
+        return self._doc_to_conversation_dto(doc)
+
+    async def get_conversation_by_id(self, conversation_id: str) -> Optional[ConversationDTO]:
+        """ID로 대화 조회"""
+        doc = self.conversations_collection.document(conversation_id).get()
+        if not doc.exists:
+            return None
+        return self._doc_to_conversation_dto(doc)
+
+    async def get_conversations_by_user(
+        self,
+        user_id: str,
+        skip: int = 0,
+        limit: int = 100,
+    ) -> List[ConversationDTO]:
+        """사용자별 대화 목록 조회"""
+        query = self.conversations_collection.where(
+            filter=FieldFilter('user_id', '==', user_id)
+        ).order_by('updated_at', direction=firestore.Query.DESCENDING)
+
+        conversations = []
+        for doc in query.offset(skip).limit(limit).stream():
+            conversations.append(self._doc_to_conversation_dto(doc))
+
+        return conversations
+
+    async def update_conversation(
+        self,
+        conversation_id: str,
+        conversation_data: Dict[str, Any],
+    ) -> Optional[ConversationDTO]:
+        """대화 수정"""
+        doc_ref = self.conversations_collection.document(conversation_id)
+        doc = doc_ref.get()
+
+        if not doc.exists:
+            return None
+
+        update_data = {'updated_at': datetime.now(timezone.utc)}
+        for key, value in conversation_data.items():
+            if key != 'id' and key != 'user_id':  # Don't allow changing these
+                update_data[key] = value
+
+        doc_ref.update(update_data)
+        doc = doc_ref.get()
+        return self._doc_to_conversation_dto(doc)
+
+    async def delete_conversation(self, conversation_id: str) -> bool:
+        """대화 삭제"""
+        doc_ref = self.conversations_collection.document(conversation_id)
+        doc = doc_ref.get()
+
+        if not doc.exists:
+            return False
+
+        # Delete messages subcollection first
+        messages_ref = doc_ref.collection('messages')
+        for msg_doc in messages_ref.stream():
+            msg_doc.reference.delete()
+
+        # Delete conversation
+        doc_ref.delete()
+        return True
+
+    # ==================== Message Operations ====================
+
+    def _doc_to_message_dto(self, doc) -> MessageDTO:
+        """Convert Firestore document to Message DTO"""
+        data = doc.to_dict()
+        created_at = data.get('created_at')
+
+        if hasattr(created_at, "to_datetime"):
+            created_at = created_at.to_datetime()
+
+        return MessageDTO(
+            id=doc.id,
+            conversation_id=data['conversation_id'],
+            role=data['role'],
+            content=data['content'],
+            message_metadata=data.get('metadata', {}),  # Firestore에서는 metadata로 저장하지만 DTO는 message_metadata
+            created_at=created_at or datetime.now(timezone.utc),
+        )
+
+    async def create_message(self, message_data: Dict[str, Any]) -> MessageDTO:
+        """메시지 생성"""
+        message_id = message_data.get('id') or str(uuid.uuid4())
+        now = datetime.now(timezone.utc)
+
+        doc_data = {
+            'conversation_id': message_data['conversation_id'],
+            'role': message_data['role'],
+            'content': message_data['content'],
+            'metadata': message_data.get('metadata', {}),  # Firestore에는 metadata로 저장
+            'created_at': now,
+        }
+
+        # Store message in conversation's messages subcollection
+        conversation_ref = self.conversations_collection.document(
+            message_data['conversation_id']
+        )
+        messages_ref = conversation_ref.collection('messages')
+        doc_ref = messages_ref.document(message_id)
+        doc_ref.set(doc_data)
+
+        # Also update conversation's updated_at
+        conversation_ref.update({'updated_at': now})
+
+        doc = doc_ref.get()
+        return self._doc_to_message_dto(doc)
+
+    async def get_message_by_id(self, message_id: str) -> Optional[MessageDTO]:
+        """ID로 메시지 조회"""
+        # Need to search through all conversations' messages subcollections
+        # This is inefficient but Firestore doesn't support direct subcollection queries
+        # In production, consider storing message_id -> conversation_id mapping
+        for conv_doc in self.conversations_collection.stream():
+            msg_doc = conv_doc.reference.collection('messages').document(message_id).get()
+            if msg_doc.exists:
+                return self._doc_to_message_dto(msg_doc)
+        return None
+
+    async def get_messages_by_conversation(
+        self,
+        conversation_id: str,
+        skip: int = 0,
+        limit: int = 100,
+    ) -> List[MessageDTO]:
+        """대화별 메시지 목록 조회"""
+        conversation_ref = self.conversations_collection.document(conversation_id)
+        messages_ref = conversation_ref.collection('messages')
+
+        messages = []
+        query = messages_ref.order_by('created_at', direction=firestore.Query.ASCENDING)
+        for doc in query.offset(skip).limit(limit).stream():
+            messages.append(self._doc_to_message_dto(doc))
+
+        return messages
+
+    async def get_recent_messages_by_conversation(
+        self,
+        conversation_id: str,
+        limit: int = 5,
+    ) -> List[MessageDTO]:
+        """대화별 최근 메시지 조회 (단기 메모리용)"""
+        conversation_ref = self.conversations_collection.document(conversation_id)
+        messages_ref = conversation_ref.collection('messages')
+
+        messages = []
+        query = messages_ref.order_by('created_at', direction=firestore.Query.DESCENDING)
+        for doc in query.limit(limit).stream():
+            messages.append(self._doc_to_message_dto(doc))
+
+        # Reverse to get chronological order
+        return list(reversed(messages))
+
+    async def delete_message(self, message_id: str) -> bool:
+        """메시지 삭제"""
+        # Need to find which conversation this message belongs to
+        for conv_doc in self.conversations_collection.stream():
+            msg_doc_ref = conv_doc.reference.collection('messages').document(message_id)
+            msg_doc = msg_doc_ref.get()
+            if msg_doc.exists:
+                msg_doc_ref.delete()
+                return True
+        return False
 
     # ==================== Connection Management ====================
 

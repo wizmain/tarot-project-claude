@@ -15,12 +15,16 @@ from .provider import (
     Card as CardDTO,
     Reading as ReadingDTO,
     Feedback as FeedbackDTO,
+    Conversation as ConversationDTO,
+    Message as MessageDTO,
 )
 from src.core.database import SessionLocal
 from src.models.card import Card as CardModel, ArcanaType, Suit
 from src.models.reading import Reading as ReadingModel, ReadingCard
 from src.models.feedback import Feedback as FeedbackModel
 from src.models.user import User as UserModel
+from src.models.conversation import Conversation as ConversationModel
+from src.models.message import Message as MessageModel, MessageRole
 
 
 class PostgreSQLProvider(DatabaseProvider):
@@ -619,6 +623,186 @@ class PostgreSQLProvider(DatabaseProvider):
                             total_cost += cost
 
         return round(total_cost, 2)
+
+    # ==================== Conversation Operations ====================
+
+    def _model_to_conversation_dto(self, conversation_model: ConversationModel) -> ConversationDTO:
+        """Convert SQLAlchemy Conversation model to Conversation DTO"""
+        return ConversationDTO(
+            id=str(conversation_model.id),
+            user_id=str(conversation_model.user_id),
+            title=conversation_model.title,
+            created_at=conversation_model.created_at,
+            updated_at=conversation_model.updated_at,
+        )
+
+    async def create_conversation(self, conversation_data: Dict[str, Any]) -> ConversationDTO:
+        """대화 생성"""
+        db = self._get_session()
+
+        conversation_model = ConversationModel(
+            id=uuid.UUID(conversation_data['id']) if conversation_data.get('id') else uuid.uuid4(),
+            user_id=uuid.UUID(conversation_data['user_id']),
+            title=conversation_data['title'],
+        )
+
+        db.add(conversation_model)
+        db.commit()
+        db.refresh(conversation_model)
+
+        return self._model_to_conversation_dto(conversation_model)
+
+    async def get_conversation_by_id(self, conversation_id: str) -> Optional[ConversationDTO]:
+        """ID로 대화 조회"""
+        db = self._get_session()
+        conversation_model = db.query(ConversationModel).filter(
+            ConversationModel.id == conversation_id
+        ).first()
+
+        if not conversation_model:
+            return None
+
+        return self._model_to_conversation_dto(conversation_model)
+
+    async def get_conversations_by_user(
+        self,
+        user_id: str,
+        skip: int = 0,
+        limit: int = 100,
+    ) -> List[ConversationDTO]:
+        """사용자별 대화 목록 조회"""
+        db = self._get_session()
+        query = db.query(ConversationModel).filter(
+            ConversationModel.user_id == user_id
+        ).order_by(ConversationModel.updated_at.desc())
+
+        conversation_models = query.offset(skip).limit(limit).all()
+        return [self._model_to_conversation_dto(conv) for conv in conversation_models]
+
+    async def update_conversation(
+        self,
+        conversation_id: str,
+        conversation_data: Dict[str, Any],
+    ) -> Optional[ConversationDTO]:
+        """대화 수정"""
+        db = self._get_session()
+        conversation_model = db.query(ConversationModel).filter(
+            ConversationModel.id == conversation_id
+        ).first()
+
+        if not conversation_model:
+            return None
+
+        # Update fields
+        for key, value in conversation_data.items():
+            if hasattr(conversation_model, key):
+                setattr(conversation_model, key, value)
+
+        db.commit()
+        db.refresh(conversation_model)
+
+        return self._model_to_conversation_dto(conversation_model)
+
+    async def delete_conversation(self, conversation_id: str) -> bool:
+        """대화 삭제"""
+        db = self._get_session()
+        conversation_model = db.query(ConversationModel).filter(
+            ConversationModel.id == conversation_id
+        ).first()
+
+        if not conversation_model:
+            return False
+
+        db.delete(conversation_model)
+        db.commit()
+        return True
+
+    # ==================== Message Operations ====================
+
+    def _model_to_message_dto(self, message_model: MessageModel) -> MessageDTO:
+        """Convert SQLAlchemy Message model to Message DTO"""
+        return MessageDTO(
+            id=str(message_model.id),
+            conversation_id=str(message_model.conversation_id),
+            role=message_model.role.value,
+            content=message_model.content,
+            message_metadata=message_model.message_metadata or {},
+            created_at=message_model.created_at,
+        )
+
+    async def create_message(self, message_data: Dict[str, Any]) -> MessageDTO:
+        """메시지 생성"""
+        db = self._get_session()
+
+        message_model = MessageModel(
+            id=uuid.UUID(message_data['id']) if message_data.get('id') else uuid.uuid4(),
+            conversation_id=uuid.UUID(message_data['conversation_id']),
+            role=MessageRole(message_data['role']),
+            content=message_data['content'],
+            message_metadata=message_data.get('metadata', {}),  # API에서는 metadata로 받지만 DB는 message_metadata
+        )
+
+        db.add(message_model)
+        db.commit()
+        db.refresh(message_model)
+
+        return self._model_to_message_dto(message_model)
+
+    async def get_message_by_id(self, message_id: str) -> Optional[MessageDTO]:
+        """ID로 메시지 조회"""
+        db = self._get_session()
+        message_model = db.query(MessageModel).filter(
+            MessageModel.id == message_id
+        ).first()
+
+        if not message_model:
+            return None
+
+        return self._model_to_message_dto(message_model)
+
+    async def get_messages_by_conversation(
+        self,
+        conversation_id: str,
+        skip: int = 0,
+        limit: int = 100,
+    ) -> List[MessageDTO]:
+        """대화별 메시지 목록 조회"""
+        db = self._get_session()
+        query = db.query(MessageModel).filter(
+            MessageModel.conversation_id == conversation_id
+        ).order_by(MessageModel.created_at.asc())
+
+        message_models = query.offset(skip).limit(limit).all()
+        return [self._model_to_message_dto(msg) for msg in message_models]
+
+    async def get_recent_messages_by_conversation(
+        self,
+        conversation_id: str,
+        limit: int = 5,
+    ) -> List[MessageDTO]:
+        """대화별 최근 메시지 조회 (단기 메모리용)"""
+        db = self._get_session()
+        query = db.query(MessageModel).filter(
+            MessageModel.conversation_id == conversation_id
+        ).order_by(MessageModel.created_at.desc()).limit(limit)
+
+        message_models = query.all()
+        # Reverse to get chronological order
+        return [self._model_to_message_dto(msg) for msg in reversed(message_models)]
+
+    async def delete_message(self, message_id: str) -> bool:
+        """메시지 삭제"""
+        db = self._get_session()
+        message_model = db.query(MessageModel).filter(
+            MessageModel.id == message_id
+        ).first()
+
+        if not message_model:
+            return False
+
+        db.delete(message_model)
+        db.commit()
+        return True
 
     # ==================== Connection Management ====================
 

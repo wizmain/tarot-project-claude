@@ -199,6 +199,63 @@ class Feedback:
         }
 
 
+class Conversation:
+    """채팅 대화 데이터 모델"""
+    def __init__(
+        self,
+        id: str,
+        user_id: str,
+        title: str,
+        created_at: datetime,
+        updated_at: datetime,
+    ):
+        self.id = id
+        self.user_id = user_id
+        self.title = title
+        self.created_at = created_at
+        self.updated_at = updated_at
+
+    def to_dict(self) -> Dict[str, Any]:
+        """대화 데이터를 API 응답 형식으로 변환"""
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "title": self.title,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+
+class Message:
+    """채팅 메시지 데이터 모델"""
+    def __init__(
+        self,
+        id: str,
+        conversation_id: str,
+        role: str,
+        content: str,
+        message_metadata: Optional[Dict[str, Any]] = None,
+        created_at: Optional[datetime] = None,
+    ):
+        self.id = id
+        self.conversation_id = conversation_id
+        self.role = role
+        self.content = content
+        self.message_metadata = message_metadata or {}
+        self.created_at = created_at or datetime.utcnow()
+
+    def to_dict(self) -> Dict[str, Any]:
+        """메시지 데이터를 API 응답 형식으로 변환"""
+        return {
+            "id": self.id,
+            "conversation_id": self.conversation_id,
+            "role": self.role,
+            "content": self.content,
+            "metadata": self.message_metadata,  # API 응답에서는 metadata로 표시
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
 class DatabaseProvider(ABC):
     """
     Database Provider 추상 인터페이스
@@ -459,6 +516,78 @@ class DatabaseProvider(ABC):
     @abstractmethod
     async def remove_admin_email(self, email: str, updated_by: str) -> bool:
         """관리자 이메일 제거"""
+        pass
+
+    # ==================== Conversation Operations ====================
+
+    @abstractmethod
+    async def create_conversation(self, conversation_data: Dict[str, Any]) -> Conversation:
+        """대화 생성"""
+        pass
+
+    @abstractmethod
+    async def get_conversation_by_id(self, conversation_id: str) -> Optional[Conversation]:
+        """ID로 대화 조회"""
+        pass
+
+    @abstractmethod
+    async def get_conversations_by_user(
+        self,
+        user_id: str,
+        skip: int = 0,
+        limit: int = 100,
+    ) -> List[Conversation]:
+        """사용자별 대화 목록 조회"""
+        pass
+
+    @abstractmethod
+    async def update_conversation(
+        self,
+        conversation_id: str,
+        conversation_data: Dict[str, Any],
+    ) -> Optional[Conversation]:
+        """대화 수정"""
+        pass
+
+    @abstractmethod
+    async def delete_conversation(self, conversation_id: str) -> bool:
+        """대화 삭제"""
+        pass
+
+    # ==================== Message Operations ====================
+
+    @abstractmethod
+    async def create_message(self, message_data: Dict[str, Any]) -> Message:
+        """메시지 생성"""
+        pass
+
+    @abstractmethod
+    async def get_message_by_id(self, message_id: str) -> Optional[Message]:
+        """ID로 메시지 조회"""
+        pass
+
+    @abstractmethod
+    async def get_messages_by_conversation(
+        self,
+        conversation_id: str,
+        skip: int = 0,
+        limit: int = 100,
+    ) -> List[Message]:
+        """대화별 메시지 목록 조회"""
+        pass
+
+    @abstractmethod
+    async def get_recent_messages_by_conversation(
+        self,
+        conversation_id: str,
+        limit: int = 5,
+    ) -> List[Message]:
+        """대화별 최근 메시지 조회 (단기 메모리용)"""
+        pass
+
+    @abstractmethod
+    async def delete_message(self, message_id: str) -> bool:
+        """메시지 삭제"""
         pass
 
     # ==================== Connection Management ====================

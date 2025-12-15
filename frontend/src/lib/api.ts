@@ -80,10 +80,13 @@ async function fetchAPI<T>(
   }
 
   try {
+    console.log('[fetchAPI] Making request to:', url, 'method:', fetchOptions.method || 'GET');
     const response = await fetch(url, {
       ...fetchOptions,
       headers,
+      signal: AbortSignal.timeout(30000), // 30초 타임아웃
     });
+    console.log('[fetchAPI] Response received - status:', response.status, response.statusText);
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -107,9 +110,26 @@ async function fetchAPI<T>(
       );
     }
 
-    return await response.json();
+    // Handle 204 No Content (e.g., DELETE requests)
+    if (response.status === 204) {
+      console.log('[fetchAPI] 204 No Content response');
+      return undefined as T;
+    }
+
+    const jsonData = await response.json();
+    console.log('[fetchAPI] Response JSON parsed successfully');
+    return jsonData;
   } catch (error) {
-    console.error('API Error:', error);
+    console.error('[fetchAPI] API Error:', error);
+    if (error instanceof Error) {
+      console.error('[fetchAPI] Error name:', error.name, 'message:', error.message);
+      if (error.name === 'AbortError' || error.message.includes('timeout')) {
+        throw new Error('요청 시간이 초과되었습니다. 서버가 응답하지 않습니다.');
+      }
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        throw new Error('서버에 연결할 수 없습니다. 백엔드 서버가 실행 중인지 확인해주세요.');
+      }
+    }
     throw error;
   }
 }
@@ -272,6 +292,161 @@ export interface FeedbackResponse {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * Chat API endpoints
+ */
+export interface Conversation {
+  id: string;
+  user_id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Message {
+  id: string;
+  conversation_id: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  metadata?: Record<string, any>;
+  created_at: string;
+}
+
+export interface ConversationListResponse {
+  conversations: Conversation[];
+  total: number;
+}
+
+export interface MessageListResponse {
+  messages: Message[];
+  total: number;
+}
+
+export interface ChatResponse {
+  message: Message;
+  suggest_tarot: boolean;
+  conversation_title?: string;  // 업데이트된 대화 제목 (첫 메시지 시)
+}
+
+export interface ConversationCreateRequest {
+  title?: string;
+}
+
+export interface MessageCreateRequest {
+  content: string;
+  metadata?: Record<string, any>;
+}
+
+export const chatAPI = {
+  /**
+   * Create a new conversation
+   */
+  createConversation: async (request: ConversationCreateRequest): Promise<Conversation> => {
+    return fetchAPI<Conversation>('/api/v1/chat/conversations', {
+      method: 'POST',
+      body: JSON.stringify(request),
+      requiresAuth: true,
+    });
+  },
+
+  /**
+   * Get list of conversations
+   */
+  getConversations: async (params?: {
+    skip?: number;
+    limit?: number;
+  }): Promise<ConversationListResponse> => {
+    console.log('[chatAPI] getConversations called with params:', params);
+    try {
+      const result = await fetchAPI<ConversationListResponse>('/api/v1/chat/conversations', {
+        params,
+        requiresAuth: true,
+      });
+      console.log('[chatAPI] getConversations success:', result);
+      return result;
+    } catch (error) {
+      console.error('[chatAPI] getConversations error:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get a specific conversation
+   */
+  getConversation: async (conversationId: string): Promise<Conversation> => {
+    return fetchAPI<Conversation>(`/api/v1/chat/conversations/${conversationId}`, {
+      requiresAuth: true,
+    });
+  },
+
+  /**
+   * Delete a conversation
+   */
+  deleteConversation: async (conversationId: string): Promise<void> => {
+    return fetchAPI<void>(`/api/v1/chat/conversations/${conversationId}`, {
+      method: 'DELETE',
+      requiresAuth: true,
+    });
+  },
+
+  /**
+   * Send a message in a conversation
+   */
+  sendMessage: async (
+    conversationId: string,
+    request: MessageCreateRequest
+  ): Promise<ChatResponse> => {
+    return fetchAPI<ChatResponse>(`/api/v1/chat/conversations/${conversationId}/messages`, {
+      method: 'POST',
+      body: JSON.stringify(request),
+      requiresAuth: true,
+    });
+  },
+
+  /**
+   * Get messages in a conversation
+   */
+  getMessages: async (
+    conversationId: string,
+    params?: {
+      skip?: number;
+      limit?: number;
+    }
+  ): Promise<MessageListResponse> => {
+    return fetchAPI<MessageListResponse>(
+      `/api/v1/chat/conversations/${conversationId}/messages`,
+      {
+        params,
+        requiresAuth: true,
+      }
+    );
+  },
+
+  /**
+   * Add tarot reading message (AI interprets the cards)
+   */
+  addTarotReading: async (
+    conversationId: string,
+    request: {
+      question: string;
+      cards_info: Array<{
+        id: number;
+        name: string;
+        is_reversed: boolean;
+      }>;
+    }
+  ): Promise<Message> => {
+    return fetchAPI<Message>(
+      `/api/v1/chat/conversations/${conversationId}/tarot-reading`,
+      {
+        method: 'POST',
+        body: JSON.stringify(request),
+        requiresAuth: true,
+      }
+    );
+  },
+};
 
 export const feedbackAPI = {
   /**

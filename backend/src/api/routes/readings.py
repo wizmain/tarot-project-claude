@@ -32,6 +32,7 @@ from src.ai.prompt_engine.spread_config import (
 )
 from src.ai.prompt_engine.response_parser import ResponseParser
 from src.ai.prompt_engine.reading_validator import ReadingValidator
+from src.ai.prompt_engine.context_builder import ContextBuilder
 from src.ai.prompt_engine.schemas import ParseError, JSONExtractionError, ValidationError
 from src.ai.models import (
     AIProviderError,
@@ -416,7 +417,7 @@ async def create_reading(
             {"id": dc.card.id, "is_reversed": dc.orientation.value == "reversed"}
             for dc in drawn_cards
         ]
-        rag_context = context_enricher.enrich_prompt_context(
+        rag_context = await context_enricher.enrich_prompt_context_async(
             cards=card_data,
             spread_type=request.spread_type,
             question=request.question,

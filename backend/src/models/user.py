@@ -208,6 +208,14 @@ class User(Base):
         doc="사용자가 작성한 피드백"
     )
 
+    conversations = relationship(
+        "Conversation",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        lazy="dynamic",
+        doc="사용자의 채팅 대화 목록"
+    )
+
     # Indexes
     __table_args__ = (
         Index("idx_user_email", "email"),

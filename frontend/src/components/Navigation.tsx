@@ -68,6 +68,17 @@ export function Navigation() {
             {isAuthenticated && (
               <>
                 <Link
+                  href="/chat"
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    pathname.startsWith('/chat')
+                      ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  채팅
+                </Link>
+
+                <Link
                   href="/history"
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     pathname.startsWith('/history')

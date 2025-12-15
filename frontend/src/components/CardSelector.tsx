@@ -12,6 +12,7 @@ interface CardSelectorProps {
   disabled?: boolean;
   isAdmin?: boolean;  // Show admin info if true
   allCards?: Card[];  // Optional: Pre-fetched and shuffled cards from parent
+  useParentScroll?: boolean;  // If true, parent container handles horizontal scrolling
 }
 
 export default function CardSelector({
@@ -20,6 +21,7 @@ export default function CardSelector({
   disabled = false,
   isAdmin = false,
   allCards: providedCards,
+  useParentScroll = false,
 }: CardSelectorProps) {
   const [allCards, setAllCards] = useState<Card[]>(providedCards || []);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
@@ -159,7 +161,7 @@ export default function CardSelector({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full max-w-full">
       {/* Instructions */}
       <div className="text-center space-y-2">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -171,7 +173,7 @@ export default function CardSelector({
       </div>
 
       {/* Horizontal Scrollable Card List */}
-      <div className="relative">
+      <div className="relative w-full max-w-full">
         {/* Scroll Hint */}
         <div className="mb-3 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/20 rounded-full">
@@ -191,7 +193,13 @@ export default function CardSelector({
           {/* Right Fade Gradient */}
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-gray-800 dark:via-gray-800/80 dark:to-transparent pointer-events-none z-10" />
 
-          <div className="overflow-x-auto overflow-y-visible pb-4 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-purple-100">
+          <div
+            className={
+              useParentScroll
+                ? "pb-4 w-full"
+                : "overflow-x-auto overflow-y-visible pb-4 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-purple-100 w-full"
+            }
+          >
             <div className="flex gap-4 min-w-max px-4 py-4">
               {allCards.map((card, index) => {
                 const isSelected = selectedCards.includes(card.id);

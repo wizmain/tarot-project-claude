@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 96" width="64" height="96">
+  <defs>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="starPattern" patternUnits="userSpaceOnUse" width="16" height="16">
+      <circle cx="8" cy="8" r="1.5" fill="#a5b4fc" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="64" height="96" rx="4" fill="url(#cardGradient)"/>
+  <rect x="2" y="2" width="60" height="92" rx="3" fill="none" stroke="#a5b4fc" stroke-width="1"/>
+  <rect width="64" height="96" fill="url(#starPattern)"/>
+  <text x="32" y="42" text-anchor="middle" font-family="serif" font-size="24" fill="#e0e7ff">🌟</text>
+  <text x="32" y="62" text-anchor="middle" font-family="serif" font-size="8" fill="#c7d2fe" font-weight="bold">TAROT</text>
+</svg>
+
