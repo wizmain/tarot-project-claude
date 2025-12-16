@@ -31,6 +31,12 @@ export const getCurrentEnvironment = (): Environment => {
   return (process.env.NODE_ENV as Environment) || 'development';
 };
 
+const isFirebaseHostingRuntime = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const host = window.location.hostname;
+  return host.endsWith('.web.app') || host.endsWith('.firebaseapp.com');
+};
+
 /**
  * Environment-specific configurations
  *
@@ -52,7 +58,9 @@ const environmentConfigs: Record<Environment, Partial<EnvironmentConfig>> = {
     apiUrl: 'http://localhost:8000',
   },
   production: {
-    apiUrl: 'https://tarot-backend-414870328191.asia-northeast3.run.app',  // ← Backend URL 변경 시 여기 수정
+    // Firebase Hosting에서는 /api/**, /health 를 Hosting rewrite로 Cloud Run에 프록시합니다.
+    // (런타임에 window.location.origin 사용)
+    apiUrl: 'https://tarot-backend-iesbsif62q-du.a.run.app', // direct fallback (rewrite 미사용 시)
   },
   test: {
     apiUrl: 'http://localhost:8000',
@@ -63,6 +71,12 @@ const environmentConfigs: Record<Environment, Partial<EnvironmentConfig>> = {
  * Get API Base URL with automatic HTTPS enforcement in production
  */
 export const getApiBaseUrl = (): string => {
+  // If we're running on Firebase Hosting, prefer same-origin and let Hosting rewrites route to Cloud Run.
+  // This avoids stale build-time NEXT_PUBLIC_API_URL values causing timeouts in production.
+  if (getCurrentEnvironment() === 'production' && isFirebaseHostingRuntime()) {
+    return window.location.origin;
+  }
+
   // Priority: Environment variable > Environment config > Default
   const envVar = process.env.NEXT_PUBLIC_API_URL;
   if (envVar) {

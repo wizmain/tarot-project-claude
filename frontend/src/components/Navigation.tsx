@@ -21,13 +21,10 @@ export function Navigation() {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const pathname = usePathname();
 
-  // Don't show navigation on login/signup pages
-  if (pathname === '/login' || pathname === '/signup') {
-    return null;
-  }
-
   // Check if current user has analytics permission
   const hasAnalyticsPermission = user?.email && ANALYTICS_ALLOWED_EMAILS.includes(user.email);
+  const loginRedirectHref = (targetPath: string) =>
+    `/login?returnUrl=${encodeURIComponent(targetPath)}`;
 
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-lg">
@@ -65,63 +62,97 @@ export function Navigation() {
               카드 목록
             </Link>
 
-            {isAuthenticated && (
-              <>
-                <Link
-                  href="/chat"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    pathname.startsWith('/chat')
-                      ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
-                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  채팅
-                </Link>
+            <Link
+              href={isAuthenticated ? '/chat' : loginRedirectHref('/chat')}
+              title={isAuthenticated ? undefined : '로그인이 필요합니다'}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+                pathname.startsWith('/chat')
+                  ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+              } ${isAuthenticated ? '' : 'opacity-80'}`}
+            >
+              {!isAuthenticated && (
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M16 11V8a4 4 0 10-8 0v3"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6 11h12v10H6V11z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+              채팅
+            </Link>
 
-                <Link
-                  href="/history"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    pathname.startsWith('/history')
-                      ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
-                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  내 리딩
-                </Link>
+            <Link
+              href={isAuthenticated ? '/history' : loginRedirectHref('/history')}
+              title={isAuthenticated ? undefined : '로그인이 필요합니다'}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+                pathname.startsWith('/history')
+                  ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+              } ${isAuthenticated ? '' : 'opacity-80'}`}
+            >
+              {!isAuthenticated && (
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M16 11V8a4 4 0 10-8 0v3"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6 11h12v10H6V11z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+              내 리딩
+            </Link>
 
-                {/* Admin Link - Only for authorized admins */}
-                {hasAnalyticsPermission && (
-                  <Link
-                    href="/admin"
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
-                      pathname.startsWith('/admin')
-                        ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300'
-                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    관리자
-                  </Link>
-                )}
-              </>
+            {/* Admin Link - Only for authorized admins */}
+            {hasAnalyticsPermission && (
+              <Link
+                href="/admin"
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+                  pathname.startsWith('/admin')
+                    ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300'
+                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                }`}
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                관리자
+              </Link>
             )}
           </div>
 
